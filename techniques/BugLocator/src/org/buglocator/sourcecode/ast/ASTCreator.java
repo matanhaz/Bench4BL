@@ -18,11 +18,9 @@ public class ASTCreator
 	}
 	
 	public void getFileContent(String absoluteFilePath) {
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(absoluteFilePath))) {
 			StringBuffer contentBuffer = new StringBuffer();
 			String line = null;
-			BufferedReader reader = new BufferedReader(new FileReader(
-				absoluteFilePath));
 			while ((line = reader.readLine()) != null)
 				contentBuffer.append(line + "\r\n");
 			this.content = contentBuffer.toString();

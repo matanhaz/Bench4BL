@@ -19,7 +19,7 @@ public class downloadRepository_tomcat {
 		
 		// TODO Auto-generated method stub
 		int upb = 100;
-		HashMap<String, ArrayList<Integer>> buggy_related_revision = new HashMap(); 
+		HashMap<String, ArrayList<Integer>> buggy_related_revision = new HashMap<>(); 
 		String svn = "http://svn.apache.org/repos/asf/tomcat/tc6.0.x/trunk";
 		//String svn = "http://svn.apache.org/repos/asf/tomcat/trunk";
 		//String outbat= "W:\\research\\mutation test\\data_1\\lucene\\download.bat";
@@ -44,7 +44,7 @@ public class downloadRepository_tomcat {
 		int index =0;
 		int file_number = 0;
 		try {
-			HashMap<String,Integer> bugId_revisionId_map =new HashMap();
+			HashMap<String,Integer> bugId_revisionId_map =new HashMap<>();
 			for(String content : content_revision_map.keySet()){
 				
 				   Matcher m = p.matcher(content);
@@ -60,7 +60,7 @@ public class downloadRepository_tomcat {
 				        if(bugs.contains(b)){
 				        	if(!bugId_revisionId_map.containsKey(b)){
 				        		bugId_revisionId_map.put(b, revision);
-				        		ArrayList<Integer> revisions = new ArrayList(); 
+				        		ArrayList<Integer> revisions = new ArrayList<>(); 
 				        		revisions.add(revision);
 				        		buggy_related_revision.put(b, revisions);
 				        	}else{
@@ -164,7 +164,7 @@ public class downloadRepository_tomcat {
 	
 	private static ArrayList<String> loadRealBug(String realbugFile) {
 		// TODO Auto-generated method stub
-		ArrayList<String> bugs = new ArrayList();
+		ArrayList<String> bugs = new ArrayList<>();
 		try {
 			String content = readContent(realbugFile);
 			String[] lines = content.split("\n");
@@ -183,7 +183,7 @@ public class downloadRepository_tomcat {
 	}
 
 	private static HashMap<String,String> load_content_revision_map(String logFile){
-		HashMap<String,String> content_revision_map = new HashMap();
+		HashMap<String,String> content_revision_map = new HashMap<>();
 		
 		// load content and revision map
 		try {
@@ -213,11 +213,11 @@ public class downloadRepository_tomcat {
 
 	public static String readContent(String file) throws IOException{
 		StringBuilder sb = new StringBuilder();
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		String line = null;
-		while((line = br.readLine()) != null){
-			sb.append(line.replace("\r", "") + "\n");
-			
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			String line = null;
+			while((line = br.readLine()) != null){
+				sb.append(line.replace("\r", "") + "\n");			
+			}
 		}
 		return sb.toString();
 	}

@@ -97,9 +97,9 @@ import org.eclipse.jdt.core.dom.WildcardType;
 public class GenericVisitorFact
 	extends ASTVisitor
 {
-	List<String> classNames = new ArrayList();
-	List<String> methodNames = new ArrayList();
-	List<String> identifierNames = new ArrayList();
+	List<String> classNames = new ArrayList<>();
+	List<String> methodNames = new ArrayList<>();
+	List<String> identifierNames = new ArrayList<>();
 	
 
 	public GenericVisitorFact() {}

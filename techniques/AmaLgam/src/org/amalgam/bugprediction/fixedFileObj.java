@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * fixedFileÀÇ ½Ã°£ Á¤º¸¸¦ ´ã´Â °´Ã¼
+ * fixedFileï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
  */
 public class fixedFileObj {
 	private String name;
@@ -12,7 +12,7 @@ public class fixedFileObj {
 	
 	public fixedFileObj(String name){
 		this.name = name;
-		this.bugId_CommitDate = new HashMap();
+		this.bugId_CommitDate = new HashMap<String, Date>();
 	}
 
 	public void addCommit(String bugId, Date bugFixedDate) {

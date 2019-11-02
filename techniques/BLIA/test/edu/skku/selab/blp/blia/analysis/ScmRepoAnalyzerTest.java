@@ -117,7 +117,7 @@ public class ScmRepoAnalyzerTest {
 		Date openDate = calendar.getTime();
 		
 		@SuppressWarnings("unchecked")
-		ArrayList<CommitInfo> foundCommitInfos = (ArrayList<CommitInfo>) findCommitInfoWithinDaysMethod.invoke(scmRepoAnalyzer, commitInfos, openDate, new Integer(15));
+		ArrayList<CommitInfo> foundCommitInfos = (ArrayList<CommitInfo>) findCommitInfoWithinDaysMethod.invoke(scmRepoAnalyzer, commitInfos, openDate, Integer.valueOf(15));
 		assertEquals(2, foundCommitInfos.size());
 		assertEquals(commitInfo2.getCommitDate(), foundCommitInfos.get(0).getCommitDate());
 		assertEquals(commitInfo3.getCommitDate(), foundCommitInfos.get(1).getCommitDate());
@@ -135,7 +135,7 @@ public class ScmRepoAnalyzerTest {
 		Date commitDate = calendar.getTime();
 		calendar.set(2004, Calendar.OCTOBER, 12, 21, 53, 0);
 		Date openDate = calendar.getTime();
-		Integer pastDays = new Integer(15);
+		Integer pastDays = Integer.valueOf(15);
 
 		Double commitLogScore = (Double) calculateCommitLogScoreMethod.invoke(scmRepoAnalyzer, commitDate, openDate, pastDays);
 		assertEquals(commitLogScore.doubleValue(), 0.009, 0.0001);

@@ -37,7 +37,8 @@ public class Runner {
 	public static void main(String[] args) {
 		Runner runner = new Runner();
 
-		new JCommander(runner, args);
+		JCommander jc = new JCommander(runner);
+		jc.parse(args);
 
 		if (task == null) {
 			System.out.println("Please specify a task.");
@@ -118,7 +119,7 @@ public class Runner {
 				return;
 			}
 		
-			//index Dir Æú´õ »ý¼º.
+			//index Dir ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			File indexDir = new File(indexLocation);
 			if (!indexDir.exists()) {
 				boolean success = indexDir.mkdirs();

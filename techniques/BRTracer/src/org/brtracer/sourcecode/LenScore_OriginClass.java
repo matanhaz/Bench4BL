@@ -28,27 +28,28 @@ public class LenScore_OriginClass {
 	}
 
 	public void computeLenScore() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(workDir + "TermInfo_OriginClass.txt"));
-		String line = null;
 		double max = Double.MIN_VALUE;
 		double min = Double.MAX_VALUE;
 		Integer[] lens = new Integer[fileCount];
-		int i = 0;
-		Hashtable<String, Integer> lensTable = new Hashtable<String, Integer>();
-		int count = 0;
-		while ((line = reader.readLine()) != null) {
-			String[] values = line.split(";");
-			String name = values[0].substring(0, values[0].indexOf("\t"));
-			Integer len = Integer.parseInt(values[0].substring(values[0].indexOf("\t") + 1));
-			lensTable.put(name, len);
-			lens[i++] = len;
-			if (len != 0)
-				count++;
-			if (len > max) {
-				max = len;
-			}
-			if (len < min) {
-				min = len;
+		Hashtable<String, Integer> lensTable = new Hashtable<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(workDir + "TermInfo_OriginClass.txt"))) {
+			String line = null;
+			int i = 0;
+			int count = 0;
+			while ((line = reader.readLine()) != null) {
+				String[] values = line.split(";");
+				String name = values[0].substring(0, values[0].indexOf("\t"));
+				Integer len = Integer.parseInt(values[0].substring(values[0].indexOf("\t") + 1));
+				lensTable.put(name, len);
+				lens[i++] = len;
+				if (len != 0)
+					count++;
+				if (len > max) {
+					max = len;
+				}
+				if (len < min) {
+					min = len;
+				}
 			}
 		}
 		double low = min;

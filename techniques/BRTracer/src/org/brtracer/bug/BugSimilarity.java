@@ -24,15 +24,15 @@ public class BugSimilarity {
 	}
 
 	public void computeSimilarity() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(workDir + "SortedId.txt"));
-		String line = null;
 		int[] idArr = new int[bugReportCount];
-		int index = 0;
-		while ((line = reader.readLine()) != null) {
-			String idStr = line.substring(0, line.indexOf("\t"));
-			idArr[index++] = Integer.parseInt(idStr);
+		try (BufferedReader reader = new BufferedReader(new FileReader(workDir + "SortedId.txt"))) {
+			String line = null;
+			int index = 0;
+			while ((line = reader.readLine()) != null) {
+				String idStr = line.substring(0, line.indexOf("\t"));
+				idArr[index++] = Integer.parseInt(idStr);
+			}
 		}
-
 		Hashtable<Integer, float[]> vectors = this.getVector();
 
 		FileWriter writer = new FileWriter(workDir + "BugSimilarity.txt");
@@ -69,15 +69,15 @@ public class BugSimilarity {
 	public Hashtable<Integer, float[]> getVector() throws IOException {
 
 		Hashtable<Integer, float[]> vectors = new Hashtable<Integer, float[]>();
-
-		BufferedReader reader = new BufferedReader(new FileReader(workDir + "BugVector.txt"));
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			String idStr = line.substring(0, line.indexOf("."));
-			String vectorStr = line.substring(line.indexOf(";") + 1).trim();
-			Integer id = Integer.parseInt(idStr);
-			float[] vector = this.getVector(vectorStr);
-			vectors.put(id, vector);
+		try (BufferedReader reader = new BufferedReader(new FileReader(workDir + "BugVector.txt"))) {
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				String idStr = line.substring(0, line.indexOf("."));
+				String vectorStr = line.substring(line.indexOf(";") + 1).trim();
+				Integer id = Integer.parseInt(idStr);
+				float[] vector = this.getVector(vectorStr);
+				vectors.put(id, vector);
+			}
 		}
 		return vectors;
 	}

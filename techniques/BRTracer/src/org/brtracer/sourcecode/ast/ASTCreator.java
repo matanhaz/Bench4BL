@@ -16,13 +16,11 @@ public class ASTCreator {
 		this.getFileContent(file.getAbsolutePath());
 	}
 
-	//获取文件内容
+	//锟斤拷取锟侥硷拷锟斤拷锟斤拷
 	public void getFileContent(String absoluteFilePath) {
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(absoluteFilePath))){
 			StringBuffer contentBuffer = new StringBuffer();
 			String line = null;
-			BufferedReader reader = new BufferedReader(new FileReader(
-					absoluteFilePath));
 			while ((line = reader.readLine()) != null)
 				contentBuffer.append(line+"\r\n");
 			content = contentBuffer.toString();
@@ -31,7 +29,7 @@ public class ASTCreator {
 		}
 	}
 	
-	//获取文件对应的CompilationUnit
+	//锟斤拷取锟侥硷拷锟斤拷应锟斤拷CompilationUnit
 	public CompilationUnit getCompilationUnit() {
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(content.toCharArray());

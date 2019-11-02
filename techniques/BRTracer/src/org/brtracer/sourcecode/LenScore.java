@@ -23,23 +23,24 @@ public class LenScore {
 	}
 
 	public void computeLenScore() throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(workDir + "TermInfo.txt"));
-		String line = null;
-		int max = Integer.MIN_VALUE;
 		int[] lens = new int[fileCount];
-		int i = 0;
-		Hashtable<String, Integer> lensTable = new Hashtable<String, Integer>();
 		int count = 0;
-		while ((line = reader.readLine()) != null) {
-			String[] values = line.split(";");
-			String name = values[0].substring(0, values[0].indexOf("\t"));
-			Integer len = Integer.parseInt(values[0].substring(values[0].indexOf("\t") + 1));
-			lensTable.put(name, len);
-			lens[i++] = len;
-			if (len != 0)
-				count++;
-			if (len > max) {
-				max = len;
+		Hashtable<String, Integer> lensTable = new Hashtable<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(workDir + "TermInfo.txt"))) {
+			String line = null;
+			int max = Integer.MIN_VALUE;
+			int i = 0;
+			while ((line = reader.readLine()) != null) {
+				String[] values = line.split(";");
+				String name = values[0].substring(0, values[0].indexOf("\t"));
+				Integer len = Integer.parseInt(values[0].substring(values[0].indexOf("\t") + 1));
+				lensTable.put(name, len);
+				lens[i++] = len;
+				if (len != 0)
+					count++;
+				if (len > max) {
+					max = len;
+				}
 			}
 		}
 		int sum = 0;
@@ -48,7 +49,7 @@ public class LenScore {
 		}
 		double average = sum / (double) count;
 		double squareDevi = 0;
-		Hashtable<Integer, Integer> statTable = new Hashtable<Integer, Integer>();
+		Hashtable<Integer, Integer> statTable = new Hashtable<>();
 		for (int j = 0; j < lens.length; j++) {
 			if (lens[j] != 0) {
 				int index = lens[j] / 10;

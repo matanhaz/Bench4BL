@@ -19,6 +19,7 @@ import org.amalgam.models.Bug;
 import org.amalgam.models.CommitItem;
 import org.amalgam.models.FileObjs;
 import org.apache.commons.io.FileUtils;
+import java.nio.charset.Charset;
 
 public class CodeRepository {
 	private final String srcReporitory = Property.getInstance().SourceCodeRepo;
@@ -199,7 +200,7 @@ public class CodeRepository {
 		// TODO Auto-generated method stub
 		try {
 			if (new File(path).exists()) {
-				String content = FileUtils.readFileToString(new File(path));
+				String content = FileUtils.readFileToString(new File(path), Charset.defaultCharset());
 				String[] lines = content.split("\n");
 				String packageName = null;
 				for (int i = 0; i < lines.length; i++) {

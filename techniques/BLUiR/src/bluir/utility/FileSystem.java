@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FileSystem
 {
-	List<String> files = new java.util.ArrayList();
+	List<String> files = new java.util.ArrayList<>();
 	int i = 0;
 	
 	public List<String> getAllJavaFiles(String path, int offset) throws IOException

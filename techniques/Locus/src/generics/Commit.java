@@ -37,7 +37,7 @@ public class Commit {
 	public boolean containsBug(String pro, int bid) {
 		if ((description.contains("back") && description.contains("out")) || 
 				(description.contains("Back") && description.contains("out"))) return false;
-		String bugId = new Integer(bid).toString();
+		String bugId = Integer.valueOf(bid).toString();
 		if (pro.equals("Flink")) {
 			if (description.contains("FLINK-" + bid)) {
 //				System.out.println(description);

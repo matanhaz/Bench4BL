@@ -26,7 +26,7 @@ public class XMLParser
 {
 	public HashMap<String, BugReport> createRepositoryMap(String XMLPath)
 	{
-		HashMap<String, BugReport> bugRepository = new HashMap();
+		HashMap<String, BugReport> bugRepository = new HashMap<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		
@@ -59,7 +59,7 @@ public class XMLParser
 				
 				NodeList fileNodeList = fileNode.getElementsByTagName("file");
 				
-				Set<String> files = new HashSet();
+				Set<String> files = new HashSet<>();
 				
 				for (int j = 0; j < fileNodeList.getLength(); j++) {
 					String fileName = fileNodeList.item(j).getChildNodes().item(0).getNodeValue();
@@ -84,7 +84,7 @@ public class XMLParser
 	}
 	
 	public List<BugReport> createRepositoryList(String XMLPath) {
-		List<BugReport> bugRepository = new ArrayList();
+		List<BugReport> bugRepository = new ArrayList<>();
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		
@@ -117,7 +117,7 @@ public class XMLParser
 				
 				NodeList fileNodeList = fileNode.getElementsByTagName("file");
 				
-				Set<String> files = new HashSet();
+				Set<String> files = new HashSet<>();
 				
 				for (int j = 0; j < fileNodeList.getLength(); j++) {
 					String fileName = fileNodeList.item(j).getChildNodes().item(0).getNodeValue();

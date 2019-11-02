@@ -36,7 +36,7 @@ public class Evaluation {
 
 	FileWriter outputWriter = null;
 	/**
-	 * »ý¼ºÀÚ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public Evaluation() {
 		try {
@@ -56,7 +56,7 @@ public class Evaluation {
 	}
 
 	/**
-	 * ¸ÞÀÎ ÀÛ¾÷ ÇÔ¼ö
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ ï¿½Ô¼ï¿½
 	 * 
 	 * @throws IOException
 	 */
@@ -107,7 +107,7 @@ public class Evaluation {
 			float[] finalR = combine(vsmVector, graphVector, alpha);
 			float[] finalscore = new float[originfilecount];
 			int[] usedcount = new int[originfilecount];
-			HashMap<Integer, ArrayList<Float>> scores = new HashMap<Integer, ArrayList<Float>>();
+			HashMap<Integer, ArrayList<Float>> scores = new HashMap<>();
 			for (int counter = 0; counter < finalR.length; counter++) {
 				String name = methodnameTable.get(counter);
 				name = name.substring(0, name.indexOf('@'));
@@ -126,7 +126,7 @@ public class Evaluation {
 					ArrayList<Float> t = scores.get(id);
 					t.add(finalR[counter]);
 				} else {
-					ArrayList<Float> t = new ArrayList<Float>();
+					ArrayList<Float> t = new ArrayList<>();
 					t.add(finalR[counter]);
 					scores.put(id, t);
 				}
@@ -164,14 +164,14 @@ public class Evaluation {
 	
 	public int printEvaluationResult(Integer _bugID, float[] _finalscore) throws IOException
 	{
-		//Score¿¡ µû¶ó ÆÄÀÏÀÌ Á¤·ÄµÈ °á°ú¸¦ °¡Á®¿È
+		//Scoreï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Äµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Rank[] sortedRank = this.getSortedRank(_finalscore);
 		int ErrorCount=0;
 		
-		// ½ÇÁ¦ ¹ö±×¸®Æ÷Æ®¿¡¼­ ¼öÁ¤µÇ¾ú´ø ÆÄÀÏ¸ñ·ÏÀ» ºÒ·¯¿È. (½ÇÁ¦ Á¤´ä ¼Â)
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½. (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
 		TreeSet<String> fileSet = fixTable.get(_bugID);
 		Iterator<String> fileIt = fileSet.iterator();
-		Hashtable<Integer, String> fileIdTable = new Hashtable<Integer, String>();
+		Hashtable<Integer, String> fileIdTable = new Hashtable<>();
 		while (fileIt.hasNext()) {
 			String fileName = fileIt.next();
 			Integer fileId = idTable.get(fileName);
@@ -184,10 +184,10 @@ public class Evaluation {
 			fileIdTable.put(fileId, fileName);
 		}
 				
-		//Á¤´ä¼Â¿¡ ÀÖ´Â ÆÄÀÏµéÀÌ ¸î¹øÂ°¿¡ ·©Å©µÇ¾ú´ÂÁö °á°ú¸¦ º¸¿©ÁÜ. (writer´Â ÃßÃµµÈ °á°ú ÀüÃ¼¸¦ º¸¿©ÁÜ)
+		//ï¿½ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. (writerï¿½ï¿½ ï¿½ï¿½Ãµï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 		FileWriter writer = new FileWriter(recommandedPath + _bugID + ".txt");
 		for (int i = 0; i < sortedRank.length; i++) {
-			// rank.ID´Â ÆÄÀÏ ID
+			// rank.IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID
 			Rank rank = sortedRank[i];
 			
 			if(nameTable.containsKey(rank.id)){
@@ -207,7 +207,7 @@ public class Evaluation {
 	public Hashtable<String, Integer> getFileId() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "ClassName.txt"));
 		String line = null;
-		Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+		Hashtable<String, Integer> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			Integer idInteger = Integer.parseInt(values[0]);
@@ -221,7 +221,7 @@ public class Evaluation {
 	public Hashtable<String, Integer> getMethodId() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "MethodName.txt"));
 		String line = null;
-		Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+		Hashtable<String, Integer> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			Integer idInteger = Integer.parseInt(values[0]);
@@ -236,7 +236,7 @@ public class Evaluation {
 	public Hashtable<Integer, String> getClassName() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "ClassName.txt"));
 		String line = null;
-		Hashtable<Integer, String> table = new Hashtable<Integer, String>();
+		Hashtable<Integer, String> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			Integer idInteger = Integer.parseInt(values[0]);
@@ -248,10 +248,10 @@ public class Evaluation {
 	}
 
 	public Hashtable<String, Integer> getLOC() throws IOException {
-		TotalLOC = new Integer(0);
+		TotalLOC = Integer.valueOf(0);
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "LOC.txt"));
 		String line = null;
-		Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+		Hashtable<String, Integer> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			Integer loc = Integer.parseInt(values[1]);
@@ -266,7 +266,7 @@ public class Evaluation {
 	public Hashtable<Integer, String> getMethodName() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "MethodName.txt"));
 		String line = null;
-		Hashtable<Integer, String> table = new Hashtable<Integer, String>();
+		Hashtable<Integer, String> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			Integer idInteger = Integer.parseInt(values[0]);
@@ -281,7 +281,7 @@ public class Evaluation {
 	public Hashtable<Integer, TreeSet<String>> getFixLinkTable() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "FixLink.txt"));
 		String line = null;
-		Hashtable<Integer, TreeSet<String>> table = new Hashtable<Integer, TreeSet<String>>();
+		Hashtable<Integer, TreeSet<String>> table = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] valueStrings = line.split("\t");
 			Integer id = Integer.parseInt(valueStrings[0]);
@@ -364,7 +364,7 @@ public class Evaluation {
 	private Hashtable<String, Double> getLenScore() throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "LengthScore.txt"));
 		String line = null;
-		Hashtable<String, Double> lenTable = new Hashtable<String, Double>();
+		Hashtable<String, Double> lenTable = new Hashtable<>();
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			String name = values[0];// .substring(0,
@@ -378,7 +378,7 @@ public class Evaluation {
 
 	public HashMap<String, HashSet<String>> getShortNameSet() throws IOException {
 		BufferedReader namereader = new BufferedReader(new FileReader(workDir + "ClassName.txt"));
-		HashMap<String, HashSet<String>> nameset = new HashMap<String, HashSet<String>>();
+		HashMap<String, HashSet<String>> nameset = new HashMap<>();
 		String line;
 		while ((line = namereader.readLine()) != null) {
 			String[] fields = line.split("\t");
@@ -409,7 +409,7 @@ public class Evaluation {
 
 	public HashMap<Integer, String> getBugNameSet() throws IOException {
 		BufferedReader namereader = new BufferedReader(new FileReader(workDir + "DescriptionClassName.txt"));
-		HashMap<Integer, String> bugnameset = new HashMap<Integer, String>();
+		HashMap<Integer, String> bugnameset = new HashMap<>();
 		String line;
 		while ((line = namereader.readLine()) != null) {
 			String[] fields = line.split("\t");
@@ -436,7 +436,7 @@ public class Evaluation {
 			return relativeScore;
 		}
 		String[] f = s.split(" ");
-		Set<String> nameset = new HashSet<String>();
+		Set<String> nameset = new HashSet<>();
 		for (int i = 0; i < f.length; i++) {
 			if (shortnameset.containsKey(f[i])) {
 				nameset.addAll(shortnameset.get(f[i]));
@@ -446,7 +446,7 @@ public class Evaluation {
 		HashMap<String, String> importTable = getImportTable();
 		Set<String> fullnameset = idTable.keySet();
 		Iterator<String> itr = nameset.iterator();
-		Set<String> appendage = new HashSet<String>();
+		Set<String> appendage = new HashSet<>();
 		while (itr.hasNext()) {
 			String n = itr.next();
 			String ims = importTable.get(n);
@@ -503,7 +503,7 @@ public class Evaluation {
 
 	private HashMap<String, String> getImportTable() throws IOException {
 		BufferedReader importReader = new BufferedReader(new FileReader(workDir + "Import.txt"));
-		HashMap<String, String> importTable = new HashMap<String, String>();
+		HashMap<String, String> importTable = new HashMap<>();
 		String line;
 		while ((line = importReader.readLine()) != null) {
 			String[] fields = line.split("\t");

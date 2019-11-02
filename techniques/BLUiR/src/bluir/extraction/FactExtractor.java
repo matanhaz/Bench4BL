@@ -51,7 +51,7 @@ public class FactExtractor
 				return false;
 			}
 		}
-		//°æ·Î º¸Á¤
+		//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (!codeDirectory.endsWith("\\"))	codeDirectory = codeDirectory + "\\";
 		codeDirectory = codeDirectory.replace("\\", "/");
 		
@@ -70,7 +70,7 @@ public class FactExtractor
 			String sourceFileName = srcFile.getName();
 			String relativeFilePath;
 			
-			//°æ·Î º¸Á¤
+			//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			filePath = filePath.replace("\\", "/");
 			relativeFilePath = filePath.substring(codeDirectory.length());
 			
@@ -96,7 +96,7 @@ public class FactExtractor
 			GenericVisitorFact visitor = new GenericVisitorFact();
 			cu.accept(visitor);
 			
-			//package°ªÀÌ ¾ø´Â °æ¿ì¿¡ ´ëÇÑ Ã³¸® (Ãß°¡)
+			//packageï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ (ï¿½ß°ï¿½)
 			String fqn = relativeFilePath;
 			PackageDeclaration packageNameObj = cu.getPackage();
 			if (packageNameObj!=null && !Property.getInstance().ProjectName.startsWith("ASPECTJ")) 
@@ -105,17 +105,17 @@ public class FactExtractor
 			//String packageName = cu.getPackage().getName().getFullyQualifiedName();
 			//System.out.println("Extracted Class FQN: " + packageName + "." + sourceFileName);
 			
-			//ÆÄÀÏ IDÁ¤º¸ ÀúÀå.
+			//ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			bwIndex.write(fileCount + "\t" + relativeFilePath + "\t" + fqn);
 			bwIndex.newLine();
 			bwIndex.flush();
 			//System.out.println(fileCount+": "+relativeFilePath + "\t" + fqn);
 			
-			//DOCÁ¤º¸ »ý¼º
+			//DOCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			bw.write("<DOC>\n<DOCNO>" + fqn + " </DOCNO>\n<text>");
 			bw.newLine();
 			
-			//Å¬·¡½º Á¤º¸ ÃßÃâ ¹× ÀúÀå
+			//Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			List<String> classes = visitor.getClassNames();
 			bw.write("<class>");
 			bw.newLine();
@@ -128,7 +128,7 @@ public class FactExtractor
 			bw.newLine();
 			
 			
-			//method Á¤º¸ ÃßÃâ
+			//method ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			List<String> methods = visitor.getMethodNames();
 			bw.write("<method>");
 			bw.newLine();			
@@ -146,7 +146,7 @@ public class FactExtractor
 			
 			List<String> idNames = visitor.getIdentifierNames();
 			
-			//½Äº°ÀÚ Á¤º¸ ÃßÃâ
+			//ï¿½Äºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			bw.write("<identifier>");
 			bw.newLine();
 			for (String idName : idNames)
@@ -157,7 +157,7 @@ public class FactExtractor
 			bw.write("</identifier>");
 			bw.newLine();
 			
-			//comments Á¤º¸ ÃßÃâ
+			//comments ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			List<ASTNode> comments = cu.getCommentList();
 			bw.write("<comments>");
 			bw.newLine();
@@ -301,7 +301,7 @@ public class FactExtractor
 		int count = 1;
 		int fileCount = 0;
 		
-		BufferedWriter bwIndex = new BufferedWriter(new FileWriter(Property.getInstance().WorkDir + "FileIndex.txt"));
+		//BufferedWriter bwIndex = new BufferedWriter(new FileWriter(Property.getInstance().WorkDir + "FileIndex.txt"));
 		
 		for (File srcFile : files){		
 			fileCount++;			
