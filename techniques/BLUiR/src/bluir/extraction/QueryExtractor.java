@@ -50,8 +50,9 @@ public class QueryExtractor
 				addField(PreProcessor.process1(bug.getDescription()), "identifier", 1.0D) + " " + 
 				
 				addField(PreProcessor.process(bug.getSummary()), "comments", 1.0D) + " " + 
-				
-				addField(PreProcessor.process(bug.getDescription()), "comments", 1.0D) + " " + 
+				addField(PreProcessor.process1(bug.getSummary()), "comments", 1.0D) + " " + 
+				addField(PreProcessor.process(bug.getDescription()), "comments", 1.0D) + " " + 				
+				addField(PreProcessor.process1(bug.getDescription()), "comments", 1.0D) + " " + 
 				
 
 
