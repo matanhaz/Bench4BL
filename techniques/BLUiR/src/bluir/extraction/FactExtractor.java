@@ -121,7 +121,7 @@ public class FactExtractor
 			bw.newLine();
 			for (String cls : classes)
 			{
-				bw.write(cls);
+				bw.write(cls + " ");
 				bw.write(PreProcessor.transform(cls));
 				bw.newLine();
 			}
@@ -139,7 +139,7 @@ public class FactExtractor
 			}
 			for (String methodName : methods)
 			{
-				bw.write(methodName);
+				bw.write(methodName + " ");
 				bw.write(PreProcessor.transform(methodName));
 				bw.newLine();
 			}
@@ -153,7 +153,7 @@ public class FactExtractor
 			bw.newLine();
 			for (String idName : idNames)
 			{
-				bw.write(idName);
+				bw.write(idName + " ");
 				bw.write(PreProcessor.transform(idName));
 				bw.newLine();
 			}
@@ -165,7 +165,7 @@ public class FactExtractor
 			bw.write("<comments>");
 			bw.newLine();
 			for (ASTNode comment: comments) {
-				bw.write(PreProcessor.process(getCommentString(comment)));
+				bw.write(PreProcessor.process(getCommentString(comment)) + " ");
 				bw.write(PreProcessor.process1(getCommentString(comment)));
 				bw.newLine();
 			}
