@@ -1,0 +1,6 @@
+/_archives
+/data
+.mypy_cache
+/venv
+__pycache__
+*.pyc
