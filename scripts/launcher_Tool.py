@@ -23,6 +23,7 @@ import subprocess
 from datetime import datetime
 from repository import GitInflator
 
+here = os.path.dirname(os.path.abspath(__file__))
 
 class Launcher(object):
 	'''
@@ -30,8 +31,9 @@ class Launcher(object):
 	'''
 
 	ProgramNames = [u'BugLocator',  u'BRTracer', u'BLUiR', u'AmaLgam',  u'BLIA', u'Locus']
-	ProgramPATH = u'/mnt/exp/Bench4BL/techniques/releases/'
-	OutputPATH = u'/mnt/exp/Bench4BL/expresults/'
+	root = os.path.join(here, u'..')
+	ProgramPATH = os.path.join(root, u'techniques/releases/')
+	OutputPATH = os.path.join(root, u'expresults/')
 	JavaOptions = u'-Xms512m -Xmx4000m'
 	JavaOptions_Locus = u'-Xms512m -Xmx10000m'
 	TYPE = u'Test'
