@@ -11,6 +11,8 @@ logs
 
 /old/*/target
 
+/techniques/.*
+
 /techniques/releases/Locus.jar
 
 /techniques/releases/locus_properties
