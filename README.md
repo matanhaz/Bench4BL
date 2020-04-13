@@ -1,19 +1,112 @@
 # Bench4BL
 
+Bench4BL is a collection of bug reports and corresponding source code files to fix a bug specified by each bug report to support bug localization research. This collection contains 10,017 bug reports collected from 51 open source projects, and each bug report is mapped with the source code files of the corresponding version. Therefore, this dataset can help researchers and practitioners evaluate bug localization techniques with a large number of subjects.
+
 ## File Structure
+
+Traced:
+
+- `scripts`: Launch scripts
+- `src`: Techniques source code
+- `techniques`: Techniques Executables
+
+Generated:
 
 - `_archives`: Download Temp
 - `venv`: Venv
 - `data`: Unarchived bug repos
 - `Depots`: Executables
-- `src`: Techniques source code
-- `techniques`: Techniques Executables
-- `scripts`: Launch scripts
 - `expresults`: Exp results
+
+## Build
+
+### Download Repos
+
+```sh
+cd `git rev-parse --show-toplevel`
+mkdir -p _archives/Apache
+wget -nc -O _archives/Apache/HIVE.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar"
+mkdir -p data/Apache/HIVE
+tar -xf _archives/Apache/HIVE.tar -C data/Apache/HIVE
+<MODIFY Subjects.py>
+```
+
+### Install Indri
+
+```sh
+cd `git rev-parse --show-toplevel`
+mkdir Depots
+cd Depots
+wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
+tar -xzf indri-5.15.tar.gz
+cd indri-5.15
+./configure --prefix=`pwd`/../install
+make
+make install
+```
+
+### Create venv
+
+```sh
+cd `git rev-parse --show-toplevel`
+virtualenv venv --no-site-packages -p `which python2`
+```
+
+### Build jar
+
+```sh
+cd `git rev-parse --show-toplevel`/old/Locus
+mvn package
+cp target/Locus.jar ../../techniques
+
+cd `git rev-parse --show-toplevel`/old/BugLocator
+mvn package
+cp target/BugLocator.jar ../../techniques
+
+cd `git rev-parse --show-toplevel`/old/AmaLgam
+mvn package
+cp target/AmaLgam.jar ../../techniques
+
+cd `git rev-parse --show-toplevel`/old/BLUiR
+mvn package
+cp target/BLUiR.jar ../../techniques
+
+cd `git rev-parse --show-toplevel`/old/BRTracer
+mvn package
+cp target/BRTracer.jar ../../techniques
+```
+
+## Run
+
+### Source venv
+
+```sh
+cd `git rev-parse --show-toplevel`
+. venv/bin/activate
+export PATH=$PATH:`pwd`/Depots/install/bin
+```
+
+### Unarchive
+
+```sh
+<TBD>
+```
+
+### Run bench
+
+```sh
+cd `git rev-parse --show-toplevel`/scripts
+python launcher_GitInflator.py
+python launcher_repoMaker.py
+python launcher_DupRepo.py
+python Counting.py
+mkdir -p ../techniques/locus_properties
+python launcher_Tool.py -w ExpFirst
+```
 
 ---
 
-Bench4BL is a collection of bug reports and corresponding source code files to fix a bug specified by each bug report to support bug localization research. This collection contains 10,017 bug reports collected from 51 open source projects, and each bug report is mapped with the source code files of the corresponding version. Therefore, this dataset can help researchers and practitioners evaluate bug localization techniques with a large number of subjects.
+
 This document describes how to use this dataset and how to reproduce the result of our paper below. Please cite the following paper if you utilize the dataset:
 
 
