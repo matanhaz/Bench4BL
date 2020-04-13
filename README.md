@@ -43,7 +43,15 @@ $ cd `git rev-parse --show-toplevel`
 $ bootstrap/downloads.sh
 ```
 
-Modify `scripts/commons/Subjects.py` and `scripts/launcher_Tool.py`.
+### Configuration
+
+In `scripts/commons/Subjects.py`, there are variables that stores a resource PATH information as a string and subject information. To use our scripts, you should change the variables properly. You should use absolute PATH to update the PATH information and use the same subject name with subject Directory name for the subject information.
+
+- `techniques`: The list of previous technique names.
+- `groups`: The list of group names that you want to test.
+- `projects`: The list of subject names that you want to test. Each subject name should be classified into specific group name.
+
+You should also modify `scripts/launcher_Tool.py`.
 
 ### Unarchive
 
@@ -163,10 +171,10 @@ Usage of `launcher_Tool.py`:
 **Examples**
 
 ```sh
-$ Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst <br />
-$ Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst -s <br />
-$ Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst_Locus -t Locus <br />
-$ Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL <br />
+$ python launcher_Tool.py -w ExpFirst
+$ python launcher_Tool.py -w ExpFirst -s
+$ python launcher_Tool.py -w ExpFirst_Locus -t Locus
+$ python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL
 ```
 
 ## Subjects (Bug reports and Source Code Repositories)
@@ -179,27 +187,27 @@ Each subject consists of bug reports, bug report repositories that we refined, c
 
 | Group | Subject | Archive | Git Repository |
 | :- | :- | :- | :- |
-| Apache | CAMEL | [CAMEL.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar) | <https://github.com/apache/camel.git> |
-| Apache | HBASE | [HBASE.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/HBASE.tar) | <https://github.com/apache/hbase.git> |
-| Apache | HIVE | [HIVE.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar) | <https://github.com/apache/hive.git> |
-| Commons | CODEC | [CODEC.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CODEC.tar) | <https://github.com/apache/commons-codec.git> |
-| Commons | COLLECTIONS | [COLLECTIONS.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/COLLECTIONS.tar) | <https://github.com/apache/commons-collections.git> |
-| Commons | COMPRESS | [COMPRESS.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/COMPRESS.tar) | <https://github.com/apache/commons-compress.git> |
-| Commons | CONFIGURATION | [CONFIGURATION.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CONFIGURATION.tar) | <https://github.com/apache/commons-configuration.git> |
-| Commons | CRYPTO | [CRYPTO.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CRYPTO.tar) | <https://github.com/apache/commons-crypto.git> |
-| Commons | CSV | [CSV.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CSV.tar) | <https://github.com/apache/commons-csv.git> |
-| Commons | IO | [IO.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/IO.tar) | <https://github.com/apache/commons-io.git> |
-| Commons | LANG | [LANG.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/LANG.tar) | <https://github.com/apache/commons-lang.git> |
-| Commons | MATH | [MATH.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/MATH.tar) | <https://github.com/apache/commons-math.git> |
-| Commons | WEAVER | [WEAVER.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/WEAVER.tar) | <https://github.com/apache/commons-weaver.git> |
-| JBoss | ENTESB | [ENTESB.tar](https://sourceforge.net/projects/irblsensitivity/files/JBoss/ENTESB.tar) | <https://github.com/jboss-fuse/fuse.git> |
-| JBoss | JBMETA | [JBMETA.tar](https://sourceforge.net/projects/irblsensitivity/files/JBoss/JBMETA.tar) | <https://github.com/jboss/metadata.git> |
-| Wildfly | ELY | [ELY.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/ELY.tar) | <https://github.com/wildfly-security/wildfly-elytron.git> |
-| Wildfly | SWARM | [SWARM.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/SWARM.tar) | <https://github.com/wildfly-swarm/wildfly-swarm.git> |
-| Wildfly | WFARQ | [WFARQ.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFARQ.tar) | <https://github.com/wildfly/wildfly-arquillian.git> |
-| Wildfly | WFCORE | [WFCORE.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFCORE.tar) | <https://github.com/wildfly/wildfly-core.git> |
-| Wildfly | WFLY | [WFLY.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFLY.tar) | <https://github.com/wildfly/wildfly.git> |
-| Wildfly | WFMP | [WFMP.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFMP.tar) | <https://github.com/wildfly/wildfly-maven-plugin.git> |
+| Apache | CAMEL | [CAMEL.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar) | [apache/camel](https://github.com/apache/camel.git) |
+| Apache | HBASE | [HBASE.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/HBASE.tar) | [apache/hbase](https://github.com/apache/hbase.git) |
+| Apache | HIVE | [HIVE.tar](https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar) | [apache/hive](https://github.com/apache/hive.git) |
+| Commons | CODEC | [CODEC.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CODEC.tar) | [apache/commons-codec](https://github.com/apache/commons-codec.git) |
+| Commons | COLLECTIONS | [COLLECTIONS.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/COLLECTIONS.tar) | [apache/commons-collections](https://github.com/apache/commons-collections.git) |
+| Commons | COMPRESS | [COMPRESS.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/COMPRESS.tar) | [apache/commons-compress](https://github.com/apache/commons-compress.git) |
+| Commons | CONFIGURATION | [CONFIGURATION.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CONFIGURATION.tar) | [apache/commons-configuration](https://github.com/apache/commons-configuration.git) |
+| Commons | CRYPTO | [CRYPTO.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CRYPTO.tar) | [apache/commons-crypto](https://github.com/apache/commons-crypto.git) |
+| Commons | CSV | [CSV.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/CSV.tar) | [apache/commons-csv](https://github.com/apache/commons-csv.git) |
+| Commons | IO | [IO.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/IO.tar) | [apache/commons-io](https://github.com/apache/commons-io.git) |
+| Commons | LANG | [LANG.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/LANG.tar) | [apache/commons-lang](https://github.com/apache/commons-lang.git) |
+| Commons | MATH | [MATH.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/MATH.tar) | [apache/commons-math](https://github.com/apache/commons-math.git) |
+| Commons | WEAVER | [WEAVER.tar](https://sourceforge.net/projects/irblsensitivity/files/Commons/WEAVER.tar) | [apache/commons-weaver](https://github.com/apache/commons-weaver.git) |
+| JBoss | ENTESB | [ENTESB.tar](https://sourceforge.net/projects/irblsensitivity/files/JBoss/ENTESB.tar) | [jboss-fuse/fuse](https://github.com/jboss-fuse/fuse.git) |
+| JBoss | JBMETA | [JBMETA.tar](https://sourceforge.net/projects/irblsensitivity/files/JBoss/JBMETA.tar) | [jboss/metadata](https://github.com/jboss/metadata.git) |
+| Wildfly | ELY | [ELY.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/ELY.tar) | [wildfly-security/wildfly-elytron](https://github.com/wildfly-security/wildfly-elytron.git) |
+| Wildfly | SWARM | [SWARM.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/SWARM.tar) | [wildfly-swarm/wildfly-swarm](https://github.com/wildfly-swarm/wildfly-swarm.git) |
+| Wildfly | WFARQ | [WFARQ.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFARQ.tar) | [wildfly/wildfly-arquillian](https://github.com/wildfly/wildfly-arquillian.git) |
+| Wildfly | WFCORE | [WFCORE.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFCORE.tar) | [wildfly/wildfly-core](https://github.com/wildfly/wildfly-core.git) |
+| Wildfly | WFLY | [WFLY.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFLY.tar) | [wildfly/wildfly](https://github.com/wildfly/wildfly.git) |
+| Wildfly | WFMP | [WFMP.tar](https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFMP.tar) | [wildfly/wildfly-maven-plugin](https://github.com/wildfly/wildfly-maven-plugin.git) |
 | Spring | AMQP | [AMQP.tar](https://sourceforge.net/projects/irblsensitivity/files/Spring/AMQP.tar) | <https://github.com/spring-projects/spring-amqp> |
 | Spring | ANDROID | [ANDROID.tar](https://sourceforge.net/projects/irblsensitivity/files/Spring/ANDROID.tar) | <https://github.com/spring-projects/spring-android> |
 | Spring | BATCH | [BATCH.tar](https://sourceforge.net/projects/irblsensitivity/files/Spring/BATCH.tar) | <https://github.com/spring-projects/spring-batch> |
@@ -251,51 +259,28 @@ This document describes how to use this dataset and how to reproduce the result 
 
 ### Download subjects' archives.
 Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the 'Bench4BL/archives' directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don't need all subjects, you can download some of them.
-> $ cd Bench4BL <br />
-> Bench4BL$ mkdir archives <br />
-> Bench4BL$ cd archives <br />
-> Bench4BL/archives$ mkdir Apache <br /> 
-> Bench4BL/archives$ cd Apache <br />
-> Bench4BL/archives/Apache$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar" <br />
-> ....work recursively.... <br />
-> Bench4BL$ mkdir data <br />
-> Bench4BL$ chmod +x unpacking.sh <br />
-> Bench4BL$ ./unpacking.sh archives data
+
+```sh
+$ cd Bench4BL
+Bench4BL$ mkdir archives
+Bench4BL$ cd archives
+Bench4BL/archives$ mkdir Apache 
+Bench4BL/archives$ cd Apache
+Bench4BL/archives/Apache$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar"
+....work recursively....
+Bench4BL$ mkdir data
+Bench4BL$ chmod +x unpacking.sh
+Bench4BL$ ./unpacking.sh archives data
+```
 
 The last command unpacks all archive files in `archives` folder into 'data' folder as keeping the directory structures in `archives`.
 
 We appended the script to download all archives to the `archives` folder. If you want to use this, please use following instructions. This scripts creats all folders and download archives into each folder.
 
 ```sh
-$ chmod +x downloads.sh <br />
+$ chmod +x downloads.sh
 $ ./downloads.sh
 ```
-
-### Update PATH information (Editing script code)
-In the file 'Bench4BL/scripts/commons/Subject.py', there are variables that stores a resource PATH information as a string and subject informations. To use our scripts, you should change the variables properly. You should use absolute PATH to update the PATH information and use the same subject name with subject Directory name for the subject information.
-
-```python
-class Subjects(object):
-    ...
-    root = u'/mnt/exp/Bench4BL/data/'
-    root_result = u'/mnt/exp/Bench4BL/expresults/'
-    techniques = ['BugLocator', 'BRTracer', 'BLUiR', 'AmaLgam', 'BLIA', 'Locus']
-    groups = ['Apache', 'Commons', 'JBoss', 'Wildfly', 'Spring']
-    projects = {
-        'Apache':[u'CAMEL', u'HBASE', u'HIVE'],
-        'Commons':[u'CODEC', u'COLLECTIONS', u'COMPRESS', u'CONFIGURATION', u'CRYPTO', u'IO', u'LANG', u'MATH', u'WEAVER',u'CSV'],
-        'JBoss':[u'ENTESB', u'JBMETA'],
-        'Wildfly':[u'ELY', u'WFARQ', u'WFCORE', u'WFLY', u'WFMP',u'SWARM'],
-        'Spring':[U'AMQP', U'ANDROID', U'BATCH', U'BATCHADM', U'DATACMNS', U'DATAGRAPH', U'DATAJPA', U'DATAMONGO', U'DATAREDIS', U'DATAREST', U'LDAP', U'MOBILE', U'ROO', U'SEC', U'SECOAUTH', U'SGF', U'SHDP', U'SHL', U'SOCIAL', U'SOCIALFB', U'SOCIALLI', U'SOCIALTW', U'SPR', U'SWF', U'SWS']
-    }
-    ...
-```
-
-* root : The directory that you unpacked downloaded archives.
-* root_result : The directory that the previous techniques' result will be stored.
-* techniques : The list of previous technique names.
-* groups : The list of group names that you want to test.
-* projects : The list of subject names that you want to test. Each subject name should be classified into specific group name.
 
 ### Version Information
 We selected specific versions for each subject and saved into 'versions.txt'. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to "Subjects.py". The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
