@@ -6,7 +6,7 @@
 - `venv`: Venv
 - `data`: Unarchived bug repos
 - `Depots`: Executables
-- `old`: Techniques source code
+- `src`: Techniques source code
 - `techniques`: Techniques Executables
 - `scripts`: Launch scripts
 - `expresults`: Exp results
