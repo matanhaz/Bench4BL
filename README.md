@@ -121,7 +121,7 @@ $ python launcher_GitInflator.py
 
 ### Build bug repositories
 
-We need to build a repository for the bug reports with pre-crawled bug reports. The bug repository is in XML format and includes bug data which is used in the experiments. The `launcher_repoMaker.py` makes the bug repository that containing entire crawled bug reports information and bug repositories that stores bug reports according to the mapped version. But, since we already offer the result of this step in provided subject's archives, use this script if you want to update the bug repositories. The `launcher_DupRepo.py` creates a bug repository file that contains bug information merged duplicate bug reports.
+We need to build a repository for the bug reports with pre-crawled bug reports. The bug repository is in XML format and includes bug data which is used in the experiments. The `launcher_repoMaker.py` makes the bug repository that containing entire crawled bug reports information and bug repositories that stores bug reports according to the mapped version. But, since we already offer the result of this step in provided subject’s archives, use this script if you want to update the bug repositories. The `launcher_DupRepo.py` creates a bug repository file that contains bug information merged duplicate bug reports.
 
 ```sh
 $ python launcher_repoMaker.py
@@ -130,7 +130,7 @@ $ python launcher_DupRepo.py
 
 ### Update count information of bug and source codes
 
-The script of Counting.py makes a count information for bug and source code. The result will be stored `bugs.txt`, `sources.txt` and `answers.txt` in each subject's folder.
+The script of Counting.py makes a count information for bug and source code. The result will be stored `bugs.txt`, `sources.txt` and `answers.txt` in each subject’s folder.
 
 ```sh
 $ python Counting.py
@@ -153,8 +153,8 @@ Usage of `launcher_Tool.py`:
 
 - You need to set the PATHs and JavaOptions in the `launcher_Tool.py` file.
 - Open the file, launcher_Tool.py and check the following variables 
-- ProgramPATH: Set the directory path which contains the release files of the IRBL techniques. (ex. u'~/Bench4BL/techniques/')
-- OutputPATH: Set the result path to save output of each technique (ex. u'~/Bench4BL/expresults/')
+- ProgramPATH: Set the directory path which contains the release files of the IRBL techniques. (ex. `u'~/Bench4BL/techniques/'`)
+- OutputPATH: Set the result path to save output of each technique (ex. `u'~/Bench4BL/expresults/'`)
 - JavaOptions: Set the java command options. (ex. `-Xms512m -Xmx4000m`)
 - JavaOptions_Locus: Set the java options for Locus. Because Locus need a large memory, we separated the option. (ex. `-Xms512m -Xmx8000m`)
 
@@ -257,23 +257,23 @@ This document describes how to use this dataset and how to reproduce the result 
 
 ---
 
-### Download subjects' archives.
-Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the 'Bench4BL/archives' directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don't need all subjects, you can download some of them.
+### Download subjects’ archives.
+Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the `archives` directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don’t need all subjects, you can download some of them.
 
 ```sh
-$ cd Bench4BL
-Bench4BL$ mkdir archives
-Bench4BL$ cd archives
-Bench4BL/archives$ mkdir Apache 
-Bench4BL/archives$ cd Apache
-Bench4BL/archives/Apache$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar"
-....work recursively....
-Bench4BL$ mkdir data
-Bench4BL$ chmod +x unpacking.sh
-Bench4BL$ ./unpacking.sh archives data
+$ cd `git rev-parse --show-toplevel`
+$ mkdir archives
+$ cd archives
+$ mkdir Apache 
+$ cd Apache
+$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar"
+$ cd `git rev-parse --show-toplevel`
+$ mkdir data
+$ chmod +x unpacking.sh
+$ ./unpacking.sh archives data
 ```
 
-The last command unpacks all archive files in `archives` folder into 'data' folder as keeping the directory structures in `archives`.
+The last command unpacks all archive files in `archives` folder into `data` folder as keeping the directory structures in `archives`.
 
 We appended the script to download all archives to the `archives` folder. If you want to use this, please use following instructions. This scripts creats all folders and download archives into each folder.
 
@@ -285,7 +285,7 @@ $ ./downloads.sh
 ### Version Information
 We selected specific versions for each subject and saved into `versions.txt`. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to `Subjects.py`. The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
 
-For example, assume that you want to store CODEC Subject's version information. You prepare JSON code and save it in `data/Commons/CODEC/versions.txt`. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
+For example, assume that you want to store CODEC Subject’s version information. You prepare JSON code and save it in `data/Commons/CODEC/versions.txt`. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
 
 ```
 {
