@@ -35,7 +35,7 @@ class Launcher(object):
 	ProgramPATH = os.path.join(root, u'techniques/')
 	OutputPATH = os.path.join(root, u'expresults/')
 	JavaOptions = u'-Xms512m -Xmx4000m'
-	JavaOptions_Locus = u'-Xms512m -Xmx10000m'
+	JavaOptions_Locus = u'-Xms3G -Xmx3G'
 	TYPE = u'Test'
 
 	def __init__(self):
