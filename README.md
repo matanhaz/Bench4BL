@@ -21,6 +21,10 @@ Generated:
 
 ## Build
 
+### Prerequisites
+
+base-devel jdk-openjdk python2 python-virtualenv
+
 ### Download Bug Repositories
 
 ```sh
@@ -56,7 +60,7 @@ $ make install
 ```sh
 $ cd `git rev-parse --show-toplevel`
 $ virtualenv venv -p `which python2`
-$ pip install -r requirements
+$ pip install -r requirements.txt
 ```
 
 ### Build JAR
@@ -82,35 +86,35 @@ $ cd `git rev-parse --show-toplevel`
 $ export PATH=$PATH:`pwd`/depots/install/bin
 ```
 
-### Run bench
+### Benchmarking
 
 ```sh
 $ cd `git rev-parse --show-toplevel`/scripts
-python launcher_GitInflator.py
-python launcher_repoMaker.py
-python launcher_DupRepo.py
-python Counting.py
-mkdir -p ../techniques/locus_properties
-python launcher_Tool.py -w ExpFirst
+$ python launcher_GitInflator.py
+$ python launcher_repoMaker.py
+$ python launcher_DupRepo.py
+$ python Counting.py
+$ mkdir -p ../techniques/locus_properties
+$ python launcher_Tool.py -w ExpFirst
 ```
 
----
-
+## Citing
 
 This document describes how to use this dataset and how to reproduce the result of our paper below. Please cite the following paper if you utilize the dataset:
 
+```
+@inproceedings{bench4bl,
+  Author = {Jaekwon Lee and Dongsun Kim and Tegawend\'e F. Bissyand\'e and Woosung Jung and Yves Le Traon},
+  Title = {Bench4BL: Reproducibility Study of the Performance of IR-based Bug Localization},
+  Booktitle = {Proceedings of the 27th ACM SIGSOFT International Symposium  on  Software Testing and Analysis},
+  Series = {ISSTA 2018},
+  Year = {2018},
+  doi = {10.1145/3213846.3213856},
+  pages = {1--12}
+}
+```
 
-    @inproceedings{bench4bl,
-      Author = {Jaekwon Lee and Dongsun Kim and Tegawend\'e F. Bissyand\'e and Woosung Jung and Yves Le Traon},
-      Title = {Bench4BL: Reproducibility Study of the Performance of IR-based Bug Localization},
-      Booktitle = {Proceedings of the 27th ACM SIGSOFT International Symposium  on  Software Testing and Analysis},
-      Series = {ISSTA 2018},
-      Year = {2018},
-      doi = {10.1145/3213846.3213856},
-      pages = {1--12}
-    }
-
-
+---
 
 ### Subjects ( Bug reports and Source Code Repositories )
 The following table shows five old subjects that used in previous studies and 46 new subjects that we newly collected.
@@ -181,9 +185,6 @@ Please refer to "Getting Started" for more details.
  - **packing.sh**: Shell script to pack resources for each subject.
  - **unpacking.sh**: Shell script to unpack resources for each subject.
 
-
-
-
 # Getting Started
 This section describes all procedures of using this benchmarks. The procedures include setting experiment environments, creating a bug repository and checking out source code files of a specific version. The step of creating a bug repository can be skipped if you use archives listed in the above table.
 All the procedures are tested on Ubuntu 16.04 LTS.
@@ -226,32 +227,6 @@ We appended the script to download all archives to the 'archives' folder. If you
 > Bench4BL$ chmod +x downloads.sh <br />
 > Bench4BL$ ./downloads.sh
 
-
-### Install python
-We used python 2.7. (If you have python 2.7 in your computer, please skip this section.)
-> $ sudo add-apt-repository ppa:fkrull/deadsnakes <br />
-> $ sudo apt-get update <br />
-> $ sudo apt-get install python2.7 python <br />
-> $ sudo apt-get install python-pip <br />
-
-### Install python libraries
-We have 8 dependencies below:
-
-    bs4 >= 0.0.1
-    matplotlib >= 2.0.1
-    numpy >= 1.13.3
-    scipy >= 0.19.1
-    python-dateutil >= 2.6.1
-    pytz >= 2017.3
-    GitPython >= 2.1.5
-    XlsxWriter >= 0.9.8
-
-You can install using following commnad.
-> $ sudo pip install --upgrade pip <br />
-> $ pip install numpy scipy matplotlib pytz GitPython bs4 xlswriter python-dateutil<br />
-> or<br />
-> $ pip install -r scripts/requirements.txt<br />
-> we serve the requirements file.<br />
 
 ### Update PATH information (Editing script code)
 In the file 'Bench4BL/scripts/commons/Subject.py', there are variables that stores a resource PATH information as a string and subject informations. To use our scripts, you should change the variables properly. You should use absolute PATH to update the PATH information and use the same subject name with subject Directory name for the subject information.
@@ -325,12 +300,12 @@ All previous techniques are executed in Java Runtime Environment. If you have ja
 > $ sudo apt install openjdk-11-jre-headless <br />
 
 ### Install indri
+
 - To execute BLUiR and AmaLgam, you need to install indri.
 - indri-5.15 can work.
-- In the installing process, please memorize the path in the first line in the "make install" log. <br />
-(In my case, /usr/local/bin.  This is the installed path of indri)
+
 - And then, Change Settings.txt file.
-- Commands to install indri
+
 > // Install g++ and make for indri <br />
 > $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test <br />
 > $ sudo apt-get update <br />
@@ -394,6 +369,3 @@ So, If you want to load these techniques on Eclipse, please follow next sequence
  - On the 'Package Explorer' panel, Open context menu by clicking right mouse button.
  - Select 'Import', Then a pop-up windows will be placed.
  - All techniques are made as Maven project. So, You should import with 'Maven > Existing Maven Project'. And then, just choose project folder. You don't need to change any other options.
-
-
-
