@@ -75,7 +75,7 @@ $ make
 $ make install
 ```
 
-Edit `Settings.txt` file:
+Generate `Settings.txt` file:
 
 ```sh
 $ echo indripath=`git rev-parse --show-toplevel`/depots/install/bin/ > `git rev-parse --show-toplevel`/techniques/Settings.txt
@@ -283,8 +283,9 @@ $ ./downloads.sh
 ```
 
 ### Version Information
-We selected specific versions for each subject and saved into 'versions.txt'. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to "Subjects.py". The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
-For example, assume that you want to store CODEC Subject's version information. You prepare JSON code and save it in 'Bench4BL/data/Commons/CODEC/versions.txt'. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
+We selected specific versions for each subject and saved into `versions.txt`. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to `Subjects.py`. The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
+
+For example, assume that you want to store CODEC Subject's version information. You prepare JSON code and save it in `data/Commons/CODEC/versions.txt`. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
 
 ```
 {
