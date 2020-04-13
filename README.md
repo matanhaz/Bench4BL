@@ -7,16 +7,19 @@ Bench4BL is a collection of bug reports and corresponding source code files to f
 Traced:
 
 - `bootstrap`: Scripts for download and unarchive bug repositories
-- `scripts`: Launch scripts in Python 2
-    - `repository`: Scripts to prepare the resources to execute each technique
-    - `results`: Scripts to collect the execution results of each technique and export to Excel
-    - `analysis`: Scripts to analysis for the result of each technique and features extracted from resources. We applied Mann-Whitney U test, Pearson correlation and so on
-    - `commons`: Scripts to managing subjects and common functions
-    - `utils`: Personal libraries for experiments
+- `scripts`: Launch scripts
 - `src`: Techniques source code
 - `techniques`: Techniques executables
-    - `packing.sh`: Shell script to pack resources for each subject
-    - `unpacking.sh`: Shell script to unpack resources for each subject
+    - `packing.sh`: Pack resources for each subject
+    - `unpacking.sh`: Unpack resources for each subject
+
+The `scripts` folder:
+
+- `repository`: Prepare the resources to execute each technique
+- `results`: Collect the execution results of each technique and export to Excel
+- `analysis`: Analysis for the result of each technique and features extracted from resources. We applied Mann-Whitney U test, Pearson correlation and so on
+- `commons`: Managing subjects and common functions
+- `utils`: Personal libraries for experiments
 
 Generated:
 
