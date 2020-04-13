@@ -1,4 +1,18 @@
 # Bench4BL
+
+## File Structure
+
+- `_archives`: Download Temp
+- `venv`: Venv
+- `data`: Unarchived bug repos
+- `Depots`: Executables
+- `old`: Techniques source code
+- `techniques`: Techniques Executables
+- `scripts`: Launch scripts
+- `expresults`: Exp results
+
+---
+
 Bench4BL is a collection of bug reports and corresponding source code files to fix a bug specified by each bug report to support bug localization research. This collection contains 10,017 bug reports collected from 51 open source projects, and each bug report is mapped with the source code files of the corresponding version. Therefore, this dataset can help researchers and practitioners evaluate bug localization techniques with a large number of subjects.
 This document describes how to use this dataset and how to reproduce the result of our paper below. Please cite the following paper if you utilize the dataset:
 
@@ -78,7 +92,7 @@ Please refer to "Getting Started" for more details.
 
 
 ### Repository Directory Structure
- - **techniques**: This folder includes source code and executable files of previous techniques such as BugLocator and Locus. We revised the source code files so that every technique produces results with the identical format. All executable files are stored in the folder "techniques/releases"
+ - **techniques**: This folder includes source code and executable files of previous techniques such as BugLocator and Locus. We revised the source code files so that every technique produces results with the identical format. All executable files are stored in the folder "techniques"
  - **analysis**: The execution result of previous techniques, which are refind for scripts in forlder "scripts > analysis".
  - **scripts**: Python scripts to prepare resources for bug localization experiments and to execute previous techniques.
  - **packing.sh**: Shell script to pack resources for each subject.
@@ -256,7 +270,7 @@ All previous techniques are executed in Java Runtime Environment. If you have ja
 >    /usr/bin/install -c -m 644 Makefile.app /usr/local/share/indri <br />
 >  <br />
 > // changeSettings.txt file <br />
-> $ cd ~/Bench4BL/techniques/releases &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// We assume you cloned our repository to  <br />
+> $ cd ~/Bench4BL/techniques &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// We assume you cloned our repository to  <br />
 > $ vi Settings.txt <br />
 > &nbsp; &nbsp; indripath=/usr/local/bin/ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<-- edit this value as a the first log of "make install" <br />
 >
@@ -265,7 +279,7 @@ All previous techniques are executed in Java Runtime Environment. If you have ja
 * Preparing step
     - You need to set the PATHs and JavaOptions in the launcher_Tool.py file.
     - Open the file, launcher_Tool.py and check the following variables 
-    - ProgramPATH: Set the directory path which contains the release files of the IRBL techniques. (ex. u'~/Bench4BL/techniques/releases/')
+    - ProgramPATH: Set the directory path which contains the release files of the IRBL techniques. (ex. u'~/Bench4BL/techniques/')
     - OutputPATH: Set the result path to save output of each technique (ex. u'~/Bench4BL/expresults/')
     - JavaOptions: Set the java command options. (ex. '-Xms512m -Xmx4000m')
     - JavaOptions_Locus: Set the java options for Locus. Because Locus need a large memory, we separated the option. (ex. '-Xms512m -Xmx8000m')

@@ -13,9 +13,11 @@ logs
 
 /techniques/.*
 
-/techniques/releases/Locus.jar
-/techniques/releases/AmaLgam.jar
-/techniques/releases/BugLocator.jar
+/techniques/Locus.jar
+/techniques/AmaLgam.jar
+/techniques/BugLocator.jar
+/techniques/BLUiR.jar
+/techniques/BRTracer.jar
 
-/techniques/releases/locus_properties
-/techniques/releases/blia_properties
+/techniques/locus_properties
+/techniques/blia_properties
