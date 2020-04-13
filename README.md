@@ -36,7 +36,9 @@ Install the latest version of Arch Linux.
 # pacman -S base-devel jre-openjdk-headless python2 python-virtualenv
 ```
 
-### Download bug repositories
+### Download subjects’ archives
+
+Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the `archives` directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs.
 
 ```sh
 $ cd `git rev-parse --show-toplevel`
@@ -55,9 +57,34 @@ You should also modify `scripts/launcher_Tool.py`.
 
 ### Unarchive
 
+After downloaded, unpack all archives by using the unpacking.sh script. If you don’t need all subjects, you can download some of them.
+
 ```sh
 $ mkdir data
 $ bootstrap/unpacking.sh ./archives ./data Apache HIVE
+```
+
+### Configure version information
+
+We selected specific versions for each subject and saved into `versions.txt`. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to `Subjects.py`. The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
+
+For example, assume that you want to store CODEC Subject’s version information. You prepare JSON code and save it in `data/Commons/CODEC/versions.txt`. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
+
+```
+{
+    "CODEC":{
+            "1.4":"CODEC_1_4",
+            "1.5":"commons-codec-1.5",
+            "1.6":"1_6",
+            "1.7":"1.7",
+            "1.1":"CODEC_1_1",
+            "1.2":"CODEC_1_2",
+            "1.3":"CODEC_1_3",
+            "1.8":"1.8",
+            "1.9":"1.9",
+            "1.10":"1.10"
+    }
+}
 ```
 
 ### Install Indri
@@ -254,54 +281,5 @@ This document describes how to use this dataset and how to reproduce the result 
   Year = {2018},
   doi = {10.1145/3213846.3213856},
   pages = {1--12}
-}
-```
-
----
-
-### Download subjects’ archives.
-Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the `archives` directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don’t need all subjects, you can download some of them.
-
-```sh
-$ cd `git rev-parse --show-toplevel`
-$ mkdir archives
-$ cd archives
-$ mkdir Apache 
-$ cd Apache
-$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar"
-$ cd `git rev-parse --show-toplevel`
-$ mkdir data
-$ chmod +x unpacking.sh
-$ ./unpacking.sh archives data
-```
-
-The last command unpacks all archive files in `archives` folder into `data` folder as keeping the directory structures in `archives`.
-
-We appended the script to download all archives to the `archives` folder. If you want to use this, please use following instructions. This scripts creats all folders and download archives into each folder.
-
-```sh
-$ chmod +x downloads.sh
-$ ./downloads.sh
-```
-
-### Version Information
-We selected specific versions for each subject and saved into `versions.txt`. The file is in JSON format and we used a dictionary to save information. Top-level keys mean a subject name corresponding to `Subjects.py`. The selected versions are also listed in dictionary structure. The key text is version name which means you want to represent it and the value test is tag name written in git repository.
-
-For example, assume that you want to store CODEC Subject’s version information. You prepare JSON code and save it in `data/Commons/CODEC/versions.txt`. We offer the selected versions in the archieves. If you want to use a version that we selected, it is not necessary to change version information files.
-
-```
-{
-    "CODEC":{
-            "1.4":"CODEC_1_4",
-            "1.5":"commons-codec-1.5",
-            "1.6":"1_6",
-            "1.7":"1.7",
-            "1.1":"CODEC_1_1",
-            "1.2":"CODEC_1_2",
-            "1.3":"CODEC_1_3",
-            "1.8":"1.8",
-            "1.9":"1.9",
-            "1.10":"1.10"
-    }
 }
 ```
