@@ -6,96 +6,86 @@ Bench4BL is a collection of bug reports and corresponding source code files to f
 
 Traced:
 
+- `bootstrap`: Scripts for download and unarchive bug repositories
 - `scripts`: Launch scripts
 - `src`: Techniques source code
-- `techniques`: Techniques Executables
+- `techniques`: Techniques executables
 
 Generated:
 
-- `_archives`: Download Temp
-- `venv`: Venv
-- `data`: Unarchived bug repos
-- `Depots`: Executables
+- `venv`: Python 2 virtual environment
+- `archives`: Downloaded bug repositories
+- `data`: Unarchived bug repositories
+- `depots`: Executables
 - `expresults`: Exp results
 
 ## Build
 
-### Download Repos
+### Download Bug Repositories
 
 ```sh
-cd `git rev-parse --show-toplevel`
-mkdir -p _archives/Apache
-wget -nc -O _archives/Apache/HIVE.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar"
-mkdir -p data/Apache/HIVE
-tar -xf _archives/Apache/HIVE.tar -C data/Apache/HIVE
-<MODIFY Subjects.py>
+$ cd `git rev-parse --show-toplevel`
+$ bootstrap/downloads.sh
+```
+
+Modify `scripts/commons/Subjects.py` and `scripts/launcher_Tool.py`.
+
+### Unarchive
+
+```sh
+$ mkdir data
+$ bootstrap/unpacking.sh ./archives ./data Apache HIVE
 ```
 
 ### Install Indri
 
 ```sh
-cd `git rev-parse --show-toplevel`
-mkdir Depots
-cd Depots
-wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
-tar -xzf indri-5.15.tar.gz
-cd indri-5.15
-./configure --prefix=`pwd`/../install
-make
-make install
+$ cd `git rev-parse --show-toplevel`
+$ mkdir depots
+$ cd depots
+$ wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
+$ tar -xzf indri-5.15.tar.gz
+$ cd indri-5.15
+$ ./configure --prefix=`pwd`/../install
+$ make
+$ make install
 ```
 
-### Create venv
+### Create Virtual Environment
 
 ```sh
-cd `git rev-parse --show-toplevel`
-virtualenv venv --no-site-packages -p `which python2`
+$ cd `git rev-parse --show-toplevel`
+$ virtualenv venv -p `which python2`
+$ pip install -r requirements
 ```
 
-### Build jar
+### Build JAR
 
 ```sh
-cd `git rev-parse --show-toplevel`/old/Locus
-mvn package
-cp target/Locus.jar ../../techniques
-
-cd `git rev-parse --show-toplevel`/old/BugLocator
-mvn package
-cp target/BugLocator.jar ../../techniques
-
-cd `git rev-parse --show-toplevel`/old/AmaLgam
-mvn package
-cp target/AmaLgam.jar ../../techniques
-
-cd `git rev-parse --show-toplevel`/old/BLUiR
-mvn package
-cp target/BLUiR.jar ../../techniques
-
-cd `git rev-parse --show-toplevel`/old/BRTracer
-mvn package
-cp target/BRTracer.jar ../../techniques
+$ cd `git rev-parse --show-toplevel`
+$ bootstrap/buildjar.sh
 ```
 
 ## Run
 
-### Source venv
+### Source Virtual Environment
 
 ```sh
-cd `git rev-parse --show-toplevel`
-. venv/bin/activate
-export PATH=$PATH:`pwd`/Depots/install/bin
+$ cd `git rev-parse --show-toplevel`
+$ . venv/bin/activate
 ```
 
-### Unarchive
+### Modify PATH
 
 ```sh
-<TBD>
+$ cd `git rev-parse --show-toplevel`
+$ export PATH=$PATH:`pwd`/depots/install/bin
 ```
 
 ### Run bench
 
 ```sh
-cd `git rev-parse --show-toplevel`/scripts
+$ cd `git rev-parse --show-toplevel`/scripts
 python launcher_GitInflator.py
 python launcher_repoMaker.py
 python launcher_DupRepo.py
@@ -218,21 +208,21 @@ If you don't have git, please install git first using following commands.
 
     
 ### Download subjects' archives.
-Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the 'Bench4BL/_archives' directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don't need all subjects, you can download some of them.
+Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the 'Bench4BL/archives' directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don't need all subjects, you can download some of them.
 > $ cd Bench4BL <br />
-> Bench4BL$ mkdir _archives <br />
-> Bench4BL$ cd _archives <br />
-> Bench4BL/_archives$ mkdir Apache <br /> 
-> Bench4BL/_archives$ cd Apache <br />
-> Bench4BL/_archives/Apache$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar" <br />
+> Bench4BL$ mkdir archives <br />
+> Bench4BL$ cd archives <br />
+> Bench4BL/archives$ mkdir Apache <br /> 
+> Bench4BL/archives$ cd Apache <br />
+> Bench4BL/archives/Apache$ wget -O CAMEL.tar "https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar" <br />
 > ....work recursively.... <br />
 > Bench4BL$ mkdir data <br />
 > Bench4BL$ chmod +x unpacking.sh <br />
-> Bench4BL$ ./unpacking.sh _archives data
+> Bench4BL$ ./unpacking.sh archives data
 
-The last command unpacks all archive files in '_archives' folder into 'data' folder as keeping the directory structures in '_archives'.
+The last command unpacks all archive files in 'archives' folder into 'data' folder as keeping the directory structures in 'archives'.
 
-We appended the script to download all archives to the '_archives' folder. If you want to use this, please use following instructions. This scripts creats all folders and download archives into each folder.
+We appended the script to download all archives to the 'archives' folder. If you want to use this, please use following instructions. This scripts creats all folders and download archives into each folder.
 > Bench4BL$ chmod +x downloads.sh <br />
 > Bench4BL$ ./downloads.sh
 

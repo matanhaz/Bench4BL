@@ -6,8 +6,8 @@ if test $# -lt 2 || test $# -gt 4; then
 	echo ""
 	echo "Wrong! check the follow usages!"
 	echo "usages : $0 <source_dir> <target_dir> [group] [project]"
-	echo "example : $0 ./archieves ./data"
-	echo "example : $0 ./archieves ./data Apache CAMEL"
+	echo "example : $0 ./archives ./data"
+	echo "example : $0 ./archives ./data Apache CAMEL"
 	echo ""
 	echo ""
 	exit 1
