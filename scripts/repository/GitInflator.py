@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 
+from __future__ import print_function
 import shutil
 import os, stat
 import subprocess
 import time
-from commons import VersionUtil
 
+from commons import VersionUtil
 
 class GitInflator():
 	workDir = u''       #u'/home/user/bug/Apache/CAMEL/'
 	projectName = u''   #u'CAMEL'
 	sourcesPath = u''    #u'/home/user/bug/Apache/CAMEL/sources/'
-	gitURL = u''        #u'https://github.com/apache/camel.git'
 	gitRepo = u'gitrepo'
 	sourcesRepo = u'sources'
 	projectPath = u''
 
-	def __init__(self, _project, _giturl, _basePATH):
+	def __init__(self, _project, _basePATH):
 		self.projectName = _project
-		self.gitURL = _giturl
 		self.workDir = _basePATH
 		self.sourcesPath = os.path.join(_basePATH, self.sourcesRepo)
 		self.projectPath = os.path.join(self.workDir, self.gitRepo)
@@ -89,7 +87,7 @@ class GitInflator():
 			shutil.rmtree(basepath, onerror=self.del_rw)
 
 		try:
-			subprocess.check_output(['git', 'clone', self.gitURL, self.gitRepo],  cwd=self.workDir)
+			subprocess.check_output(['git', 'clone', self.gitURL, self.gitRepo], cwd=self.workDir)
 		except Exception as e:
 			print(e)
 			return None
@@ -143,29 +141,3 @@ class GitInflator():
 			else:
 				shutil.copy(fname, os.path.join(_dest,filename))
 		return True
-
-
-def getargs():
-	import argparse
-	parser = argparse.ArgumentParser(description='')
-	parser.add_argument('-p', dest='project', help='project name')
-	parser.add_argument('-g', dest='giturl', help='github url')
-	parser.add_argument('-w', dest='working', default=None, help='working path')
-	parser.add_argument('-o', dest='output', default=None, help='output path')
-
-	args = parser.parse_args()
-
-	if args.project is None or args.giturl is None:
-		parser.print_help()
-		return None
-	return args
-
-
-if __name__ == "__main__":
-	args = getargs()
-	if args is None:
-		exit(1)
-
-	git = GitInflator(args.project, args.giturl, args.working)
-	git.inflate([])
-

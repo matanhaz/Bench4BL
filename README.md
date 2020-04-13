@@ -2,7 +2,7 @@
 
 Bench4BL is a collection of bug reports and corresponding source code files to fix a bug specified by each bug report to support bug localization research. This collection contains 10,017 bug reports collected from 51 open source projects, and each bug report is mapped with the source code files of the corresponding version. Therefore, this dataset can help researchers and practitioners evaluate bug localization techniques with a large number of subjects.
 
-## File Structure
+## File structure
 
 Traced:
 
@@ -36,7 +36,7 @@ Install the latest version of Arch Linux.
 # pacman -S base-devel jre-openjdk-headless python2 python-virtualenv
 ```
 
-### Download Bug Repositories
+### Download bug repositories
 
 ```sh
 $ cd `git rev-parse --show-toplevel`
@@ -62,7 +62,7 @@ $ bootstrap/unpacking.sh ./archives ./data Apache HIVE
 
 ### Install Indri
 
-To execute BLUiR and AmaLgam, you need to install indri. indri-5.15 can work.
+To execute BLUiR and AmaLgam, you need to install Indri. Indri 5.15 can work.
 
 ```sh
 $ mkdir depots
@@ -81,7 +81,7 @@ Generate `Settings.txt` file:
 $ echo indripath=`git rev-parse --show-toplevel`/depots/install/bin/ > `git rev-parse --show-toplevel`/techniques/Settings.txt
 ```
 
-### Create Virtual Environment
+### Create virtual environment
 
 ```sh
 $ cd `git rev-parse --show-toplevel`
@@ -97,7 +97,7 @@ $ bootstrap/buildjar.sh
 
 ## Run
 
-### Source Virtual Environment
+### Source virtual environment
 
 ```sh
 $ cd `git rev-parse --show-toplevel`
@@ -116,7 +116,7 @@ We used multiple versions of source code for the experiment. Since the provided 
 
 ```sh
 $ cd `git rev-parse --show-toplevel`/scripts
-$ python launcher_GitInflator.py
+$ ./launcher_GitInflator.py
 ```
 
 ### Build bug repositories
@@ -124,8 +124,8 @@ $ python launcher_GitInflator.py
 We need to build a repository for the bug reports with pre-crawled bug reports. The bug repository is in XML format and includes bug data which is used in the experiments. The `launcher_repoMaker.py` makes the bug repository that containing entire crawled bug reports information and bug repositories that stores bug reports according to the mapped version. But, since we already offer the result of this step in provided subject’s archives, use this script if you want to update the bug repositories. The `launcher_DupRepo.py` creates a bug repository file that contains bug information merged duplicate bug reports.
 
 ```sh
-$ python launcher_repoMaker.py
-$ python launcher_DupRepo.py
+$ ./launcher_repoMaker.py
+$ ./launcher_DupRepo.py
 ```
 
 ### Update count information of bug and source codes
@@ -133,10 +133,10 @@ $ python launcher_DupRepo.py
 The script of Counting.py makes a count information for bug and source code. The result will be stored `bugs.txt`, `sources.txt` and `answers.txt` in each subject’s folder.
 
 ```sh
-$ python Counting.py
+$ ./Counting.py
 ```
 
-### Execute Previous Techniques
+### Execute previous techniques
 
 To get the result of each technique, you can use `scripts/launcher_Tool.py`. The script executes 6 techniques for all subjects.
 
@@ -151,8 +151,10 @@ Usage of `launcher_Tool.py`:
 
 **Prerequisites**
 
-- You need to set the PATHs and JavaOptions in the `launcher_Tool.py` file.
-- Open the file, launcher_Tool.py and check the following variables 
+You need to set the PATHs and JavaOptions in the `launcher_Tool.py` file.
+
+Open the file, launcher_Tool.py and check the following variables:
+
 - ProgramPATH: Set the directory path which contains the release files of the IRBL techniques. (ex. `u'~/Bench4BL/techniques/'`)
 - OutputPATH: Set the result path to save output of each technique (ex. `u'~/Bench4BL/expresults/'`)
 - JavaOptions: Set the java command options. (ex. `-Xms512m -Xmx4000m`)
