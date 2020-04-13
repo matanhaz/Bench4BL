@@ -7,9 +7,16 @@ Bench4BL is a collection of bug reports and corresponding source code files to f
 Traced:
 
 - `bootstrap`: Scripts for download and unarchive bug repositories
-- `scripts`: Launch scripts
+- `scripts`: Launch scripts in Python 2
+    - `repository`: Scripts to prepare the resources to execute each technique.
+    - `results`: Scripts to collect the execution results of each technique and export to Excel.
+    - `analysis`: Scripts to analysis for the result of each technique and features extracted from resources. We applied Mann-Whitney U test, Pearson correlation and so on.
+    - `commons`: Scripts to managing subjects and common functions.
+    - `utils`: Personal libraries for experiments.
 - `src`: Techniques source code
 - `techniques`: Techniques executables
+    - `packing.sh`: Shell script to pack resources for each subject
+    - `unpacking.sh`: Shell script to unpack resources for each subject
 
 Generated:
 
@@ -17,13 +24,15 @@ Generated:
 - `archives`: Downloaded bug repositories
 - `data`: Unarchived bug repositories
 - `depots`: Executables
-- `expresults`: Exp results
+- `expresults`: Experiment results
 
 ## Build
 
 ### Prerequisites
 
-base-devel jdk-openjdk python2 python-virtualenv
+```sh
+# pacman -S base-devel jre-openjdk-headless python2 python-virtualenv
+```
 
 ### Download Bug Repositories
 
@@ -43,8 +52,9 @@ $ bootstrap/unpacking.sh ./archives ./data Apache HIVE
 
 ### Install Indri
 
+To execute BLUiR and AmaLgam, you need to install indri. indri-5.15 can work.
+
 ```sh
-$ cd `git rev-parse --show-toplevel`
 $ mkdir depots
 $ cd depots
 $ wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
@@ -53,6 +63,12 @@ $ cd indri-5.15
 $ ./configure --prefix=`pwd`/../install
 $ make
 $ make install
+```
+
+Edit `Settings.txt` file:
+
+```sh
+$ echo indripath=`git rev-parse --show-toplevel`/depots/install/bin/ > `git rev-parse --show-toplevel`/techniques/Settings.txt
 ```
 
 ### Create Virtual Environment
@@ -66,7 +82,6 @@ $ pip install -r requirements.txt
 ### Build JAR
 
 ```sh
-$ cd `git rev-parse --show-toplevel`
 $ bootstrap/buildjar.sh
 ```
 
@@ -82,20 +97,40 @@ $ . venv/bin/activate
 ### Modify PATH
 
 ```sh
-$ cd `git rev-parse --show-toplevel`
 $ export PATH=$PATH:`pwd`/depots/install/bin
 ```
 
-### Benchmarking
+### Inflate the source codes
+
+We used multiple versions of source code for the experiment. Since the provided archives have only a git repository, you need to check out repositories according to versions that you selected above. The script `launcher_GitInflator.py` clones a git repositories and checks it out into the multiple versions which you selected. These source codes are stored into a folder `Bench4BL/data/[Group Name]/[Project Name]/sources/` automatically.
 
 ```sh
 $ cd `git rev-parse --show-toplevel`/scripts
 $ python launcher_GitInflator.py
+```
+
+### Build bug repositories
+
+We need to build a repository for the bug reports with pre-crawled bug reports. The bug repository is in XML format and includes bug data which is used in the experiments. The `launcher_repoMaker.py` makes the bug repository that containing entire crawled bug reports information and bug repositories that stores bug reports according to the mapped version. But, since we already offer the result of this step in provided subject's archives, use this script if you want to update the bug repositories. The `launcher_DupRepo.py` creates a bug repository file that contains bug information merged duplicate bug reports.
+
+```sh
 $ python launcher_repoMaker.py
 $ python launcher_DupRepo.py
+```
+
+### Update count information of bug and source codes
+
+The script of Counting.py makes a count information for bug and source code. The result will be stored `bugs.txt`, `sources.txt` and `answers.txt` in each subject's folder.
+
+```sh
 $ python Counting.py
+```
+
+### Run
+
+```sh
 $ mkdir -p ../techniques/locus_properties
-$ python launcher_Tool.py -w ExpFirst
+$ python launcher_Tool.py -w Exp1
 ```
 
 ## Citing
@@ -177,37 +212,10 @@ Please refer to "Getting Started" for more details.
 | Previous | SWT | [SWT.tar](https://sourceforge.net/projects/irblsensitivity/files/Previous/SWT.tar) | [https://github.com/eclipse/eclipse.platform.swt](https://github.com/eclipse/eclipse.platform.swt) |
 | Previous | ZXing | [ZXing.tar](https://sourceforge.net/projects/irblsensitivity/files/Previous/ZXing.tar) | [https://github.com/zxing/zxing](https://github.com/zxing/zxing) |
 
-
-### Repository Directory Structure
- - **techniques**: This folder includes source code and executable files of previous techniques such as BugLocator and Locus. We revised the source code files so that every technique produces results with the identical format. All executable files are stored in the folder "techniques"
- - **analysis**: The execution result of previous techniques, which are refind for scripts in forlder "scripts > analysis".
- - **scripts**: Python scripts to prepare resources for bug localization experiments and to execute previous techniques.
- - **packing.sh**: Shell script to pack resources for each subject.
- - **unpacking.sh**: Shell script to unpack resources for each subject.
-
 # Getting Started
 This section describes all procedures of using this benchmarks. The procedures include setting experiment environments, creating a bug repository and checking out source code files of a specific version. The step of creating a bug repository can be skipped if you use archives listed in the above table.
 All the procedures are tested on Ubuntu 16.04 LTS.
 
-
-    ## Scripts Directory Structure ##
-    - repository: Scripts to prepare the resources to execute each technique.
-    - results: Scripts to collect the execution results of each technique and export to Excel.
-    - analysis: Scripts to analysis for the result of each technique and features extracted from resources.
-                 We applied Mann-Whitney U test, Pearson correlation and so on.
-    - commons: Scripts to managing subjects and common functions.
-    - utils: Personal libraries for experiments.
-
-
-### Clone this repository
-Clone the repository by using the following command.
-> $ git clone https://github.com/exatoa/Bench4BL.git
-
-If you don't have git, please install git first using following commands.
-> $ sudo apt-get update <br />
-> $ sudo apt-get install git <br />
-
-    
 ### Download subjects' archives.
 Download all subjects from the Subjects table and save them in the cloned repository path. We saved them into the 'Bench4BL/archives' directory. To use our scripts, we recommend that each subject stores in the group directory to which it belongs. After downloaded, unpack all archives by using the unpacking.sh script. If you don't need all subjects, you can download some of them.
 > $ cd Bench4BL <br />
@@ -272,66 +280,9 @@ For example, assume that you want to store CODEC Subject's version information. 
         }
     }
 
-
-### Inflate the source codes.
-We used multiple versions of source code for the experiment. Since the provided archives have only a git repository, you need to check out repositories according to versions that you selected above. The script 'launcher_GitInflator.py' clones a git repositories and checks it out into the multiple versions which you selected. These source codes are stored into a folder 'Bench4BL/data/[Group Name]/[Project Name]/sources/' automatically.
-> Bench4BL/scripts$ python launcher_GitInflator.py <br />
-
-    
-### Build bug repositories
-We need to build a repository for the bug reports with pre-crawled bug reports. The bug repository is in XML format and includes bug data which is used in the experiments. The 'launcher_repoMaker.py' makes the bug repository that containing entire crawled bug reports information and bug repositories that stores bug reports according to the mapped version. But, since we already offer the result of this step in provided subject's archives, use this script if you want to update the bug repositories. The 'launcher_DupRepo.py' creates a bug repository file that contains bug information merged duplicate bug reports.
-
-> Bench4BL/scripts$ python launcher_repoMaker.py <br />
-> Bench4BL/scripts$ python launcher_DupRepo.py <br />
-
-    
-### Update count information of bug and source codes.
-The script of Counting.py makes a count information for bug and source code. The result will be stored 'bugs.txt', 'sources.txt' and 'answers.txt' in each subject's folder.
-> Bench4BL/scripts$ python Counting.py <br />
-
-
 # Execute Previous Techniques
 To get the result of each technique, you can use 'Bench4BL/scripts/launcher_Tool.py'. The script executes 6 techniques for all subjects.
 The script basically works for the multiple versions of bug repository and each of the related source codes. We explain what you need to run the tool first and describe the tool usage.
-
-### Install Java
-All previous techniques are executed in Java Runtime Environment. If you have java in your computer, please skip this section.
-
-> $ sudo apt install openjdk-11-jre-headless <br />
-
-### Install indri
-
-- To execute BLUiR and AmaLgam, you need to install indri.
-- indri-5.15 can work.
-
-- And then, Change Settings.txt file.
-
-> // Install g++ and make for indri <br />
-> $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test <br />
-> $ sudo apt-get update <br />
-> $ sudo apt-get install gcc-6 g++-6 <br />
-> $ sudo apt-get install make <br />
-> $ sudo apt-get install --reinstall zlibc zlib1g zlib1g-dev <br />
-> <br />
-> // download and install indri (If you faced an error in the compiling, please try with another version.)<br />
-> $ wget https://downloads.sourceforge.net/project/lemur/files/lemur/indri-5.15/indri-5.15.tar.gz <br />
-> $ tar -xzf indri-5.15.tar.gz <br />
-> $ cd indri-5.15 <br />
-> $ ./configure CC=gcc-6 CXX=g++-6<br />
-> $ make <br />
-> $ sudo make install <br />
->    /usr/bin/install -c -m 755 -d /usr/local/bin <br />
->    /usr/bin/install -c -m 755 -d /usr/local/include <br />
->    /usr/bin/install -c -m 755 -d /usr/local/include/indri <br />
->    ... <br />
->    ... <br />
->    /usr/bin/install -c -m 644 Makefile.app /usr/local/share/indri <br />
->  <br />
-> // changeSettings.txt file <br />
-> $ cd ~/Bench4BL/techniques &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// We assume you cloned our repository to  <br />
-> $ vi Settings.txt <br />
-> &nbsp; &nbsp; indripath=/usr/local/bin/ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<-- edit this value as a the first log of "make install" <br />
->
 
 ### Usage of launcher_Tool.py
 * Preparing step
@@ -356,16 +307,3 @@ All previous techniques are executed in Java Runtime Environment. If you have ja
 > Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst -s <br />
 > Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst_Locus -t Locus <br />
 > Bench4BL/scripts$ python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL <br />
-
-
-
-# Previous Techniques Load on Eclipse
-We changed previous techniques on Eclipse. But we didn't include eclipse environment files (.metadata folder, .project and .classpath file) in each previous techniques folders.
- 
-So, If you want to load these techniques on Eclipse, please follow next sequence.
- 
- - Open Eclipse
- - Make a 'techniques' folder into workplace of Eclipse. Then .metadata folder will be created in 'techniques' folder.
- - On the 'Package Explorer' panel, Open context menu by clicking right mouse button.
- - Select 'Import', Then a pop-up windows will be placed.
- - All techniques are made as Maven project. So, You should import with 'Maven > Existing Maven Project'. And then, just choose project folder. You don't need to change any other options.
