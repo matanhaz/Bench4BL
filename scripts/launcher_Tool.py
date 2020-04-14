@@ -1,8 +1,10 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 '''
 Created on 2017. 02. 16
 Updated on 2017. 02. 16
-To run this program, you need to do following setps.
+To run this program, you need to do following things.
    - preparing each techniques
    - download Git reporitory :: use launcher_GitInflator.py
    - make bug repository :: use launcher_repoMaker.py
@@ -10,17 +12,11 @@ To run this program, you need to do following setps.
 '''
 
 from __future__ import print_function
-# Path Appended :: to execute in shell
-import os
-# import sys
-# sys.path.append(os.getcwd())    # add the executed path to system PATH
-# sys.path.append(u'/var/experiments/BugLocalization/dist/scripts/')
-
-from commons import Subjects
-from commons import Previous
-from commons import VersionUtil
-import subprocess
 from datetime import datetime
+import os
+import subprocess
+
+from commons import Previous, Subjects, VersionUtil
 from repository import GitInflator
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -40,9 +36,8 @@ class Launcher(object):
 
 	def __init__(self):
 		self.S = Subjects()
-		if os.path.exists(os.path.join(self.ProgramPATH, 'logs')) is False:
+		if not os.path.exists(os.path.join(self.ProgramPATH, 'logs')):
 			os.makedirs(os.path.join(self.ProgramPATH, 'logs'))
-
 
 		t = datetime.now()
 		timestr = t.strftime(u'%y%m%d_%H%M')
@@ -50,25 +45,28 @@ class Launcher(object):
 
 	def finalize(self):
 		self.log.close()
-		pass
 
 	def createArguments(self, _params):
-		if isinstance(_params, str) is True:
+		if isinstance(_params, str):
 			return _params
-		if isinstance(_params, unicode) is True:
+		if isinstance(_params, unicode):
 			return _params
 
 		paramsText = u''
 		for key, value in _params.iteritems():
 			if key == 'v':
-				if value is True: paramsText += u' -v'
+				if value is True:
+					paramsText += u' -v'
 			else:
-				if value is None or value == '': continue
+				if value is None or value == '':
+					continue
 				paramsText += u' -%s %s' % (key, value)
 		return paramsText
 
-	def executeJava(self, _program, _params, _cwd=None,  _project=None, _vname=None):
-		if _cwd is None: _cwd = self.ProgramPATH
+	def executeJava(self, _program, _params, _cwd=None, _project=None, _vname=None):
+		if _cwd is None:
+			_cwd = self.ProgramPATH
+
 		options = self.JavaOptions if _program != 'Locus' else self.JavaOptions_Locus
 		command = u'java %s -jar %s%s.jar %s' % (options, self.ProgramPATH, _program, self.createArguments(_params))
 		commands = command.split(u' ')
@@ -76,8 +74,8 @@ class Launcher(object):
 		t = datetime.now()
 		timestr = t.strftime(u'Strat:%Y/%m/%d %H:%M')
 		print(u'\n\n[%s]\nCMD:: %s' % (timestr, command))
-		#sys.stdout.write(u'\n\nCMD:: %s\n' % command)
 		self.log.write('\n\n[%s]\nCMD:: %s\n' % (timestr, command))
+
 		if _program == 'BLIA':
 			self.log.write('working with %s / %s\n' % ( _project, _vname))
 		try:
@@ -85,13 +83,12 @@ class Launcher(object):
 			p = subprocess.Popen(commands, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, cwd=_cwd)
 			while True:
 				line = p.stdout.readline()
-				if line != '':
-					# the real code does filtering here
-					print (line.rstrip())
-					self.log.write(line.rstrip()+u'\n')
-					self.log.flush()
-				else:
+				if line == '':
 					break
+				# the real code does filtering here
+				print(line.rstrip())
+				self.log.write(line.rstrip()+u'\n')
+				self.log.flush()
 
 		except Exception as e:
 			print(e)
@@ -104,7 +101,7 @@ class Launcher(object):
 			'n': u'%s_%s' % (_project, _version if _isUnion is False else u'all'),
 			's': self.S.getPath_source(_group, _project, _version) if _isUnion is False else self.S.getPath_gitrepo(_group, _project),  # source path
 			'b': os.path.join(bugrepo,u'repository%s.xml' % (u'/%s' % _version if _isUnion is False else u'')),  # base bug path
-			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+u'/',  # result path
+			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project) + u'/',  # result path
 			'a': _alpha,  # alpha parameter
 		}
 
@@ -115,10 +112,10 @@ class Launcher(object):
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
 		if _program == 'BLIA':
-			params = self.save_BLIA_config(_project, params, _version if _isUnion is False else u'all')
+			params = self.save_BLIA_config(_project, params, _version if not _isUnion else u'all')
 
 		if _program == 'Locus':
-			params = self.save_Locus_config(_project, params, _version if _isUnion is False else u'all')
+			params = self.save_Locus_config(_project, params, _version if not _isUnion else u'all')
 
 		return params
 
@@ -136,7 +133,7 @@ class Launcher(object):
 		path = os.path.join(params['w'], u'%s_%s'%(_program, params['n']))
 		if os.path.exists(path) is True:
 			for file in os.listdir(path):
-				if file =='revisions': continue
+				if file == 'revisions': continue
 				if file == 'bugText': continue
 				if file == 'hunkCode.txt': continue
 				if file == 'hunkLog.txt': continue
@@ -167,8 +164,7 @@ class Launcher(object):
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
-		if ((_program == 'BLIA' and _project not in ['PDE', 'JDT']) or
-			    (_program == 'Locus' and _project == 'AspectJ')):
+		if ((_program == 'BLIA' and _project not in ['PDE', 'JDT']) or (_program == 'Locus' and _project == 'AspectJ')):
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'%s_repository.xml' % _program)
 		else:
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
@@ -311,10 +307,6 @@ class Launcher(object):
 		timestr = t.strftime(u'Done:%Y/%m/%d %H:%M')
 		print(u'\n\n[%s]' % timestr)
 		self.log.write('\n\n[%s]' % timestr)
-		pass
-
-##################################################################################################
-##################################################################################################
 
 def getargs():
 	import argparse
@@ -336,8 +328,6 @@ def getargs():
 	return args
 
 if __name__ == '__main__':
-	import sys
-
 	args = getargs()
 	if args is None:
 		exit(1)
@@ -345,7 +335,6 @@ if __name__ == '__main__':
 	obj = Launcher()
 	if args.workType.startswith('PreviousData'):
 		obj.runOLD(args.workType, _sGroup=args.group, _sProject=args.project, _sProgram=args.technique)
-
 	else:
 		obj.run(args.workType, _sGroup=args.group, _sProject=args.project, _sVersion=args.version,
 				_sProgram=args.technique, _isUnion=args.isSingle, _isDist=args.isDist, _useMerge = args.useMerge)

@@ -192,13 +192,13 @@ Open the file, launcher_Tool.py and check the following variables:
 
 **Options**
 
-- -w <work name>: \[necessary\] With this option, users can set the ID for each experiment, and each ID is also used as a directory name to store the execution results of each Technique. Additionally, if the name starts with "Old", this script works for the previous data, otherwise works for the new data.
-- -g <group name>: A specific group. With this option, the script works for the subjects in the specified group. 
-- -p <subject name>: A specific subject. To use this option, you should specify the group name. 
-- -t <technique name>: A specific technique. With this option, the script makes results of specified technique.
-- -v <version name>: A specific version. With this option, the script works for the specified version of source code.
-- -s: Single version mode, With this option, the script works for the only latest source code.
-- -m: With this option, the bug repositories created by combining the text of duplicate bug report pairs are used instead of the normal one.
+- -w \<work name\> (Required): Set the ID for each experiment, and each ID is also used as a directory name to store the execution results of each Technique. Additionally, if the name starts with "Old", this script works for the previous data, otherwise works for the new data
+- -g \<group name\>: A specific group. With this option, the script works for the subjects in the specified group
+- -p \<subject name\>: A specific subject. To use this option, you should specify the group name
+- -t \<technique name>\: A specific technique. With this option, the script makes results of specified technique
+- -v \<version name\>: A specific version. With this option, the script works for the specified version of source code
+- -s: Single version mode, With this option, the script works for the only latest source code
+- -m: With this option, the bug repositories created by combining the text of duplicate bug report pairs are used instead of the normal one
 
 **Examples**
 
