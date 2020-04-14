@@ -68,14 +68,14 @@ public class Evaluation {
 			}
 			vsmVector = normalize(vsmVector);
 
-			// Create Simi vector (VSM과 id순서가 같음)
+			// Create Simi vector (VSM and id order are the same)
 			String graphLine = GraphReader.readLine();
 			// String graphIdStr = graphLine.substring(0,
 			// graphLine.indexOf(";"));
-			// Integer graphId = Integer.parseInt(graphIdStr); //VSM과 id순서가 같아서
-			// 사용하지 않음
-			String graphVectorStr = graphLine.substring(graphLine.indexOf(";") + 1); // id부분
-																						// 제거
+			// Integer graphId = Integer.parseInt(graphIdStr); //VSM and id order are the same
+			// Not used
+			String graphVectorStr = graphLine.substring(graphLine.indexOf(";") + 1); // id part
+																						// remove
 			float[] graphVector = getVector(graphVectorStr);
 			graphVector = normalize(graphVector);
 
@@ -101,20 +101,21 @@ public class Evaluation {
 	}
 
 	public int printEvaluationResult(Integer _bugID, float[] _finalscore) throws IOException {
-		// Score에 따라 파일이 정렬된 결과를 가져옴
+		// Files are sorted according to score
 		Rank[] sortedRank = getSortedRank(_finalscore);
 
 		int ErrorCount = 0;
 
 		// Evaluation Part-------------------------------------------------
-		// 버그리포트에서 수정되었던 파일목록을 불러옴. (실제 정답 셋)
+		// Load a list of files that have been fixed in the bug report. (Actual three correct answers)
 		TreeSet<String> fileSet = fixTable.get(_bugID);
 		Iterator<String> fileIt = fileSet.iterator();
 		Hashtable<Integer, String> answerIdTable = new Hashtable<Integer, String>();
 		while (fileIt.hasNext()) {
 			String fileName = fileIt.next();
 			Integer fileId = idTable.get(fileName);
-			// 버그리포트에서 수정된 파일이 실제 코드에서는 없다면 에러가 발생. (버전이 맞지 않는 경우 종종 생김)
+			// If the file modified in the bug report is not in the actual code, an error occurs.
+			// (It often happens when the version doesn't fit)
 			if (fileId == null) {
 				errorWriter
 						.write(_bugID + ": This version of source code has no " + fileName + ".... Please check it!\n");
@@ -125,7 +126,8 @@ public class Evaluation {
 			answerIdTable.put(fileId, fileName);
 		}
 
-		// 정답셋에 있는 파일들이 몇번째에 랭크되었는지 결과를 보여줌. (writer는 추천된 결과 전체를 보여줌)
+		// Shows the result of how many files in the correct answer set were ranked.
+		// (writer shows all recommended results)
 		FileWriter writer = new FileWriter(recommandedPath + _bugID + ".txt");
 		for (int i = 0; i < sortedRank.length; i++) {
 			Rank rank = sortedRank[i];

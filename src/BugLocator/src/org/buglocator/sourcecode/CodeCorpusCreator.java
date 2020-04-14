@@ -23,7 +23,7 @@ public class CodeCorpusCreator {
 	}
 
 	/**
-	 * 시작 함수.
+	 * Start function.
 	 * 
 	 * @throws Exception
 	 */
@@ -41,17 +41,17 @@ public class CodeCorpusCreator {
 
 		// make corpus each file
 		for (File file : files) {
-			Corpus corpus = this.create(file); // Corpus 생성.
+			Corpus corpus = this.create(file); // Corpus creation.
 			if (corpus == null)
 				continue;
 
-			// file filtering (중복방지)
+			// file filtering (Prevention of duplication)
 			String FullClassName = corpus.getJavaFileFullClassName();
 			if (projectName.startsWith("ASPECTJ")) {
-				FullClassName = file.getPath().substring(codePath.length()); // 경로명을 통한 인식.
+				FullClassName = file.getPath().substring(codePath.length()); // Recognition through path names.
 				FullClassName = FullClassName.replace("\\", "/");
 				if (FullClassName.startsWith("/"))
-					FullClassName = FullClassName.substring(1); // 경로명을 통한 인식.
+					FullClassName = FullClassName.substring(1); // Recognition through path names.
 			}
 			if (nameSet.contains(FullClassName))
 				continue;
@@ -75,7 +75,7 @@ public class CodeCorpusCreator {
 	}
 
 	/**
-	 * 각 파일에 대해서 corpus를 생성
+	 * Create corpus for each file
 	 * 
 	 * @param file
 	 * @return
@@ -83,7 +83,7 @@ public class CodeCorpusCreator {
 	public Corpus create(File file) {
 		FileParser parser = new FileParser(file);
 
-		// 파일의 패키지 정보 얻기
+		// Get package information of a file
 		String fileName = parser.getPackageName();
 		if (fileName.trim().equals("")) {
 			fileName = file.getName();
@@ -92,10 +92,10 @@ public class CodeCorpusCreator {
 		}
 		fileName = fileName.substring(0, fileName.lastIndexOf("."));
 
-		// content를 분리하여 stemming, removing stopwords 수행
+		// Separate content and perform stemming and removing stopwords
 		String[] content = parser.getContent();
 		StringBuffer contentBuf = new StringBuffer();
-		for (String word : content) { // camel case 분리 tokenize된 content들임.
+		for (String word : content) { // Contents tokenized for camel case separation.
 			String stemWord = Stem.stem(word.toLowerCase());
 			if ((!Stopword.isKeyword(word)) && (!Stopword.isEnglishStopword(word))) {
 				contentBuf.append(stemWord);
@@ -104,7 +104,7 @@ public class CodeCorpusCreator {
 		}
 		String sourceCodeContent = contentBuf.toString();
 
-		// 클래스명, 메소드명에 대해서 별도로 corpus를 한번 더 생성.
+		// Create corpus once again for class name and method name.
 		String[] classNameAndMethodName = parser.getClassNameAndMethodName();
 		StringBuffer nameBuf = new StringBuffer();
 
@@ -115,11 +115,11 @@ public class CodeCorpusCreator {
 		}
 		String names = nameBuf.toString();
 
-		// corpus객체 생성.
+		// Create corpus objects.
 		Corpus corpus = new Corpus();
 		corpus.setJavaFilePath(file.getAbsolutePath());
 		corpus.setJavaFileFullClassName(fileName);
-		corpus.setContent(sourceCodeContent + " " + names); // content내에 두 corpus가 결합.
+		corpus.setContent(sourceCodeContent + " " + names); // Two corpus combined in content.
 		return corpus;
 	}
 }

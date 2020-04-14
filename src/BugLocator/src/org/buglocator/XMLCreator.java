@@ -60,7 +60,8 @@ public class XMLCreator {
 	}
 
 	/**
-	 * 지정된 폴더에서 버그리포트 정보를 추출 (xml로 저장된 원번 버그리포트 파일) 버그질라 버그리포트만 가능.
+	 * Bug report information is extracted from the designated folder
+	 * (original bug report file saved as xml) Bugzilla bug report only.
 	 * 
 	 * @return
 	 * @throws Exception
@@ -108,7 +109,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * 버그리포트 정보를 기반으로 XML document 생성.
+	 * XML document creation based on bug report information.
 	 * 
 	 * @param bugs
 	 * @return
@@ -138,7 +139,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * 생성된 XML데이터를 파일에 기록
+	 * Record the generated XML data in a file
 	 * 
 	 * @param _xml
 	 * @param _outputPath
@@ -160,7 +161,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * Bug list를 date를 기중으로 quick sort함. (오름차순 정렬)
+	 * Quickly sort bug list based on date. (Sort in ascending order)
 	 * 
 	 * @param list
 	 * @throws Exception

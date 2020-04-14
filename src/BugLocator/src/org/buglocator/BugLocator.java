@@ -34,7 +34,7 @@ public class BugLocator {
 	}
 
 	/**
-	 * 입력 파라메터를 파싱하여 Property 객체 생성
+	 * Parse input parameters to create Property objects
 	 * 
 	 * @param args
 	 * @return

@@ -22,7 +22,7 @@ public class BugCorpusCreator {
 	private final String lineSeperator = Property.getInstance().LineSeparator;
 
 	/**
-	 * 시작함수
+	 * Start function
 	 * 
 	 * @throws IOException
 	 */
@@ -35,7 +35,7 @@ public class BugCorpusCreator {
 
 		// Create Corpus and Sort
 		ArrayList<Bug> list = this.parseXML();
-		// list.sort(new BugComparator()); // fixed date 로 정렬되어 있음
+		// list.sort(new BugComparator()); // sort by fixed date
 
 		// Corpus Store
 		Property.getInstance().BugReportCount = list.size();
@@ -48,7 +48,7 @@ public class BugCorpusCreator {
 		FileWriter writerFix = new FileWriter(this.workDir + this.pathSeperator + "FixLink.txt");
 
 		for (Bug bug : list) {
-			// XML의 bug리스트는 fixed_date로 정렬되어있어서 안해 도됨
+			// XML's bug list is sorted by fixed_date, so you don't have to.
 			writer.write(bug.getBugId() + "\t" + bug.getFixDate() + this.lineSeperator);
 			writer.flush();
 
@@ -76,8 +76,8 @@ public class BugCorpusCreator {
 	}
 
 	/**
-	 * 지정된 버그파일(XML)로 정보 로드.
-	 * XML파일은 여러개의 버그리포트가 하나로 정리된 파일을 말함.
+	 * Loading information into the specified bug file (XML).
+	 * XML file is a file in which several bug reports are organized into one.
 	 * 
 	 * @return
 	 */
@@ -146,7 +146,7 @@ public class BugCorpusCreator {
 	}
 
 	/**
-	 * 최종 corpus를 파일에 기록
+	 * Write final corpus to file
 	 * 
 	 * @param bug
 	 * @param storeDir

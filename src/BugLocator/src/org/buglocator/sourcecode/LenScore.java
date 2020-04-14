@@ -42,10 +42,10 @@ public class LenScore {
 		for (int j = 0; j < lens.length; j++) {
 			sum += lens[j];
 		}
-		double average = sum / (double) count; // 파일들의 평균 길이 (total word count)
+		double average = sum / (double) count; // Average length of files (total word count)
 
-		// 10단위로 통계 생성. (파일별 lens의 도수 분포)
-		// 이것은 어디에 쓰는 물건인고....
+		// Statistics generated in 10 units. (Digital distribution of lens by file)
+		// This is where I use it ...
 		Hashtable<Integer, Integer> statTable = new Hashtable<Integer, Integer>();
 		for (int j = 0; j < lens.length; j++) {
 			if (lens[j] != 0) {
@@ -61,7 +61,7 @@ public class LenScore {
 			}
 		}
 
-		// lens의 표준편차 구하기
+		// Find the standard deviation of the lens
 		double squareDevi = 0;
 		for (int j = 0; j < lens.length; j++) {
 			if (lens[j] != 0) {
@@ -70,7 +70,7 @@ public class LenScore {
 		}
 		double standardDevi = Math.sqrt(squareDevi / count);
 
-		// lens의  min high 결정
+		// Determine min high of lens
 		double low = average - 3 * standardDevi;
 		double high = average + 3 * standardDevi;
 

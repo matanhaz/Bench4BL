@@ -14,8 +14,8 @@ public class SimilarityDistribution {
 	private String workDir = Property.getInstance().WorkDir + Property.getInstance().Separator;
 
 	/**
-	 * 버그리포트 간의 유사도를 버그리포트에 의해 수정된 각 파일들에게 할당 파일별로 유사도 점수를 계산.
-	 * 
+	 * The similarity score between bug reports is assigned to each file modified by
+	 * the bug report, and the similarity score is calculated for each file.
 	 * @throws Exception
 	 * @throws IOException
 	 */
@@ -35,7 +35,7 @@ public class SimilarityDistribution {
 			Integer id = Integer.parseInt(idStr);
 			String[] values = vectorStr.split(" ");
 
-			// 각 file들에 대해서 유사도 가중치를 분배 및 누적.
+			// Distribution and accumulation of similarity weights for each file.
 			for (String value : values) {
 				String[] singleValues = value.split(":");
 				if (singleValues.length != 2)
