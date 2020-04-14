@@ -1,14 +1,17 @@
-/archives
-/data
-.mypy_cache
-/venv
-__pycache__
-*.pyc
-/depots
-/expresults
 logs
 *.log
+*.pyc
+__pycache__
+.mypy_cache
+.settings
 
+/archives
+/data
+/venv
+/depots
+/expresults
+
+/src/*/.*
 /src/*/target
 
 /techniques/.*

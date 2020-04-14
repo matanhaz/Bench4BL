@@ -7,8 +7,6 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-
-
 public class ASTCreator
 {
 	private String content = null;

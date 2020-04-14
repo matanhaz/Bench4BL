@@ -31,7 +31,7 @@ public class Similarity {
 		while ((idLine = readerId.readLine()) != null) {
 			Integer bugId = Integer.parseInt(idLine.substring(0, idLine.indexOf("\t")));
 
-			//Bug report¿¡ ´ëÇÑ vector »ý¼º.----------------------
+			// Bug reportï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ vector ï¿½ï¿½ï¿½ï¿½.----------------------
 			// load bug word
 			BufferedReader readerBug = new BufferedReader(
 					new FileReader(workDir + "BugCorpus" + this.Separator + bugId + ".txt"));
@@ -53,7 +53,7 @@ public class Similarity {
 					}
 				}
 			}
-			
+
 			// calculate total word count
 			int totalTermCount = 0;
 			for (String word : wordTable.keySet()) {
@@ -62,13 +62,14 @@ public class Similarity {
 					totalTermCount += wordTable.get(word);
 				}
 			}
-			
-			//create word vector  (idf´Â codeÀÇ idf¸¦ »ç¿ë)
+
+			// create word vector (idfï¿½ï¿½ codeï¿½ï¿½ idfï¿½ï¿½ ï¿½ï¿½ï¿½)
 			float[] bugVector = new float[codeTermCount];
 			for (String word : wordTable.keySet()) {
 				Integer id = wordIdTable.get(word);
-				if (id == null) continue;	//code word¿¡ Á¸ÀçÇÏÁö ¾Ê´Â ´Ü¾î´Â ¹ö¸²... (¾à°£ ÀÌ»óÇØÁö´Âµ¥ ±¦ÂúÀº°Ç°¡...)
-				
+				if (id == null)
+					continue; // code wordï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½Ü¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½... (ï¿½à°£ ï¿½Ì»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½...)
+
 				Integer idc = idcTable.get(word);
 				Integer count = wordTable.get(word);
 				float tf = getTfValue(count, totalTermCount);
@@ -84,7 +85,7 @@ public class Similarity {
 				bugVector[i] = bugVector[i] / (float) norm;
 			}
 
-			//ÀüÃ¼ ÄÚµå ÆÄÀÏ°ú À¯»çµµ ºñ±³. (codeID, similarity value)
+			// ï¿½ï¿½Ã¼ ï¿½Úµï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½çµµ ï¿½ï¿½. (codeID, similarity value)
 			float[] simValues = computeSimilarity(bugVector);
 
 			StringBuffer buf = new StringBuffer();

@@ -12,60 +12,61 @@ import org.buglocator.sourcecode.ast.FileParser;
 import org.buglocator.utils.Stem;
 import org.buglocator.utils.Stopword;
 
-public class CodeCorpusCreator
-{
+public class CodeCorpusCreator {
 	private final String workDir = Property.getInstance().WorkDir;
 	private final String codePath = Property.getInstance().SourceCodeDir;
 	private final String pathSeparator = Property.getInstance().Separator;
 	private final String lineSeparator = Property.getInstance().LineSeparator;
 	private final String projectName = Property.getInstance().ProjectName;
-	
-	public CodeCorpusCreator() throws IOException, ParseException
-	{}
-	
+
+	public CodeCorpusCreator() throws IOException, ParseException {
+	}
+
 	/**
-	 * ½ÃÀÛ ÇÔ¼ö.
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½.
+	 * 
 	 * @throws Exception
 	 */
-	public void create() throws Exception
-	{
+	public void create() throws Exception {
 		int count = 0;
 		TreeSet<String> nameSet = new TreeSet<String>();
-		
-		//File listing
+
+		// File listing
 		FileDetector detector = new FileDetector("java"); // java file Filter
 		File[] files = detector.detect(codePath);
-		
-		//preparing output File.
+
+		// preparing output File.
 		FileWriter writeCorpus = new FileWriter(workDir + pathSeparator + "CodeCorpus.txt");
 		FileWriter writer = new FileWriter(workDir + pathSeparator + "ClassName.txt");
-		
-		//make corpus each file
-		for (File file: files) {
-			Corpus corpus = this.create(file);	//Corpus »ý¼º.
-			if (corpus == null)	continue;
-			
-			//file filtering  (Áßº¹¹æÁö)
+
+		// make corpus each file
+		for (File file : files) {
+			Corpus corpus = this.create(file); // Corpus ï¿½ï¿½ï¿½ï¿½.
+			if (corpus == null)
+				continue;
+
+			// file filtering (ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½)
 			String FullClassName = corpus.getJavaFileFullClassName();
-			if (projectName.startsWith("ASPECTJ")){
-				FullClassName = file.getPath().substring(codePath.length()); //°æ·Î¸íÀ» ÅëÇÑ ÀÎ½Ä.
+			if (projectName.startsWith("ASPECTJ")) {
+				FullClassName = file.getPath().substring(codePath.length()); // ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½.
 				FullClassName = FullClassName.replace("\\", "/");
-				if (FullClassName.startsWith("/")) 
-					FullClassName = FullClassName.substring(1); //°æ·Î¸íÀ» ÅëÇÑ ÀÎ½Ä.
-				
+				if (FullClassName.startsWith("/"))
+					FullClassName = FullClassName.substring(1); // ï¿½ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½.
+
 			}
-			if (nameSet.contains(FullClassName)) continue;
-			
-		
-			//Write File.
-			if (!FullClassName.endsWith(".java"))	FullClassName +=  ".java";
+			if (nameSet.contains(FullClassName))
+				continue;
+
+			// Write File.
+			if (!FullClassName.endsWith(".java"))
+				FullClassName += ".java";
 			writer.write(count + "\t" + FullClassName + this.lineSeparator);
 			writeCorpus.write(FullClassName + "\t" + corpus.getContent() + this.lineSeparator);
 			writer.flush();
 			writeCorpus.flush();
-			
-			//Update Filter			
-			nameSet.add(FullClassName); //corpus.getJavaFileFullClassName());
+
+			// Update Filter
+			nameSet.add(FullClassName); // corpus.getJavaFileFullClassName());
 			count++;
 		}
 		Property.getInstance().FileCount = count;
@@ -73,16 +74,17 @@ public class CodeCorpusCreator
 		writer.close();
 
 	}
-	
+
 	/**
-	 * °¢ ÆÄÀÏ¿¡ ´ëÇØ¼­ corpus¸¦ »ý¼º
+	 * ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ corpusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	 * 
 	 * @param file
 	 * @return
 	 */
 	public Corpus create(File file) {
 		FileParser parser = new FileParser(file);
-		
-		//ÆÄÀÏÀÇ ÆÐÅ°Áö Á¤º¸ ¾ò±â
+
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		String fileName = parser.getPackageName();
 		if (fileName.trim().equals("")) {
 			fileName = file.getName();
@@ -90,36 +92,35 @@ public class CodeCorpusCreator
 			fileName = fileName + "." + file.getName();
 		}
 		fileName = fileName.substring(0, fileName.lastIndexOf("."));
-		
-		//content¸¦ ºÐ¸®ÇÏ¿© stemming, removing stopwords ¼öÇà
+
+		// contentï¿½ï¿½ ï¿½Ð¸ï¿½ï¿½Ï¿ï¿½ stemming, removing stopwords ï¿½ï¿½ï¿½ï¿½
 		String[] content = parser.getContent();
 		StringBuffer contentBuf = new StringBuffer();
-		for (String word : content) {	//camel case ºÐ¸® tokenizeµÈ contentµéÀÓ.
+		for (String word : content) { // camel case ï¿½Ð¸ï¿½ tokenizeï¿½ï¿½ contentï¿½ï¿½ï¿½ï¿½.
 			String stemWord = Stem.stem(word.toLowerCase());
-			if ((!Stopword.isKeyword(word)) && (!Stopword.isEnglishStopword(word)))
-			{
+			if ((!Stopword.isKeyword(word)) && (!Stopword.isEnglishStopword(word))) {
 				contentBuf.append(stemWord);
 				contentBuf.append(" ");
 			}
 		}
 		String sourceCodeContent = contentBuf.toString();
-		
-		//Å¬·¡½º¸í, ¸Þ¼Òµå¸í¿¡ ´ëÇØ¼­ º°µµ·Î corpus¸¦ ÇÑ¹ø ´õ »ý¼º.
+
+		// Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Þ¼Òµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ corpusï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		String[] classNameAndMethodName = parser.getClassNameAndMethodName();
 		StringBuffer nameBuf = new StringBuffer();
-		
-		for (String word: classNameAndMethodName) {			
+
+		for (String word : classNameAndMethodName) {
 			String stemWord = Stem.stem(word.toLowerCase());
 			nameBuf.append(stemWord);
 			nameBuf.append(" ");
 		}
 		String names = nameBuf.toString();
-		
-		//corpus°´Ã¼ »ý¼º.
+
+		// corpusï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½.
 		Corpus corpus = new Corpus();
 		corpus.setJavaFilePath(file.getAbsolutePath());
 		corpus.setJavaFileFullClassName(fileName);
-		corpus.setContent(sourceCodeContent + " " + names);	//content³»¿¡ µÎ corpus°¡ °áÇÕ.
+		corpus.setContent(sourceCodeContent + " " + names); // contentï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ corpusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		return corpus;
 	}
 }

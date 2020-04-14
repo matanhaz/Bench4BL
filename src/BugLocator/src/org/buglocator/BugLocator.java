@@ -1,12 +1,11 @@
 package org.buglocator;
 
 import java.io.File;
-import java.io.PrintStream;
 import org.buglocator.property.Property;
 
 public class BugLocator {
 	public static void main(String[] args) {
-		//System.out.println("(c)Copyright Tsinghua University, 2012");
+		// System.out.println("(c)Copyright Tsinghua University, 2012");
 		try {
 			if (args.length == 0)
 				throw null;
@@ -36,7 +35,8 @@ public class BugLocator {
 	}
 
 	/**
-	 * ÀÔ·Â ÆÄ¶ó¸ÞÅÍ¸¦ ÆÄ½ÌÇÏ¿© Property °´Ã¼ »ý¼º
+	 * ï¿½Ô·ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ä½ï¿½ï¿½Ï¿ï¿½ Property ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
+	 * 
 	 * @param args
 	 * @return
 	 */
@@ -104,24 +104,25 @@ public class BugLocator {
 			isLegal = false;
 			System.out.println("you must indicate the working name (for result file or directory)");
 		}
-		
-		//File System check (minimum 2GB) // Is working in windows ...?
+
+		// File System check (minimum 2GB) // Is working in windows ...?
 		File file = new File(System.getProperty("user.dir"));
 		if (file.getFreeSpace() / 1024L / 1024L / 1024L < 2L) {
-			System.out.println(
-					"Not enough free disk space, please ensure your current disk space are bigger than 2G.");
+			System.out.println("Not enough free disk space, please ensure your current disk space are bigger than 2G.");
 			isLegal = false;
 		}
-		
-		//Check this state.
-		if (!isLegal) return isLegal;
 
-		// prepare working directory and create properties. 
+		// Check this state.
+		if (!isLegal)
+			return isLegal;
+
+		// prepare working directory and create properties.
 		// make workingPath
-		if (workingPath.endsWith("/") == false) workingPath += "/";
+		if (workingPath.endsWith("/") == false)
+			workingPath += "/";
 		workingPath += "BugLocator_" + workingName + "/";
-		
-		//make outputFile path.
+
+		// make outputFile path.
 		File dir = new File(workingPath);
 		if (!dir.exists())
 			dir.mkdirs();

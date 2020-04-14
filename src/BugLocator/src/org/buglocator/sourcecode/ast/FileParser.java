@@ -19,8 +19,7 @@ public class FileParser {
 	/**
 	 * 占쏙옙占쌍몌옙占쏙옙占퐅ava占식쇽옙占쏙옙迦占쏙옙CompilationUnit
 	 * 
-	 * @param file:java
-	 *            占식쇽옙
+	 * @param file:java 占식쇽옙
 	 * 
 	 */
 	public FileParser(File file) {

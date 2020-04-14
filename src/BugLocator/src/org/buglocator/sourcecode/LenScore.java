@@ -12,7 +12,6 @@ public class LenScore {
 	private String workDir = Property.getInstance().WorkDir + Property.getInstance().Separator;
 	private int fileCount = Property.getInstance().FileCount;
 
-
 	/**
 	 * 
 	 * @throws IOException
@@ -43,10 +42,10 @@ public class LenScore {
 		for (int j = 0; j < lens.length; j++) {
 			sum += lens[j];
 		}
-		double average = sum / (double) count;		//ÆÄÀÏµéÀÇ Æò±Õ ±æÀÌ (total word count)
-		
-		// 10´ÜÀ§·Î Åë°è »ý¼º. (ÆÄÀÏº° lensÀÇ µµ¼ö ºÐÆ÷)
-		//ÀÌ°ÍÀº ¾îµð¿¡ ¾²´Â ¹°°ÇÀÎ°í....
+		double average = sum / (double) count; // ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (total word count)
+
+		// 10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. (ï¿½ï¿½ï¿½Ïºï¿½ lensï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+		// ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½....
 		Hashtable<Integer, Integer> statTable = new Hashtable<Integer, Integer>();
 		for (int j = 0; j < lens.length; j++) {
 			if (lens[j] != 0) {
@@ -61,8 +60,8 @@ public class LenScore {
 				}
 			}
 		}
-		
-		//lensÀÇ Ç¥ÁØÆíÂ÷ ±¸ÇÏ±â
+
+		// lensï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 		double squareDevi = 0;
 		for (int j = 0; j < lens.length; j++) {
 			if (lens[j] != 0) {
@@ -70,19 +69,17 @@ public class LenScore {
 			}
 		}
 		double standardDevi = Math.sqrt(squareDevi / count);
-		
-		//lensÀÇ  min high °áÁ¤
+
+		// lensï¿½ï¿½ min high ï¿½ï¿½ï¿½ï¿½
 		double low = average - 3 * standardDevi;
 		double high = average + 3 * standardDevi;
 
 		int min = 0;
 		if (low > 0)
 			min = (int) low;
-		
-		//write Length Score
-		int n = 0;
+
+		// write Length Score
 		FileWriter writer = new FileWriter(workDir + "LengthScore.txt");
-		int count1 = 0;
 		for (String key : lensTable.keySet()) {
 			int len = lensTable.get(key);
 			double score = 0.0;
@@ -91,7 +88,6 @@ public class LenScore {
 				if (len > low && len < high) {
 
 					score = this.getLenScore(nor);
-					n++;
 				} else if (len < low) {
 					score = 0.5;
 				} else {
@@ -104,9 +100,6 @@ public class LenScore {
 				nor = 6;
 			if (score < 0.5)
 				score = 0.5f;
-
-			if (score < 0.9)
-				count1++;
 			writer.write(key + "\t" + score + Property.getInstance().LineSeparator);
 			writer.flush();
 		}
@@ -120,5 +113,4 @@ public class LenScore {
 	public double getLenScore(double len) {
 		return (Math.exp(len) / (1 + Math.exp(len)));
 	}
-
 }

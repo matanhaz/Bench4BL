@@ -19,21 +19,20 @@ import org.dom4j.io.XMLWriter;
 
 public class XMLCreator {
 	public static void main(String[] args) throws Exception {
-		
-		
+
 		String bugPath = "D:\\works\\Bug\\_data_src\\swt_bugreports";
-		String fixedFilePath = "F:\\swt\\FixLink.txt";  //?????
+		String fixedFilePath = "F:\\swt\\FixLink.txt"; // ?????
 		String outputPath = "D:\\works\\Bug\\_data_sec\\SWTBugRepository.xml";
-		
+
 		XMLCreator creator = new XMLCreator();
 		creator.buildXML(bugPath, fixedFilePath, outputPath);
 	}
-	
+
 	public void buildXML(String _bugPath, String _fixedFilePath, String _outputPath) throws Exception {
 		Hashtable<String, TreeSet<String>> fixTable = this.getFixFileSet(_fixedFilePath);
 		Bug[] bugs = this.loadBugInfo(_bugPath, fixTable);
 		Document doc = this.concatenateBugs(bugs);
-		this.writeXML(doc, _outputPath);	
+		this.writeXML(doc, _outputPath);
 	}
 
 	/**
@@ -60,12 +59,11 @@ public class XMLCreator {
 		reader.close();
 		return fixTable;
 	}
-	
-	
 
 	/**
-	 * ÁöÁ¤µÈ Æú´õ¿¡¼­ ¹ö±×¸®Æ÷Æ® Á¤º¸¸¦ ÃßÃâ (xml·Î ÀúÀåµÈ ¿ø¹ø ¹ö±×¸®Æ÷Æ® ÆÄÀÏ)
-	 * ¹ö±×Áú¶ó ¹ö±×¸®Æ÷Æ®¸¸ °¡´É.
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (xmlï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½)
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -74,7 +72,7 @@ public class XMLCreator {
 		File[] files = file.listFiles();
 		Bug[] list = new Bug[files.length];
 		int bugCount = 0;
-		
+
 		BufferedReader reader = null;
 		for (File f : files) {
 			reader = new BufferedReader(new FileReader(f));
@@ -106,22 +104,21 @@ public class XMLCreator {
 		}
 		System.out.println(bugCount);
 		reader.close();
-		
+
 		sortbyDate(list);
 		return list;
 	}
-	
 
-	
 	/**
-	 * ¹ö±×¸®Æ÷Æ® Á¤º¸¸¦ ±â¹ÝÀ¸·Î XML document »ý¼º.
+	 * ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ XML document ï¿½ï¿½ï¿½ï¿½.
+	 * 
 	 * @param bugs
 	 * @return
 	 */
-	public Document concatenateBugs(Bug[] bugs){
+	public Document concatenateBugs(Bug[] bugs) {
 		Document document = DocumentHelper.createDocument();
 		Element root = document.addElement("bugrepository");
-		
+
 		for (Bug bug : bugs) {
 			Element bugElement = root.addElement("bug");
 			bugElement.addAttribute("id", bug.bugId);
@@ -143,13 +140,13 @@ public class XMLCreator {
 	}
 
 	/**
-	 * »ý¼ºµÈ XMLµ¥ÀÌÅÍ¸¦ ÆÄÀÏ¿¡ ±â·Ï
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ XMLï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½
+	 * 
 	 * @param _xml
 	 * @param _outputPath
 	 */
-	public void writeXML(Document _xml, String _outputPath)
-	{
-		//XML Write
+	public void writeXML(Document _xml, String _outputPath) {
+		// XML Write
 		XMLWriter output;
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		format.setEncoding("ISO-8859-1");
@@ -163,10 +160,10 @@ public class XMLCreator {
 		}
 
 	}
-	
 
 	/**
-	 * Bug list¸¦ date¸¦ ±âÁßÀ¸·Î quick sortÇÔ. (¿À¸§Â÷¼ø Á¤·Ä)
+	 * Bug listï¿½ï¿½ dateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ quick sortï¿½ï¿½. (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	 * 
 	 * @param list
 	 * @throws Exception
 	 */
@@ -209,12 +206,4 @@ public class XMLCreator {
 		Date splitDate = dateFormat.parse(dateString.replace("/", "-"));
 		return splitDate;
 	}
-
-	private Date getDateFromLongType(String timeSpan) {
-		long span = Long.parseLong(timeSpan);
-		Date date = new Date(span);
-		return date;
-	}
-
-
 }

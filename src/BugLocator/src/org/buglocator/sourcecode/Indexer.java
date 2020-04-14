@@ -14,16 +14,17 @@ public class Indexer {
 	private String lineSparator = Property.getInstance().LineSeparator;
 
 	/**
-	 * Entry ÇÔ¼ö
+	 * Entry ï¿½Ô¼ï¿½
+	 * 
 	 * @throws IOException
 	 */
 	public void index() throws IOException {
 		// countTable: count how many times a word occurs in all files
-		Hashtable<String, Integer> countTable = countDoc();		//¹®¼­ ÀüÃ¼¿¡¼­ µîÀåÇÏ´Â wordÀÇ Ä«¿îÆ®
-		Hashtable<String, Integer> idSet = new Hashtable<String, Integer>();	//°¢ wordº° id  <word, id>
+		Hashtable<String, Integer> countTable = countDoc(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ wordï¿½ï¿½ Ä«ï¿½ï¿½Æ®
+		Hashtable<String, Integer> idSet = new Hashtable<String, Integer>(); // ï¿½ï¿½ wordï¿½ï¿½ id <word, id>
 		int id = 0;
 		int errorCount = 0;
-		FileWriter writerWord = new FileWriter(workDir + "Wordlist.txt");		
+		FileWriter writerWord = new FileWriter(workDir + "Wordlist.txt");
 		for (String key : countTable.keySet()) {
 			idSet.put(key, id);
 			writerWord.write(key + "\t" + id + lineSparator);
@@ -32,7 +33,6 @@ public class Indexer {
 		}
 		writerWord.close();
 		Property.getInstance().WordCount = id;
-		
 
 		// IDC.txt tells how many time a word occurs in all files
 		FileWriter writerDoc = new FileWriter(workDir + "IDC.txt");
@@ -48,14 +48,15 @@ public class Indexer {
 		String line = null;
 		FileWriter writer = new FileWriter(workDir + "TermInfo.txt");
 		while ((line = reader.readLine()) != null) {
-			String[] values = line.split("\t");		//values[0] : ÆÄÀÏ¸í, values[1] : word list splitted with a space.
+			String[] values = line.split("\t"); // values[0] : ï¿½ï¿½ï¿½Ï¸ï¿½, values[1] : word list splitted with a space.
 			String[] words = values[1].split(" ");
-			int totalCount = 0;		//ÇÑ ÆÄÀÏ ³»¿¡ µîÀåÇÏ´Â ÀüÃ¼ word count; sum of each word count.
+			int totalCount = 0; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ã¼ word count; sum of each word count.
 
-			// ÇÑ ÆÄÀÏ ³»¿¡ µîÀåÇÏ´Â word º° count  °è»ê.
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ word ï¿½ï¿½ count ï¿½ï¿½ï¿½.
 			Hashtable<Integer, Integer> termTable = new Hashtable<Integer, Integer>();
 			for (String word : words) {
-				if (word.trim().equals("")) continue;
+				if (word.trim().equals(""))
+					continue;
 
 				totalCount++;
 				Integer termId = idSet.get(word);
@@ -68,10 +69,10 @@ public class Indexer {
 					termTable.put(termId, 1);
 				}
 			}
-			if (totalCount==0){
-				//System.err.println("Warnnig::This file has no term: "+values[0]);
+			if (totalCount == 0) {
+				// System.err.println("Warnnig::This file has no term: "+values[0]);
 				errorCount++;
-				errorList.write(values[0]+"\n");
+				errorList.write(values[0] + "\n");
 				errorList.flush();
 				continue;
 			}
@@ -79,11 +80,13 @@ public class Indexer {
 			output.append(values[0] + "\t" + totalCount + ";");
 			TreeSet<Integer> tmp = new TreeSet<Integer>();
 			for (String word : words) {
-				if (word.trim().equals("")) continue;
+				if (word.trim().equals(""))
+					continue;
 
 				Integer termId = idSet.get(word);
-				if (tmp.contains(termId)) continue;
-				
+				if (tmp.contains(termId))
+					continue;
+
 				tmp.add(termId);
 				int termCount = termTable.get(termId);
 				// documentCount means how many times a word occurs in
@@ -97,9 +100,10 @@ public class Indexer {
 		reader.close();
 		writer.close();
 		errorList.close();
-		
-		if (errorCount>0) {
-			System.err.println("Warnning:: This project has "+errorCount+" empty term files. Check the CodeTerm-NoTermList.txt!");
+
+		if (errorCount > 0) {
+			System.err.println("Warnning:: This project has " + errorCount
+					+ " empty term files. Check the CodeTerm-NoTermList.txt!");
 		}
 	}
 
@@ -112,16 +116,16 @@ public class Indexer {
 		while ((line = reader.readLine()) != null) {
 			String[] values = line.split("\t");
 			String[] words = values[1].split(" ");
-			
-			//ÇÑ code¿¡¼­ »ý¼ºµÈ ¸ðµç word set ¾ò±â
+
+			// ï¿½ï¿½ codeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ word set ï¿½ï¿½ï¿½
 			TreeSet<String> wordSet = new TreeSet<String>();
 			for (String word : words) {
 				if (!word.trim().equals("") && !wordSet.contains(word)) {
 					wordSet.add(word);
 				}
 			}
-			
-			//Full word count »ý¼º.
+
+			// Full word count ï¿½ï¿½ï¿½ï¿½.
 			for (String word : wordSet) {
 				if (countTable.containsKey(word)) {
 					Integer count = countTable.get(word);

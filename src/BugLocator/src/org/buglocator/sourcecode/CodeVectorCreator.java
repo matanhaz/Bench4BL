@@ -12,7 +12,6 @@ public class CodeVectorCreator {
 	public int fileCount = Property.getInstance().FileCount;
 	public int codeTermCount = Property.getInstance().WordCount;
 
-
 	public void create() throws IOException {
 		String line = null;
 		BufferedReader reader = new BufferedReader(new FileReader(this.workDir + "TermInfo.txt"));
@@ -22,10 +21,10 @@ public class CodeVectorCreator {
 			String[] values = line.split(";");
 
 			String name = values[0].substring(0, values[0].indexOf("\t"));
-//			if (values.length == 1) {
-//				System.out.println("This file has no terms : "+ name);
-//				continue;
-//			}
+			// if (values.length == 1) {
+			// System.out.println("This file has no terms : "+ name);
+			// continue;
+			// }
 
 			Integer totalTermCount = Integer.parseInt(values[0].substring(values[0].indexOf("\t") + 1));
 			String[] termInfos = values[1].split("\t");
@@ -41,7 +40,7 @@ public class CodeVectorCreator {
 				float idf = getIdfValue(documentCount.intValue(), this.fileCount);
 				vector[termId.intValue()] = (tf * idf);
 			}
-			
+
 			double norm = 0.0D;
 			for (int i = 0; i < vector.length; i++) {
 				norm += vector[i] * vector[i];

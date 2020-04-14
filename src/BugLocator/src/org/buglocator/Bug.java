@@ -2,14 +2,13 @@ package org.buglocator;
 
 import java.util.TreeSet;
 
-
 /**
- * Public property·Î bugÅ¬·¡½º ÀçÁ¤ÀÇ
+ * Public propertyï¿½ï¿½ bugÅ¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * 
  * @author Zeck
  *
  */
-public class Bug
-{
+public class Bug {
 	public String bugId;
 	public String openDate;
 	public String fixDate;
