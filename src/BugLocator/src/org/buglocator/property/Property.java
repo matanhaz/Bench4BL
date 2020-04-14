@@ -1,7 +1,6 @@
 package org.buglocator.property;
 
 public class Property {
-
 	private static Property p = null;
 
 	public static void createInstance(String projectName, String bugFilePath, String sourceCodeDir, String workDir,
@@ -41,5 +40,4 @@ public class Property {
 	public int WordCount;
 	public int BugReportCount;
 	public int BugTermCount;
-
 }

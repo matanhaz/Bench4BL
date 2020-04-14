@@ -20,7 +20,6 @@ import edu.udo.cs.wvtool.util.WVToolException;
 import edu.udo.cs.wvtool.wordlist.WVTWordList;
 
 public class BugVector {
-
 	private final static String HOME_FOLDER = Property.getInstance().WorkDir + Property.getInstance().Separator;
 	private final static String BUG_CORPUS_FOLDER = "BugCorpus" + Property.getInstance().Separator;
 
@@ -36,7 +35,7 @@ public class BugVector {
 		});
 		WVTStemmer stemmer = new LovinsStemmerWrapper();
 		config.setConfigurationRule(WVTConfiguration.STEP_STEMMER, new WVTConfigurationFact(stemmer));
-		
+
 		WVTFileInputList list = new WVTFileInputList(1);
 		list.addEntry(new WVTDocumentInfo(HOME_FOLDER + BUG_CORPUS_FOLDER, "txt", "", "english", 0));
 

@@ -14,14 +14,14 @@ public class Indexer {
 	private String lineSparator = Property.getInstance().LineSeparator;
 
 	/**
-	 * Entry �Լ�
+	 * Entry 함수
 	 * 
 	 * @throws IOException
 	 */
 	public void index() throws IOException {
 		// countTable: count how many times a word occurs in all files
-		Hashtable<String, Integer> countTable = countDoc(); // ���� ��ü���� �����ϴ� word�� ī��Ʈ
-		Hashtable<String, Integer> idSet = new Hashtable<String, Integer>(); // �� word�� id <word, id>
+		Hashtable<String, Integer> countTable = countDoc(); // 문서 전체에서 등장하는 word의 카운트
+		Hashtable<String, Integer> idSet = new Hashtable<String, Integer>(); // 각 word별 id <word, id>
 		int id = 0;
 		int errorCount = 0;
 		FileWriter writerWord = new FileWriter(workDir + "Wordlist.txt");
@@ -48,11 +48,11 @@ public class Indexer {
 		String line = null;
 		FileWriter writer = new FileWriter(workDir + "TermInfo.txt");
 		while ((line = reader.readLine()) != null) {
-			String[] values = line.split("\t"); // values[0] : ���ϸ�, values[1] : word list splitted with a space.
+			String[] values = line.split("\t"); // values[0] : 파일명, values[1] : word list splitted with a space.
 			String[] words = values[1].split(" ");
-			int totalCount = 0; // �� ���� ���� �����ϴ� ��ü word count; sum of each word count.
+			int totalCount = 0; // 한 파일 내에 등장하는 전체 word count; sum of each word count.
 
-			// �� ���� ���� �����ϴ� word �� count ���.
+			// 한 파일 내에 등장하는 word 별 count 계산.
 			Hashtable<Integer, Integer> termTable = new Hashtable<Integer, Integer>();
 			for (String word : words) {
 				if (word.trim().equals(""))
@@ -117,7 +117,7 @@ public class Indexer {
 			String[] values = line.split("\t");
 			String[] words = values[1].split(" ");
 
-			// �� code���� ������ ��� word set ���
+			// 한 code에서 생성된 모든 word set 얻기
 			TreeSet<String> wordSet = new TreeSet<String>();
 			for (String word : words) {
 				if (!word.trim().equals("") && !wordSet.contains(word)) {
@@ -125,7 +125,7 @@ public class Indexer {
 				}
 			}
 
-			// Full word count ����.
+			// Full word count 생성.
 			for (String word : wordSet) {
 				if (countTable.containsKey(word)) {
 					Integer count = countTable.get(word);

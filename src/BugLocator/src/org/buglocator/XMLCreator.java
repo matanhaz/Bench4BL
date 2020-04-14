@@ -19,7 +19,6 @@ import org.dom4j.io.XMLWriter;
 
 public class XMLCreator {
 	public static void main(String[] args) throws Exception {
-
 		String bugPath = "D:\\works\\Bug\\_data_src\\swt_bugreports";
 		String fixedFilePath = "F:\\swt\\FixLink.txt"; // ?????
 		String outputPath = "D:\\works\\Bug\\_data_sec\\SWTBugRepository.xml";
@@ -61,8 +60,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * ������ �������� ���׸���Ʈ ������ ���� (xml�� ����� ���� ���׸���Ʈ ����)
-	 * �������� ���׸���Ʈ�� ����.
+	 * 지정된 폴더에서 버그리포트 정보를 추출 (xml로 저장된 원번 버그리포트 파일) 버그질라 버그리포트만 가능.
 	 * 
 	 * @return
 	 * @throws Exception
@@ -110,7 +108,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * ���׸���Ʈ ������ ������� XML document ����.
+	 * 버그리포트 정보를 기반으로 XML document 생성.
 	 * 
 	 * @param bugs
 	 * @return
@@ -140,7 +138,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * ������ XML�����͸� ���Ͽ� ���
+	 * 생성된 XML데이터를 파일에 기록
 	 * 
 	 * @param _xml
 	 * @param _outputPath
@@ -162,7 +160,7 @@ public class XMLCreator {
 	}
 
 	/**
-	 * Bug list�� date�� �������� quick sort��. (�������� ����)
+	 * Bug list를 date를 기중으로 quick sort함. (오름차순 정렬)
 	 * 
 	 * @param list
 	 * @throws Exception
@@ -198,7 +196,6 @@ public class XMLCreator {
 		Bug tmp = list[i];
 		list[i] = list[j];
 		list[j] = tmp;
-
 	}
 
 	private Date getDateFromString(String dateString) throws ParseException {

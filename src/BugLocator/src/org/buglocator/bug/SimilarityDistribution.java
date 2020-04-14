@@ -13,10 +13,9 @@ public class SimilarityDistribution {
 	private int fileCount = Property.getInstance().FileCount;
 	private String workDir = Property.getInstance().WorkDir + Property.getInstance().Separator;
 
-
 	/**
-	 * ¹ö±×¸®Æ÷Æ® °£ÀÇ À¯»çµµ¸¦ ¹ö±×¸®Æ÷Æ®¿¡ ÀÇÇØ ¼öÁ¤µÈ °¢ ÆÄÀÏµé¿¡°Ô ÇÒ´ç
-	 * ÆÄÀÏº°·Î À¯»çµµ Á¡¼ö¸¦ °è»ê.
+	 * ë²„ê·¸ë¦¬í¬íŠ¸ ê°„ì˜ ìœ ì‚¬ë„ë¥¼ ë²„ê·¸ë¦¬í¬íŠ¸ì— ì˜í•´ ìˆ˜ì •ëœ ê° íŒŒì¼ë“¤ì—ê²Œ í• ë‹¹ íŒŒì¼ë³„ë¡œ ìœ ì‚¬ë„ ì ìˆ˜ë¥¼ ê³„ì‚°.
+	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 */
@@ -36,11 +35,12 @@ public class SimilarityDistribution {
 			Integer id = Integer.parseInt(idStr);
 			String[] values = vectorStr.split(" ");
 
-			//°¢ fileµé¿¡ ´ëÇØ¼­ À¯»çµµ °¡ÁßÄ¡¸¦ ºĞ¹è ¹× ´©Àû.
+			// ê° fileë“¤ì— ëŒ€í•´ì„œ ìœ ì‚¬ë„ ê°€ì¤‘ì¹˜ë¥¼ ë¶„ë°° ë° ëˆ„ì .
 			for (String value : values) {
 				String[] singleValues = value.split(":");
-				if (singleValues.length != 2) continue; 
-					
+				if (singleValues.length != 2)
+					continue;
+
 				Integer simBugId = Integer.parseInt(singleValues[0]);
 				float sim = Float.parseFloat(singleValues[1]);
 				TreeSet<String> fileSet = fixedTable.get(simBugId);
@@ -48,7 +48,7 @@ public class SimilarityDistribution {
 					System.out.println(simBugId);
 					continue;
 				}
-				
+
 				Iterator<String> fileSetIt = fileSet.iterator();
 				int size = fileSet.size();
 				float singleValue = sim / size;
@@ -56,8 +56,9 @@ public class SimilarityDistribution {
 					String name = fileSetIt.next();
 					Integer fileId = idTable.get(name);
 					if (fileId == null) {
-						//System.err.println("Warning:: The Fixed File in bug is not in source code: "+name);
-						errorWriter.write(name+"\n");
+						// System.err.println("Warning:: The Fixed File in bug is not in source code:
+						// "+name);
+						errorWriter.write(name + "\n");
 						errorCount++;
 						continue;
 					}
@@ -76,10 +77,11 @@ public class SimilarityDistribution {
 		}
 		reader.close();
 		writer.close();
-		
+
 		errorWriter.close();
-		if (errorCount>0)
-			System.err.println("There are "+errorCount+" fixed file in bug without in source code. Check the BugFixedFile-NoMatch.txt.");
+		if (errorCount > 0)
+			System.err.println("There are " + errorCount
+					+ " fixed file in bug without in source code. Check the BugFixedFile-NoMatch.txt.");
 	}
 
 	public Hashtable<Integer, TreeSet<String>> getFixedTable() throws IOException {

@@ -15,57 +15,43 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-//import java.util.Comparator;
 
 public class BugCorpusCreator {
-	
 	private final String workDir = Property.getInstance().WorkDir;
 	private final String pathSeperator = Property.getInstance().Separator;
 	private final String lineSeperator = Property.getInstance().LineSeparator;
 
-	
-//	class BugComparator implements Comparator<Bug>{
-//		@Override
-//		public int compare(Bug a, Bug b) {
-//			if(a.getOpenDate().after(b.getOpenDate()))
-//				return 1;
-//			else if(a.getOpenDate().before(b.getOpenDate()))
-//				return -1;
-//			else 
-//				return 0;
-//			
-//		}
-//	}
 	/**
-	 * ½ÃÀÛÇÔ¼ö
+	 * ì‹œì‘í•¨ìˆ˜
+	 * 
 	 * @throws IOException
 	 */
-	public void create() throws IOException {		
-		//Create Temp Directory 
+	public void create() throws IOException {
+		// Create Temp Directory
 		String dirPath = workDir + this.pathSeperator + "BugCorpus" + this.pathSeperator;
 		File dirObj = new File(dirPath);
 		if (!dirObj.exists())
 			dirObj.mkdirs();
 
-		//Create Corpus and Sort
+		// Create Corpus and Sort
 		ArrayList<Bug> list = this.parseXML();
-		//list.sort(new BugComparator());		// fixed date ·Î Á¤·ÄµÇ¾î ÀÖÀ½
-		
-		//Corpus Store
+		// list.sort(new BugComparator()); // fixed date ë¡œ ì •ë ¬ë˜ì–´ ìˆìŒ
+
+		// Corpus Store
 		Property.getInstance().BugReportCount = list.size();
 		for (Bug bug : list) {
 			writeCorpus(bug, dirPath);
 		}
-		
-		//summarize corpus information.
+
+		// summarize corpus information.
 		FileWriter writer = new FileWriter(this.workDir + this.pathSeperator + "SortedId.txt");
 		FileWriter writerFix = new FileWriter(this.workDir + this.pathSeperator + "FixLink.txt");
 
 		for (Bug bug : list) {
-			//XMLÀÇ bug¸®½ºÆ®´Â fixed_date·Î Á¤·ÄµÇ¾îÀÖ¾î¼­ ¾ÈÇØ µµµÊ
+			// XMLì˜ bugë¦¬ìŠ¤íŠ¸ëŠ” fixed_dateë¡œ ì •ë ¬ë˜ì–´ìˆì–´ì„œ ì•ˆí•´ ë„ë¨
 			writer.write(bug.getBugId() + "\t" + bug.getFixDate() + this.lineSeperator);
 			writer.flush();
-			
+
 			for (String fixName : bug.set) {
 				writerFix.write(bug.getBugId() + "\t" + fixName + this.lineSeperator);
 				writerFix.flush();
@@ -75,26 +61,24 @@ public class BugCorpusCreator {
 		writerFix.close();
 	}
 
-	
-	public Date makeTime(String time){
+	public Date makeTime(String time) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		
+
 		Date date = null;
-		try{
+		try {
 			date = formatter.parse(time);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			long ltime = Long.parseLong(time);
 			date = new Date(ltime);
 		}
 
-	    return date;
+		return date;
 	}
-	
-	
+
 	/**
-	 * ÁöÁ¤µÈ ¹ö±×ÆÄÀÏ(XML)·Î Á¤º¸ ·Îµå.
-	 * XMLÆÄÀÏÀº ¿©·¯°³ÀÇ ¹ö±×¸®Æ÷Æ®°¡ ÇÏ³ª·Î Á¤¸®µÈ ÆÄÀÏÀ» ¸»ÇÔ. 
+	 * ì§€ì •ëœ ë²„ê·¸íŒŒì¼(XML)ë¡œ ì •ë³´ ë¡œë“œ.
+	 * XMLíŒŒì¼ì€ ì—¬ëŸ¬ê°œì˜ ë²„ê·¸ë¦¬í¬íŠ¸ê°€ í•˜ë‚˜ë¡œ ì •ë¦¬ëœ íŒŒì¼ì„ ë§í•¨.
+	 * 
 	 * @return
 	 */
 	private ArrayList<Bug> parseXML() {
@@ -117,8 +101,7 @@ public class BugCorpusCreator {
 				String bugId = bugNode.getAttributes().getNamedItem("id").getNodeValue();
 				String openDate = bugNode.getAttributes().getNamedItem("opendate").getNodeValue();
 				String fixDate = bugNode.getAttributes().getNamedItem("fixdate").getNodeValue();
-				
-				
+
 				Bug bug = new Bug();
 				bug.setBugId(bugId);
 				bug.setOpenDate(makeTime(openDate));
@@ -163,18 +146,17 @@ public class BugCorpusCreator {
 	}
 
 	/**
-	 * ÃÖÁ¾ corpus¸¦ ÆÄÀÏ¿¡ ±â·Ï
+	 * ìµœì¢… corpusë¥¼ íŒŒì¼ì— ê¸°ë¡
 	 * 
 	 * @param bug
 	 * @param storeDir
 	 * @throws IOException
 	 */
 	private void writeCorpus(Bug bug, String storeDir) throws IOException {
-
-		//split words from bug content (summary + description)
+		// split words from bug content (summary + description)
 		String content = bug.getBugSummary() + " " + bug.getBugDescription();
 		String[] splitWords = Splitter.splitNatureLanguage(content);
-		
+
 		// concatenate words in bug
 		StringBuffer corpus = new StringBuffer();
 		for (String word : splitWords) {
@@ -183,13 +165,11 @@ public class BugCorpusCreator {
 				corpus.append(word + " ");
 			}
 		}
-		
-		//save corpus.
+
+		// save corpus.
 		FileWriter writer = new FileWriter(storeDir + bug.getBugId() + ".txt");
 		writer.write(corpus.toString().trim());
 		writer.flush();
 		writer.close();
-
 	}
-
 }

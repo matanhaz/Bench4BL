@@ -105,7 +105,7 @@ class Launcher(object):
 			'a': _alpha,  # alpha parameter
 		}
 
-		if _useMerge is True:
+		if _useMerge:
 			params['b'] = os.path.join(bugrepo,u'repository_merge%s.xml' % (u'/%s' % _version if _isUnion is False else u''))
 
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
@@ -164,7 +164,7 @@ class Launcher(object):
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
-		if ((_program == 'BLIA' and _project not in ['PDE', 'JDT']) or (_program == 'Locus' and _project == 'AspectJ')):
+		if (_program == 'BLIA' and _project not in ['PDE', 'JDT']) or (_program == 'Locus' and _project == 'AspectJ'):
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'%s_repository.xml' % _program)
 		else:
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
@@ -183,44 +183,42 @@ class Launcher(object):
 		pastDays = 15
 
 		filename = os.path.join(self.ProgramPATH, u'blia_properties', u'%s.properties' % _project)
-		f = open(filename, 'w')
-		f.write('#Target product to run BLIA\n')
-		f.write('TARGET_PRODUCT=' + _project + '\n')
-		f.write('\n')
-		f.write('# Execution configurations\n')
-		f.write('WORK_DIR=' + _params['w'] + '\n')
-		f.write('THREAD_COUNT=10' + '\n')
-		f.write('\n')
-		f.write('# For ' + _project + '\n')
-		f.write('PRODUCT=' + _project + '\n')
-		f.write('VERSION=' + _versionName + '\n')
-		f.write('SOURCE_DIR=' + _params['s'] + '\n')
-		f.write('ALPHA=' + str(alpha) + '\n')
-		f.write('BETA=' + str(beta) + '\n')
-		f.write('PAST_DAYS=' + str(pastDays) + '\n')
-		f.write('REPO_DIR=' + _params['g'] + '/.git' + '\n')
-		f.write('BUG_REPO_FILE=' + _params['b'] + '\n')
-		f.write('COMMIT_SINCE=1990-04-01\n')
-		f.write('COMMIT_UNTIL=2016-11-30\n')
-		f.write('CANDIDATE_LIMIT_RATE=0.1\n')
-		f.close()
+		with open(filename, 'w') as f:
+			print('#Target product to run BLIA', file=f)
+			print('TARGET_PRODUCT=' + _project, file=f)
+			print('', file=f)
+			print('# Execution configurations', file=f)
+			print('WORK_DIR=' + _params['w'], file=f)
+			print('THREAD_COUNT=10', file=f)
+			print('', file=f)
+			print('# For ' + _project, file=f)
+			print('PRODUCT=' + _project, file=f)
+			print('VERSION=' + _versionName, file=f)
+			print('SOURCE_DIR=' + _params['s'], file=f)
+			print('ALPHA=' + str(alpha), file=f)
+			print('BETA=' + str(beta), file=f)
+			print('PAST_DAYS=' + str(pastDays), file=f)
+			print('REPO_DIR=' + _params['g'] + '/.git', file=f)
+			print('BUG_REPO_FILE=' + _params['b'], file=f)
+			print('COMMIT_SINCE=1990-04-01', file=f)
+			print('COMMIT_UNTIL=2016-11-30', file=f)
+			print('CANDIDATE_LIMIT_RATE=0.1', file=f)
 
 		return filename
 
 	def save_Locus_config(self, _project, _params, _versionName, _isAppend=False):
 		filename = os.path.join(self.ProgramPATH, u'locus_properties', u'%s_config.txt' % _versionName)
-		f = open(filename, 'w')
-		f.write('task=fileall\n')
-		f.write('Project=' + _project +'\n')
-		f.write('Version=' + _versionName +'\n')
-		if _isAppend is True:
-			f.write('MODE=append\n')
-		f.write('repoDir=' + _params['g'] +'\n')
-		f.write('sourceDir=' + _params['s'] + '\n')
-		f.write('workingLoc='+ _params['w'] +'\n')
-		f.write('bugReport=' + _params['b'] + '\n')
-		f.write('changeOracle='+_params['w'] + '\n')
-		f.close()
+		with open(filename, 'w') as f:
+			print('task=fileall', file=f)
+			print('Project=' + _project, file=f)
+			print('Version=' + _versionName, file=f)
+			if _isAppend:
+				print('MODE=append', file=f)
+			print('repoDir=' + _params['g'], file=f)
+			print('sourceDir=' + _params['s'], file=f)
+			print('workingLoc='+ _params['w'], file=f)
+			print('bugReport=' + _params['b'], file=f)
+			print('changeOracle='+_params['w'], file=f)
 
 		return filename
 

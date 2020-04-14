@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.TreeSet;
 
 public class Bug {
-
 	String bugId;
 	Date openDate;
 	Date fixDate;
@@ -59,5 +58,4 @@ public class Bug {
 	public void addFixedFile(String fileName) {
 		this.set.add(fileName);
 	}
-
 }

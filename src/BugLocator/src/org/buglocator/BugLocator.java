@@ -16,7 +16,6 @@ public class BugLocator {
 
 			Core core = new Core();
 			core.process();
-
 		} catch (Exception ex) {
 			showHelp();
 		}
@@ -35,7 +34,7 @@ public class BugLocator {
 	}
 
 	/**
-	 * �Է� �Ķ���͸� �Ľ��Ͽ� Property ��ü ����
+	 * 입력 파라메터를 파싱하여 Property 객체 생성
 	 * 
 	 * @param args
 	 * @return
