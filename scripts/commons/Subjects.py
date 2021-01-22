@@ -100,6 +100,8 @@ class Subjects(object):
 		self.bugs = {}
 		for group in self.groups:
 			for project in self.projects[group]:
+				if not os.path.exists(self.getPath_base(group, project)):
+					continue
 				self.versions[project] = self.load_versions(group, project)
 				self.bugs[project] = self.load_bugs(group, project)
 				self.sources[project] = self.load_sources(group, project)
