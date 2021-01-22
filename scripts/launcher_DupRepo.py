@@ -1,11 +1,13 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 from __future__ import print_function
 import os
 import shutil
+
 from commons import Subjects
 from repository import DupMergeRepositoryMaker
 
-#clean
 def clean():
 	S = Subjects()
 	for group in S.groups:
@@ -21,7 +23,6 @@ def clean():
 				os.remove(fullrepo)
 			except Exception as e:
 				print(u'Failed to remove full repository file')
-	pass
 
 def work():
 	obj = DupMergeRepositoryMaker()
@@ -30,5 +31,4 @@ def work():
 		for project in S.projects[group]:
 			obj.make(group, project)
 
-#clean()
 work()

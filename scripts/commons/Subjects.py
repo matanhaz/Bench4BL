@@ -1,11 +1,14 @@
 #*- coding: utf-8 -*-
+
 '''
 Created on 2017. 02. 16
 Updated on 2017. 02. 16
 '''
+
 from __future__ import print_function
 import os
 
+here = os.path.dirname(os.path.abspath(__file__))
 
 class Subjects(object):
 	'''
@@ -13,8 +16,8 @@ class Subjects(object):
 	Sourcecode, Bug reports, Duplicate bug reports
 	'''
 	__name__ = u'Subjects'
-	root = u'/mnt/exp/Bench4BL/data/'
-	root_result = u'/mnt/exp/Bench4BL/expresults/'
+	root = os.path.join(here, u'../../data/')
+	root_result = os.path.join(here, u'../../expresults/')
 	techniques = ['BugLocator', 'BRTracer', 'BLUiR', 'AmaLgam', 'BLIA', 'Locus']
 	groups = ['Apache', 'Commons', 'JBoss', 'Wildfly', 'Spring']
 	projects = {

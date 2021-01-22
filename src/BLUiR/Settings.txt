@@ -1,0 +1,1 @@
+indripath=/home/ayaka/Hub/Bench4BL/depots/install/bin/

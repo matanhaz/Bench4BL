@@ -1,33 +1,13 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 from __future__ import print_function
 import os
 import shutil
+
 from commons import Subjects
 from repository import BugRepositoryMaker
 
-########################################################################################
-
-def getargs():
-	import argparse
-	parser = argparse.ArgumentParser(description='')
-	parser.add_argument('-p', dest='project', default=None, help='A specific project name what you want to work.')
-	parser.add_argument('-g', dest='group', default=None, help='A specific group name what you want to work.')
-	parser.add_argument('-c', dest='isClean', default=False, type=bool, help='work option: clean or process')
-	parser.add_argument('-t', dest='removeTest', default=True, type=bool, help='work option: exclude test files in answer files')
-
-	args = parser.parse_args()
-
-	if args.removeTest is None:
-		parser.print_help()
-		return None
-	
-	if args.isClean is None:
-		parser.print_help()
-		return None
-	return args
-
-
-#clean
 def clean(_sGroup=None, _sProject=None):
 	S = Subjects()
 	for group in (S.groups if _sGroup is None else [_sGroup]):
@@ -58,10 +38,8 @@ def clean(_sGroup=None, _sProject=None):
 				os.remove(filteredrepo)
 			except Exception as e:
 				print(u'Failed to remove filtered repository file')
-	pass
 
 def work(_sGroup=None, _sProject=None, _removeTest=True):
-
 	S = Subjects()
 	for group in (S.groups if _sGroup is None else [_sGroup]):
 		for project in (S.projects[group] if _sProject is None else [_sProject]):
@@ -70,6 +48,25 @@ def work(_sGroup=None, _sProject=None, _removeTest=True):
 			                         S.getPath_gitrepo(group, project),
 			                         S.getPath_bugrepo(group, project))
 			obj.run(S.versions[project].keys(), _removeTest)
+
+def getargs():
+	import argparse
+	parser = argparse.ArgumentParser(description='')
+	parser.add_argument('-p', dest='project', default=None, help='A specific project name what you want to work.')
+	parser.add_argument('-g', dest='group', default=None, help='A specific group name what you want to work.')
+	parser.add_argument('-c', dest='isClean', default=False, type=bool, help='work option: clean or process')
+	parser.add_argument('-t', dest='removeTest', default=True, type=bool, help='work option: exclude test files in answer files')
+
+	args = parser.parse_args()
+
+	if args.removeTest is None:
+		parser.print_help()
+		return None
+	
+	if args.isClean is None:
+		parser.print_help()
+		return None
+	return args
 
 if __name__ == '__main__':
 	args = getargs()
@@ -80,4 +77,3 @@ if __name__ == '__main__':
 		clean(args.group, args.project)
 	else:
 		work(args.group, args.project, args.removeTest)
-	pass

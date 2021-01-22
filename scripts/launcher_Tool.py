@@ -1,8 +1,10 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 '''
 Created on 2017. 02. 16
 Updated on 2017. 02. 16
-To run this program, you need to do following setps.
+To run this program, you need to do following things.
    - preparing each techniques
    - download Git reporitory :: use launcher_GitInflator.py
    - make bug repository :: use launcher_repoMaker.py
@@ -10,19 +12,14 @@ To run this program, you need to do following setps.
 '''
 
 from __future__ import print_function
-# Path Appended :: to execute in shell
-import os
-# import sys
-# sys.path.append(os.getcwd())    # add the executed path to system PATH
-# sys.path.append(u'/var/experiments/BugLocalization/dist/scripts/')
-
-from commons import Subjects
-from commons import Previous
-from commons import VersionUtil
-import subprocess
 from datetime import datetime
+import os
+import subprocess
+
+from commons import Previous, Subjects, VersionUtil
 from repository import GitInflator
 
+here = os.path.dirname(os.path.abspath(__file__))
 
 class Launcher(object):
 	'''
@@ -30,17 +27,17 @@ class Launcher(object):
 	'''
 
 	ProgramNames = [u'BugLocator',  u'BRTracer', u'BLUiR', u'AmaLgam',  u'BLIA', u'Locus']
-	ProgramPATH = u'/mnt/exp/Bench4BL/techniques/releases/'
-	OutputPATH = u'/mnt/exp/Bench4BL/expresults/'
+	root = os.path.join(here, u'..')
+	ProgramPATH = os.path.join(root, u'techniques/')
+	OutputPATH = os.path.join(root, u'expresults/')
 	JavaOptions = u'-Xms512m -Xmx4000m'
-	JavaOptions_Locus = u'-Xms512m -Xmx10000m'
+	JavaOptions_Locus = u'-Xms3G -Xmx3G'
 	TYPE = u'Test'
 
 	def __init__(self):
 		self.S = Subjects()
-		if os.path.exists(os.path.join(self.ProgramPATH, 'logs')) is False:
+		if not os.path.exists(os.path.join(self.ProgramPATH, 'logs')):
 			os.makedirs(os.path.join(self.ProgramPATH, 'logs'))
-
 
 		t = datetime.now()
 		timestr = t.strftime(u'%y%m%d_%H%M')
@@ -48,25 +45,28 @@ class Launcher(object):
 
 	def finalize(self):
 		self.log.close()
-		pass
 
 	def createArguments(self, _params):
-		if isinstance(_params, str) is True:
+		if isinstance(_params, str):
 			return _params
-		if isinstance(_params, unicode) is True:
+		if isinstance(_params, unicode):
 			return _params
 
 		paramsText = u''
 		for key, value in _params.iteritems():
 			if key == 'v':
-				if value is True: paramsText += u' -v'
+				if value is True:
+					paramsText += u' -v'
 			else:
-				if value is None or value == '': continue
+				if value is None or value == '':
+					continue
 				paramsText += u' -%s %s' % (key, value)
 		return paramsText
 
-	def executeJava(self, _program, _params, _cwd=None,  _project=None, _vname=None):
-		if _cwd is None: _cwd = self.ProgramPATH
+	def executeJava(self, _program, _params, _cwd=None, _project=None, _vname=None):
+		if _cwd is None:
+			_cwd = self.ProgramPATH
+
 		options = self.JavaOptions if _program != 'Locus' else self.JavaOptions_Locus
 		command = u'java %s -jar %s%s.jar %s' % (options, self.ProgramPATH, _program, self.createArguments(_params))
 		commands = command.split(u' ')
@@ -74,8 +74,8 @@ class Launcher(object):
 		t = datetime.now()
 		timestr = t.strftime(u'Strat:%Y/%m/%d %H:%M')
 		print(u'\n\n[%s]\nCMD:: %s' % (timestr, command))
-		#sys.stdout.write(u'\n\nCMD:: %s\n' % command)
 		self.log.write('\n\n[%s]\nCMD:: %s\n' % (timestr, command))
+
 		if _program == 'BLIA':
 			self.log.write('working with %s / %s\n' % ( _project, _vname))
 		try:
@@ -83,13 +83,12 @@ class Launcher(object):
 			p = subprocess.Popen(commands, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, cwd=_cwd)
 			while True:
 				line = p.stdout.readline()
-				if line != '':
-					# the real code does filtering here
-					print (line.rstrip())
-					self.log.write(line.rstrip()+u'\n')
-					self.log.flush()
-				else:
+				if line == '':
 					break
+				# the real code does filtering here
+				print(line.rstrip())
+				self.log.write(line.rstrip()+u'\n')
+				self.log.flush()
 
 		except Exception as e:
 			print(e)
@@ -102,21 +101,21 @@ class Launcher(object):
 			'n': u'%s_%s' % (_project, _version if _isUnion is False else u'all'),
 			's': self.S.getPath_source(_group, _project, _version) if _isUnion is False else self.S.getPath_gitrepo(_group, _project),  # source path
 			'b': os.path.join(bugrepo,u'repository%s.xml' % (u'/%s' % _version if _isUnion is False else u'')),  # base bug path
-			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+u'/',  # result path
+			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project) + u'/',  # result path
 			'a': _alpha,  # alpha parameter
 		}
 
-		if _useMerge is True:
+		if _useMerge:
 			params['b'] = os.path.join(bugrepo,u'repository_merge%s.xml' % (u'/%s' % _version if _isUnion is False else u''))
 
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
 		if _program == 'BLIA':
-			params = self.save_BLIA_config(_project, params, _version if _isUnion is False else u'all')
+			params = self.save_BLIA_config(_project, params, _version if not _isUnion else u'all')
 
 		if _program == 'Locus':
-			params = self.save_Locus_config(_project, params, _version if _isUnion is False else u'all')
+			params = self.save_Locus_config(_project, params, _version if not _isUnion else u'all')
 
 		return params
 
@@ -134,7 +133,7 @@ class Launcher(object):
 		path = os.path.join(params['w'], u'%s_%s'%(_program, params['n']))
 		if os.path.exists(path) is True:
 			for file in os.listdir(path):
-				if file =='revisions': continue
+				if file == 'revisions': continue
 				if file == 'bugText': continue
 				if file == 'hunkCode.txt': continue
 				if file == 'hunkLog.txt': continue
@@ -165,8 +164,7 @@ class Launcher(object):
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
-		if ((_program == 'BLIA' and _project not in ['PDE', 'JDT']) or
-			    (_program == 'Locus' and _project == 'AspectJ')):
+		if (_program == 'BLIA' and _project not in ['PDE', 'JDT']) or (_program == 'Locus' and _project == 'AspectJ'):
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'%s_repository.xml' % _program)
 		else:
 			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
@@ -185,44 +183,42 @@ class Launcher(object):
 		pastDays = 15
 
 		filename = os.path.join(self.ProgramPATH, u'blia_properties', u'%s.properties' % _project)
-		f = open(filename, 'w')
-		f.write('#Target product to run BLIA\n')
-		f.write('TARGET_PRODUCT=' + _project + '\n')
-		f.write('\n')
-		f.write('# Execution configurations\n')
-		f.write('WORK_DIR=' + _params['w'] + '\n')
-		f.write('THREAD_COUNT=10' + '\n')
-		f.write('\n')
-		f.write('# For ' + _project + '\n')
-		f.write('PRODUCT=' + _project + '\n')
-		f.write('VERSION=' + _versionName + '\n')
-		f.write('SOURCE_DIR=' + _params['s'] + '\n')
-		f.write('ALPHA=' + str(alpha) + '\n')
-		f.write('BETA=' + str(beta) + '\n')
-		f.write('PAST_DAYS=' + str(pastDays) + '\n')
-		f.write('REPO_DIR=' + _params['g'] + '/.git' + '\n')
-		f.write('BUG_REPO_FILE=' + _params['b'] + '\n')
-		f.write('COMMIT_SINCE=1990-04-01\n')
-		f.write('COMMIT_UNTIL=2016-11-30\n')
-		f.write('CANDIDATE_LIMIT_RATE=0.1\n')
-		f.close()
+		with open(filename, 'w') as f:
+			print('#Target product to run BLIA', file=f)
+			print('TARGET_PRODUCT=' + _project, file=f)
+			print('', file=f)
+			print('# Execution configurations', file=f)
+			print('WORK_DIR=' + _params['w'], file=f)
+			print('THREAD_COUNT=10', file=f)
+			print('', file=f)
+			print('# For ' + _project, file=f)
+			print('PRODUCT=' + _project, file=f)
+			print('VERSION=' + _versionName, file=f)
+			print('SOURCE_DIR=' + _params['s'], file=f)
+			print('ALPHA=' + str(alpha), file=f)
+			print('BETA=' + str(beta), file=f)
+			print('PAST_DAYS=' + str(pastDays), file=f)
+			print('REPO_DIR=' + _params['g'] + '/.git', file=f)
+			print('BUG_REPO_FILE=' + _params['b'], file=f)
+			print('COMMIT_SINCE=1990-04-01', file=f)
+			print('COMMIT_UNTIL=2016-11-30', file=f)
+			print('CANDIDATE_LIMIT_RATE=0.1', file=f)
 
 		return filename
 
 	def save_Locus_config(self, _project, _params, _versionName, _isAppend=False):
 		filename = os.path.join(self.ProgramPATH, u'locus_properties', u'%s_config.txt' % _versionName)
-		f = open(filename, 'w')
-		f.write('task=fileall\n')
-		f.write('Project=' + _project +'\n')
-		f.write('Version=' + _versionName +'\n')
-		if _isAppend is True:
-			f.write('MODE=append\n')
-		f.write('repoDir=' + _params['g'] +'\n')
-		f.write('sourceDir=' + _params['s'] + '\n')
-		f.write('workingLoc='+ _params['w'] +'\n')
-		f.write('bugReport=' + _params['b'] + '\n')
-		f.write('changeOracle='+_params['w'] + '\n')
-		f.close()
+		with open(filename, 'w') as f:
+			print('task=fileall', file=f)
+			print('Project=' + _project, file=f)
+			print('Version=' + _versionName, file=f)
+			if _isAppend:
+				print('MODE=append', file=f)
+			print('repoDir=' + _params['g'], file=f)
+			print('sourceDir=' + _params['s'], file=f)
+			print('workingLoc='+ _params['w'], file=f)
+			print('bugReport=' + _params['b'], file=f)
+			print('changeOracle='+_params['w'], file=f)
 
 		return filename
 
@@ -309,10 +305,6 @@ class Launcher(object):
 		timestr = t.strftime(u'Done:%Y/%m/%d %H:%M')
 		print(u'\n\n[%s]' % timestr)
 		self.log.write('\n\n[%s]' % timestr)
-		pass
-
-##################################################################################################
-##################################################################################################
 
 def getargs():
 	import argparse
@@ -334,8 +326,6 @@ def getargs():
 	return args
 
 if __name__ == '__main__':
-	import sys
-
 	args = getargs()
 	if args is None:
 		exit(1)
@@ -343,7 +333,6 @@ if __name__ == '__main__':
 	obj = Launcher()
 	if args.workType.startswith('PreviousData'):
 		obj.runOLD(args.workType, _sGroup=args.group, _sProject=args.project, _sProgram=args.technique)
-
 	else:
 		obj.run(args.workType, _sGroup=args.group, _sProject=args.project, _sVersion=args.version,
 				_sProgram=args.technique, _isUnion=args.isSingle, _isDist=args.isDist, _useMerge = args.useMerge)

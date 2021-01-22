@@ -1,14 +1,13 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 from __future__ import print_function
 
 import os
 from xml.etree import ElementTree
 
-from commons import Subjects
-from commons import VersionUtil
-from utils import PrettyStringBuilder
-from utils import Progress
-
+from commons import Subjects, VersionUtil
+from utils import PrettyStringBuilder, Progress
 
 class Counting(object):
 	'''
@@ -18,7 +17,6 @@ class Counting(object):
 	 - answers.txt : This file has the number of answer files each bug report
 	 - sources.txt : This file has the number of source files each version
 	'''
-
 	def __init__(self):
 		self.S = Subjects()
 		pass
@@ -94,7 +92,6 @@ class Counting(object):
 		f = open(os.path.join(self.S.getPath_base(_group, _project),  u'bugs.txt'), 'w')
 		f.write(text)
 		f.close()
-		pass
 
 	def answers_counting(self, _group, _project):
 		statistics = {}
@@ -114,21 +111,20 @@ class Counting(object):
 		f = open(os.path.join(self.S.getPath_base(_group, _project), u'answers.txt'), 'w')
 		f.write(text)
 		f.close()
-		pass
 
 	def source_counting(self, _group, _project):
 		statistics = {}
 
-		progress = Progress('source counting', 2,10, True)
+		progress = Progress('source counting', 2, 10, True)
 		progress.set_upperbound(len(self.S.versions[_project].keys()))
 		progress.start()
 		for version in self.S.versions[_project].keys():
 			vname = VersionUtil.get_versionName(version, _project)
 			repo = os.path.join(self.S.getPath_source(_group, _project, vname),)
 			result = self.getCodeCount(repo)
-			if result is None: continue
-			statistics[vname] = result
-			progress.check()
+			if result is not None:
+				statistics[vname] = result
+				progress.check()
 		progress.done()
 
 		maxValue = 0
@@ -152,13 +148,8 @@ class Counting(object):
 				self.answers_counting(group, project)
 				#self.source_counting(group, project)
 
-
-###############################################################################################################
-###############################################################################################################
-if __name__ == "__main__":
+if __name__ == '__main__':
 	obj = Counting()
 	obj.run()
 	# r = obj.getCodeCount(u'/var/experiments/BugLocalization/dist/data/')
 	# print(u'count::%d' % r)
-
-	pass
