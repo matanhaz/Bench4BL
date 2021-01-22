@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-from __future__ import print_function
 import os
 import shutil
 
@@ -12,32 +11,32 @@ def clean(_sGroup=None, _sProject=None):
 	S = Subjects()
 	for group in (S.groups if _sGroup is None else [_sGroup]):
 		for project in (S.projects[group] if _sProject is None else [_sProject]):
-			print(u'cleanning %s / %s ' % (group, project))
-			tempfile1 = os.path.join(S.getPath_bugrepo(group, project), u'.git.log')
-			tempfile2 = os.path.join(S.getPath_bugrepo(group, project), u'.git_version.txt')
-			dirpath = os.path.join(S.getPath_bugrepo(group, project), u'repository')
-			fullrepo = os.path.join(S.getPath_bugrepo(group, project), u'repository_full.xml')
-			filteredrepo = os.path.join(S.getPath_bugrepo(group, project), u'repository.xml')
+			print(('cleanning %s / %s ' % (group, project)))
+			tempfile1 = os.path.join(S.getPath_bugrepo(group, project), '.git.log')
+			tempfile2 = os.path.join(S.getPath_bugrepo(group, project), '.git_version.txt')
+			dirpath = os.path.join(S.getPath_bugrepo(group, project), 'repository')
+			fullrepo = os.path.join(S.getPath_bugrepo(group, project), 'repository_full.xml')
+			filteredrepo = os.path.join(S.getPath_bugrepo(group, project), 'repository.xml')
 			try:
 				os.remove(tempfile1)
 			except Exception as e:
-				print(u'Failed to remove git log')
+				print('Failed to remove git log')
 			try:
 				os.remove(tempfile2)
 			except Exception as e:
-				print(u'Failed to remove git versions')
+				print('Failed to remove git versions')
 			try:
 				shutil.rmtree(dirpath)
 			except Exception as e:
-				print(u'Failed to remove repository folder')
+				print('Failed to remove repository folder')
 			try:
 				os.remove(fullrepo)
 			except Exception as e:
-				print(u'Failed to remove full repository file')
+				print('Failed to remove full repository file')
 			try:
 				os.remove(filteredrepo)
 			except Exception as e:
-				print(u'Failed to remove filtered repository file')
+				print('Failed to remove filtered repository file')
 
 def work(_sGroup=None, _sProject=None, _removeTest=True):
 	S = Subjects()
@@ -47,7 +46,7 @@ def work(_sGroup=None, _sProject=None, _removeTest=True):
 			                         S.getPath_bugrepo(group, project),
 			                         S.getPath_gitrepo(group, project),
 			                         S.getPath_bugrepo(group, project))
-			obj.run(S.versions[project].keys(), _removeTest)
+			obj.run(list(S.versions[project].keys()), _removeTest)
 
 def getargs():
 	import argparse

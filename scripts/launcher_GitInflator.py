@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
 import os, stat
 import shutil
 
@@ -32,9 +31,9 @@ def clear(_sGroup=None, _sProject=None):
 					target = S.getPath_source(group, project)
 					try:
 						shutil.rmtree(target, onerror=del_rw)
-						print(u'removed: %s' % target)
+						print(('removed: %s' % target))
 					except Exception as e:
-						print(u'failed to remove : %s' %target)
+						print(('failed to remove : %s' %target))
 
 def getargs():
 	import argparse

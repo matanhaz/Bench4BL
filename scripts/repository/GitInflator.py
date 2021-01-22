@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
+
 import shutil
 import os, stat
 import subprocess
@@ -9,12 +9,12 @@ import time
 from commons import VersionUtil
 
 class GitInflator():
-	workDir = u''       #u'/home/user/bug/Apache/CAMEL/'
-	projectName = u''   #u'CAMEL'
-	sourcesPath = u''    #u'/home/user/bug/Apache/CAMEL/sources/'
-	gitRepo = u'gitrepo'
-	sourcesRepo = u'sources'
-	projectPath = u''
+	workDir = ''       #'/home/user/bug/Apache/CAMEL/'
+	projectName = ''   #'CAMEL'
+	sourcesPath = ''    #'/home/user/bug/Apache/CAMEL/sources/'
+	gitRepo = 'gitrepo'
+	sourcesRepo = 'sources'
+	projectPath = ''
 
 	def __init__(self, _project, _basePATH):
 		self.projectName = _project
@@ -28,7 +28,7 @@ class GitInflator():
 			return None
 
 		self.projectPath = self.clone(True)
-		print(u'Git Repo: %s'%self.projectPath)
+		print('Git Repo: %s'%self.projectPath)
 		time.sleep(2)
 
 		#check output path
@@ -39,39 +39,39 @@ class GitInflator():
 		# tags = self.get_tags()
 		# if tags is None: return False
 
-		#print(self.projectName + u':: the number of tags are ' + str(len(tags)))
+		#print(self.projectName + ':: the number of tags are ' + str(len(tags)))
 		size = len(_versions)
 		count = 0
 		for version, tag in _versions.items():
 			vname = VersionUtil.get_versionName(version, self.projectName)
 			count += 1
-			print (u'%s(%d/%d) :: [%s]'%(self.projectName, count, size, vname), end=u'')
+			print ('%s(%d/%d) :: [%s]'%(self.projectName, count, size, vname), end='')
 
 			dest = os.path.join(self.sourcesPath, vname)
 			if os.path.exists(dest) is True:
-				print(u'  already exists!')
+				print('  already exists!')
 				continue
 
 			tag = tag.strip()
-			if tag == u'':
-				print (u'invalidate tag name: "%s"'%tag)
+			if tag == '':
+				print ('invalidate tag name: "%s"'%tag)
 				continue
 
-			print(u' checkout %s... ' %tag, end=u'')
+			print(' checkout %s... ' %tag, end='')
 			if self.checkout(tag) is False:
-				print(u'Failed')
+				print('Failed')
 				continue
 			time.sleep(2)
 
 			#copy
 			dest = os.path.join(self.sourcesPath, vname)
-			print(u'  copy...', end=u'')
+			print('  copy...', end='')
 			if self.makecopy(dest) is False:
-				print (u'Failed!')
+				print ('Failed!')
 				continue
-			print(u'Done')
+			print('Done')
 			time.sleep(2)
-		print(u'All checkout works done!!')
+		print('All checkout works done!!')
 		pass
 
 	#Delect alternative function when an error occured
@@ -97,7 +97,7 @@ class GitInflator():
 		result = subprocess.check_output(['git', 'tag'], cwd=self.projectPath)
 		if result is None:
 			return None
-		tags = result.split('\n')
+		tags = result.decode().split('\n')
 		return tags
 
 	def checkout(self, _tag):
@@ -115,7 +115,7 @@ class GitInflator():
 
 		# checkout validation
 		result = subprocess.check_output(['git', 'branch'], cwd=self.projectPath)
-		first = result.split('\n')[0]
+		first = result.decode().split('\n')[0]
 		if len(first) > 19:
 			version = first[19:-1]
 			if version.strip() == _tag:
@@ -124,7 +124,7 @@ class GitInflator():
 
 	def makecopy(self, _dest):
 		# create target directory
-		if not (_dest[-1:]==u'\\' or _dest[-1:]==u'/'):
+		if not (_dest[-1:]=='\\' or _dest[-1:]=='/'):
 			_dest += os.path.sep
 
 		# remove previous info

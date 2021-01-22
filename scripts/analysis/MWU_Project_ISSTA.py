@@ -4,14 +4,14 @@ Created on 2017. 02. 12
 Updated on 2017. 02. 12
 
 '''
-from __future__ import print_function
+
 import os
 import matplotlib
 # Force matplotlib to not use any Xwindows backend.
 matplotlib.use('Agg')
 
 from scipy.stats import mannwhitneyu
-from ExpBase import ExpBase
+from analysis.ExpBase import ExpBase
 from commons import Subjects
 
 
@@ -33,11 +33,11 @@ class MWUTest(ExpBase):
 		for idx in range(len(self.techniques)):
 			filteredDataA = []
 			filteredDataB = []
-			for group, projValues in _dataA.iteritems():
-				for project, bugValues in projValues.iteritems():
+			for group, projValues in _dataA.items():
+				for project, bugValues in projValues.items():
 					filteredDataA += [items[idx] for items in bugValues.values()]
-			for group, projValues in _dataB.iteritems():
-				for project, bugValues in projValues.iteritems():
+			for group, projValues in _dataB.items():
+				for project, bugValues in projValues.items():
 					filteredDataB += [items[idx] for items in bugValues.values()]
 
 			# filteredDataA += [items[idx] for items in _dataA.values()]
@@ -79,16 +79,16 @@ class MWUTest(ExpBase):
 		results = {}
 		for idx in range(len(self.techniques)):
 			sumValue = 0
-			for itemID, item in _source.iteritems():
+			for itemID, item in _source.items():
 				sumValue += item[idx]
 			results[self.techniques[idx]] = sumValue / float(_counts[self.techniques[idx]])
 		return results
 
 	def make_max_text(self, _value, _isMAX, _color):
 		if _isMAX is True:
-			return u' &  \\cellcolor{%s}\\textbf{%.4f}' % (_color, _value)
+			return ' &  \\cellcolor{%s}\\textbf{%.4f}' % (_color, _value)
 		else:
-			return u' &  %.4f' % _value
+			return ' &  %.4f' % _value
 
 	def get_max_technique(self, _values, _techniques):
 		maxTech = _techniques[0]
@@ -107,7 +107,7 @@ class MWUTest(ExpBase):
 		def get_averages(_itemType):
 			results = {}
 			for tData in ['Old', 'New_Single']:
-				filepath = os.path.join(_basepath, u'%s_%s.txt' % (tData, _itemType))
+				filepath = os.path.join(_basepath, '%s_%s.txt' % (tData, _itemType))
 				titles, data = self.load_results_items(filepath, ['str'] * 3 + ['float'] * 6)
 				for group in data:
 					if group not in results: results[group] = {}
@@ -116,7 +116,7 @@ class MWUTest(ExpBase):
 						results[group][project] = self.get_technique_averages(data[group][project], CNTs)
 			return results
 
-		techinques, CNTdata = self.load_results(os.path.join(_basepath, u'BugCNT.txt'), ['str'] * 2 + ['int'] * 6)
+		techinques, CNTdata = self.load_results(os.path.join(_basepath, 'BugCNT.txt'), ['str'] * 2 + ['int'] * 6)
 
 		APresults = get_averages('AP')
 		TPresults = get_averages('TP')
@@ -124,23 +124,23 @@ class MWUTest(ExpBase):
 		S = Subjects()
 
 		# make MAP values for New Subjects
-		print(u'\n\n')
-		print(u'Technique Mann-Whitney U Test p-values')
-		print(u'\t' + u'\t\t'.join(self.techniques))
-		print(u'Subject\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR')
-		print(u"\\hline")
-		print(u"\\multicolumn{13}{c}{\\bf New subjects} \\\\")
-		print(u"\\hline")
+		print('\n\n')
+		print('Technique Mann-Whitney U Test p-values')
+		print(('\t' + '\t\t'.join(self.techniques)))
+		print('Subject\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR')
+		print("\\hline")
+		print("\\multicolumn{13}{c}{\\bf New subjects} \\\\")
+		print("\\hline")
 		for group in S.groups:
 			for project in S.projects[group]:
-				text = u'%s' % project
+				text = '%s' % project
 				APmax = self.get_max_technique(APresults[group][project], self.techniques)
 				TPmax = self.get_max_technique(TPresults[group][project], self.techniques)
 
 				for tech in self.techniques:
-					text += self.make_max_text(APresults[group][project][tech], APmax==tech, u'blue!25')
-					text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, u'green!25')
-				text += u' \\\\'
+					text += self.make_max_text(APresults[group][project][tech], APmax==tech, 'blue!25')
+					text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, 'green!25')
+				text += ' \\\\'
 				print(text)
 
 		# make average information
@@ -155,31 +155,31 @@ class MWUTest(ExpBase):
 			avgAPs[tech] /= count
 			avgTPs[tech] /= count
 
-		text = u'Average'
+		text = 'Average'
 		APmax = self.get_max_technique(avgAPs, self.techniques)
 		TPmax = self.get_max_technique(avgTPs, self.techniques)
 		for tech in self.techniques:
-			text += self.make_max_text(avgAPs[tech], APmax == tech, u'blue!25')
-			text += self.make_max_text(avgTPs[tech], TPmax == tech, u'green!25')
-		text += u' \\\\'
-		print(u'\\hline')
+			text += self.make_max_text(avgAPs[tech], APmax == tech, 'blue!25')
+			text += self.make_max_text(avgTPs[tech], TPmax == tech, 'green!25')
+		text += ' \\\\'
+		print('\\hline')
 		print(text)
 
 		# make MAP values for OLD Subjects
-		print(u"\\hline")
-		print(u"\\multicolumn{13}{c}{\\bf Old subjects} \\\\")
-		print(u"\\hline")
-		group = u'Previous'
-		projects = [u'AspectJ', u'ZXing', u'PDE', u'JDT', u'SWT']
+		print("\\hline")
+		print("\\multicolumn{13}{c}{\\bf Old subjects} \\\\")
+		print("\\hline")
+		group = 'Previous'
+		projects = ['AspectJ', 'ZXing', 'PDE', 'JDT', 'SWT']
 		for project in projects:
-			text = u'%s' % project
+			text = '%s' % project
 			APmax = self.get_max_technique(APresults[group][project], self.techniques)
 			TPmax = self.get_max_technique(TPresults[group][project], self.techniques)
 
 			for tech in self.techniques:
-				text += self.make_max_text(APresults[group][project][tech], APmax==tech, u'blue!25')
-				text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, u'green!25')
-			text += u' \\\\'
+				text += self.make_max_text(APresults[group][project][tech], APmax==tech, 'blue!25')
+				text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, 'green!25')
+			text += ' \\\\'
 			print(text)
 
 		# make average information
@@ -189,14 +189,14 @@ class MWUTest(ExpBase):
 			avgAPs[tech] = sum(APresults[group][project][tech] for project in projects) / len(projects)
 			avgTPs[tech] = sum(TPresults[group][project][tech] for project in projects) / len(projects)
 
-		text = u'Average'
+		text = 'Average'
 		APmax = self.get_max_technique(avgAPs, self.techniques)
 		TPmax = self.get_max_technique(avgTPs, self.techniques)
 		for tech in self.techniques:
-			text += self.make_max_text(avgAPs[tech], APmax == tech, u'blue!25')
-			text += self.make_max_text(avgTPs[tech], TPmax == tech, u'green!25')
-		text += u' \\\\'
-		print(u'\\hline')
+			text += self.make_max_text(avgAPs[tech], APmax == tech, 'blue!25')
+			text += self.make_max_text(avgTPs[tech], TPmax == tech, 'green!25')
+		text += ' \\\\'
+		print('\\hline')
 		print(text)
 
 		pass
@@ -208,10 +208,10 @@ class MWUTest(ExpBase):
 		'''
 		def get_average_mwu(_itemType):
 			results = {}
-			multi = os.path.join(_basepath, u'New_Multiple%s_%s.txt' % ('_noTest' if _withoutTest is True else '', _itemType))
+			multi = os.path.join(_basepath, 'New_Multiple%s_%s.txt' % ('_noTest' if _withoutTest is True else '', _itemType))
 			titles, dataM = self.load_results_items(multi, ['str'] * 3 + ['float'] * 6)
 			# MWUresults = {}
-			# single = os.path.join(_basepath, u'New_Single_%s.txt' % _itemType)
+			# single = os.path.join(_basepath, 'New_Single_%s.txt' % _itemType)
 			# titles, dataS = self.load_results_items(single, ['str'] * 3 + ['float'] * 6)
 			for group in dataM:
 				if group not in results: results[group] = {}
@@ -223,25 +223,25 @@ class MWUTest(ExpBase):
 
 			return results #, MWUresults
 
-		techinques, CNTdata = self.load_results(os.path.join(_basepath, u'BugCNT.txt'), ['str'] * 2 + ['int'] * 6)
+		techinques, CNTdata = self.load_results(os.path.join(_basepath, 'BugCNT.txt'), ['str'] * 2 + ['int'] * 6)
 
 		APresults = get_average_mwu('AP')
 		TPresults = get_average_mwu('TP')
 
-		print(u'')
-		print(u'\t' + u'\t\t'.join(self.techniques))
-		print(u'Subject\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR')
+		print('')
+		print(('\t' + '\t\t'.join(self.techniques)))
+		print('Subject\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR\tMAP\tMRR')
 		S = Subjects()
 		for group in S.groups:
 			for project in S.projects[group]:
-				text = u'%s' % project
+				text = '%s' % project
 				APmax = self.get_max_technique(APresults[group][project], self.techniques)
 				TPmax = self.get_max_technique(TPresults[group][project], self.techniques)
 
 				for tech in self.techniques:
-					text += self.make_max_text(APresults[group][project][tech], APmax==tech, u'blue!25')
-					text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, u'green!25')
-				text += u' \\\\'
+					text += self.make_max_text(APresults[group][project][tech], APmax==tech, 'blue!25')
+					text += self.make_max_text(TPresults[group][project][tech], TPmax==tech, 'green!25')
+				text += ' \\\\'
 				print(text)
 
 		# make average information
@@ -256,19 +256,19 @@ class MWUTest(ExpBase):
 			avgAPs[tech] /= count
 			avgTPs[tech] /= count
 
-		text = u'Average'
+		text = 'Average'
 		APmax = self.get_max_technique(avgAPs, self.techniques)
 		TPmax = self.get_max_technique(avgTPs, self.techniques)
 		for tech in self.techniques:
-			text += self.make_max_text(avgAPs[tech], APmax == tech, u'blue!25')
-			text += self.make_max_text(avgAPs[tech], TPmax == tech, u'green!25')
-		text += u' \\\\'
-		print(u'\\hline')
+			text += self.make_max_text(avgAPs[tech], APmax == tech, 'blue!25')
+			text += self.make_max_text(avgAPs[tech], TPmax == tech, 'green!25')
+		text += ' \\\\'
+		print('\\hline')
 		print(text)
 
 
-		# print(u'\\hline')
-		# text = u'Average'
+		# print('\\hline')
+		# text = 'Average'
 		# for tech in self.techniques:
 		# 	avgAP = avgTP = 0.0
 		# 	count = 0
@@ -276,18 +276,18 @@ class MWUTest(ExpBase):
 		# 		count += len(S.projects[group])
 		# 		avgAP += sum(APresults[group][project][tech] for project in S.projects[group])
 		# 		avgTP += sum(TPresults[group][project][tech] for project in S.projects[group])
-		# 	text += u' & {:.4f} & {:.4f}'.format(avgAP / count, avgTP/count)
-		# text += u" \\\\"
+		# 	text += ' & {:.4f} & {:.4f}'.format(avgAP / count, avgTP/count)
+		# text += " \\\\"
 		# print(text)
 		pass
 
 	def extract_features(self, _basepath):
-		titles, data = self.load_results(os.path.join(_basepath, u'02_PW_Bug_Features.txt'), ['str'] * 2 + ['int'] + ['float'] * 3 + ['int', 'float'] )
+		titles, data = self.load_results(os.path.join(_basepath, '02_PW_Bug_Features.txt'), ['str'] * 2 + ['int'] + ['float'] * 3 + ['int', 'float'] )
 
 		for group in data:
 			for project in data[group]:
 				item = data[group][project]
-				data[group][project] = dict(zip([u'RatioEnum', u'RatioSTrace', u'RatioCode', u'RepAvgTk'], [item[1], item[2], item[3], item[5]]))
+				data[group][project] = dict(zip(['RatioEnum', 'RatioSTrace', 'RatioCode', 'RepAvgTk'], [item[1], item[2], item[3], item[5]]))
 		return data
 
 	def make_average(self, _source, _bugCount=None):
@@ -323,7 +323,7 @@ class MWUTest(ExpBase):
 		lines = f.readlines()
 		f.close()
 
-		titles = lines[0].strip().split(u'\t')[1:]
+		titles = lines[0].strip().split('\t')[1:]
 		if len(titles) > len(_types) - 1:
 			titles = titles[:len(_types) - 1]
 
@@ -331,7 +331,7 @@ class MWUTest(ExpBase):
 
 		data = {}
 		for line in lines[1:]:
-			cols = line.strip().split(u'\t')
+			cols = line.strip().split('\t')
 			Dtype = cols[0]
 
 			data[Dtype] = {}  # data type
@@ -347,17 +347,17 @@ class MWUTest(ExpBase):
 		:param _basepath:
 		:return:
 		'''
-		techniques, CNTdata = self.load_counts(os.path.join(_basepath, u'BugCNT_Total.txt'), ['str'] + ['int'] * 6)
+		techniques, CNTdata = self.load_counts(os.path.join(_basepath, 'BugCNT_Total.txt'), ['str'] + ['int'] * 6)
 
 		OldSingle_Pvalues = {}
 		SingleMulti_Pvluaes = {}
 		MultiTest_Pvluaes = {}
 		avgs = {'OLD':{}, 'Single':{}, 'Multi':{}, 'MultiTest':{}}
 		for item in ['AP', 'TP']:
-			oldfile = os.path.join(_basepath, u'Old_%s.txt' % item)
-			singlefile = os.path.join(_basepath, u'New_Single_%s.txt' % item)
-			multifile = os.path.join(_basepath, u'New_Multiple_%s.txt' % item)
-			multitestfile = os.path.join(_basepath, u'New_Multiple_noTest_%s.txt' % item)
+			oldfile = os.path.join(_basepath, 'Old_%s.txt' % item)
+			singlefile = os.path.join(_basepath, 'New_Single_%s.txt' % item)
+			multifile = os.path.join(_basepath, 'New_Multiple_%s.txt' % item)
+			multitestfile = os.path.join(_basepath, 'New_Multiple_noTest_%s.txt' % item)
 			avgs['OLD'][item] = self.make_average(oldfile, CNTdata['OLD'])
 			avgs['Single'][item] = self.make_average(singlefile, CNTdata['NEW'])
 			avgs['Multi'][item] = self.make_average(multifile, CNTdata['NEW'])
@@ -373,57 +373,57 @@ class MWUTest(ExpBase):
 			MultiTest_Pvluaes[item] = self.MWUtest(dataM, dataT, CNTdata['NEW'], CNTdata['NEW'])
 
 		def make_text(_valA, _valB, _valStar):
-			m = u'{:.4f}'.format(_valB)
-			arraw = u'$\\nearrow$~' if _valB > _valA else (u'$\\searrow$~' if _valB < _valA else u'')
-			return (u' & \\textbf{%s%s%s}' % (arraw, m, _valStar) if _valStar != u'' else u' & %s%s' % (arraw, m))
+			m = '{:.4f}'.format(_valB)
+			arraw = '$\\nearrow$~' if _valB > _valA else ('$\\searrow$~' if _valB < _valA else '')
+			return (' & \\textbf{%s%s%s}' % (arraw, m, _valStar) if _valStar != '' else ' & %s%s' % (arraw, m))
 
-		print(u'\n\n\nTechnique Mann-Whitney U Test p-values')
-		print(u'\tOld\t\tSingle')
-		print(u'Technique\tMAP\tMRR\tMAP\tMRR')
+		print('\n\n\nTechnique Mann-Whitney U Test p-values')
+		print('\tOld\t\tSingle')
+		print('Technique\tMAP\tMRR\tMAP\tMRR')
 		for tech in self.techniques:
-			APstar = u'$^{\\ast\\ast}$' if OldSingle_Pvalues['AP'][tech] < 0.01 else (u'$^{\\ast}$' if OldSingle_Pvalues['AP'][tech] < 0.05 else u'')
-			TPstar = u'$^{\\ast\\ast}$' if OldSingle_Pvalues['TP'][tech] < 0.01 else (u'$^{\\ast}$' if OldSingle_Pvalues['TP'][tech] < 0.05 else u'')
+			APstar = '$^{\\ast\\ast}$' if OldSingle_Pvalues['AP'][tech] < 0.01 else ('$^{\\ast}$' if OldSingle_Pvalues['AP'][tech] < 0.05 else '')
+			TPstar = '$^{\\ast\\ast}$' if OldSingle_Pvalues['TP'][tech] < 0.01 else ('$^{\\ast}$' if OldSingle_Pvalues['TP'][tech] < 0.05 else '')
 
-			text = u'{} & {:.4f} & {:.4f}'.format(tech, avgs['OLD']['AP'][tech], avgs['OLD']['TP'][tech])
+			text = '{} & {:.4f} & {:.4f}'.format(tech, avgs['OLD']['AP'][tech], avgs['OLD']['TP'][tech])
 			text += make_text(avgs['OLD']['AP'][tech], avgs['Single']['AP'][tech], APstar)
 			text += make_text(avgs['OLD']['TP'][tech], avgs['Single']['TP'][tech], TPstar)
-			text += u'\\\\'
+			text += '\\\\'
 			print(text)
 
-		print(u'\n\n')
-		print(u'Technique Mann-Whitney U Test p-values')
-		print(u'\tSingle\t\tMulti')
-		print(u'Technique\tMAP\tMRR\tMAP\tMRR')
+		print('\n\n')
+		print('Technique Mann-Whitney U Test p-values')
+		print('\tSingle\t\tMulti')
+		print('Technique\tMAP\tMRR\tMAP\tMRR')
 		for tech in self.techniques:
-			APstar = u'$^{\\ast\\ast}$' if SingleMulti_Pvluaes['AP'][tech] < 0.01 else (
-			u'$^{\\ast}$' if SingleMulti_Pvluaes['AP'][tech] < 0.05 else u'')
-			TPstar = u'$^{\\ast\\ast}$' if SingleMulti_Pvluaes['TP'][tech] < 0.01 else (
-			u'$^{\\ast}$' if SingleMulti_Pvluaes['TP'][tech] < 0.05 else u'')
+			APstar = '$^{\\ast\\ast}$' if SingleMulti_Pvluaes['AP'][tech] < 0.01 else (
+			'$^{\\ast}$' if SingleMulti_Pvluaes['AP'][tech] < 0.05 else '')
+			TPstar = '$^{\\ast\\ast}$' if SingleMulti_Pvluaes['TP'][tech] < 0.01 else (
+			'$^{\\ast}$' if SingleMulti_Pvluaes['TP'][tech] < 0.05 else '')
 
-			text = u'{} & {:.4f} & {:.4f}'.format(tech, avgs['Single']['AP'][tech], avgs['Single']['TP'][tech])
+			text = '{} & {:.4f} & {:.4f}'.format(tech, avgs['Single']['AP'][tech], avgs['Single']['TP'][tech])
 			text += make_text(avgs['Single']['AP'][tech], avgs['Multi']['AP'][tech], APstar)
 			text += make_text(avgs['Single']['TP'][tech], avgs['Multi']['TP'][tech], TPstar)
-			text += u'\\\\'
+			text += '\\\\'
 			print(text)
 
-		print(u'\n\n')
-		print(u'Technique Mann-Whitney U Test p-values')
-		print(u'\tMulti\t\tWithoutTest')
-		print(u'Technique\tMAP\tMRR\tMAP\tMRR')
+		print('\n\n')
+		print('Technique Mann-Whitney U Test p-values')
+		print('\tMulti\t\tWithoutTest')
+		print('Technique\tMAP\tMRR\tMAP\tMRR')
 		for tech in self.techniques:
-			APstar = u'$^{\\ast\\ast}$' if MultiTest_Pvluaes['AP'][tech] < 0.01 else (u'$^{\\ast}$' if MultiTest_Pvluaes['AP'][tech] < 0.05 else u'')
-			TPstar = u'$^{\\ast\\ast}$' if MultiTest_Pvluaes['TP'][tech] < 0.01 else (u'$^{\\ast}$' if MultiTest_Pvluaes['TP'][tech] < 0.05 else u'')
+			APstar = '$^{\\ast\\ast}$' if MultiTest_Pvluaes['AP'][tech] < 0.01 else ('$^{\\ast}$' if MultiTest_Pvluaes['AP'][tech] < 0.05 else '')
+			TPstar = '$^{\\ast\\ast}$' if MultiTest_Pvluaes['TP'][tech] < 0.01 else ('$^{\\ast}$' if MultiTest_Pvluaes['TP'][tech] < 0.05 else '')
 
-			text = u'{} & {:.4f} & {:.4f}'.format(tech, avgs['Multi']['AP'][tech], avgs['Multi']['TP'][tech])
+			text = '{} & {:.4f} & {:.4f}'.format(tech, avgs['Multi']['AP'][tech], avgs['Multi']['TP'][tech])
 			text += make_text(avgs['Multi']['AP'][tech], avgs['MultiTest']['AP'][tech], APstar)
 			text += make_text(avgs['Multi']['TP'][tech], avgs['MultiTest']['TP'][tech], TPstar)
-			text += u'\\\\'
+			text += '\\\\'
 			print(text)
 
 ###############################################################################################################
 ###############################################################################################################
 if __name__ == "__main__":
-	basepath = u'/mnt/exp/Bug/analysis/'
+	basepath = '/mnt/exp/Bug/analysis/'
 	obj = MWUTest()
 	obj.compare_single_results(basepath)
 	obj.compare_multi_results(basepath, _withoutTest=False)			# compare version matching results including Test Files

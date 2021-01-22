@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-from __future__ import print_function
+
 import logging
 import os
 
@@ -45,8 +45,8 @@ class Log(object):
 
 		try:
 			# check path and file name.
-			idx = _filepath.rfind(u'\\')
-			idx2 = _filepath.rfind(u'/')
+			idx = _filepath.rfind('\\')
+			idx2 = _filepath.rfind('/')
 			if idx < idx2 :
 				idx = idx2
 			path = _filepath[:idx+1]

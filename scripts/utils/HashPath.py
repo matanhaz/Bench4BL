@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
-from __future__ import print_function
-import urllib2
+
+import urllib.request
 import hashlib
 import os
 
@@ -18,12 +18,12 @@ class HashPath(object):
 		if _name_size <= 0:
 			return _name
 
-		bucket = u''
+		bucket = ''
 		for i in range(0, _level):
 			sub = _name[(i*_name_size):((i+1)*_name_size)]
-			if sub == u'':
-				sub = u'0'*_name_size
-			bucket += sub +u'\\'
+			if sub == '':
+				sub = '0'*_name_size
+			bucket += sub +'\\'
 
 		return bucket
 
@@ -43,8 +43,8 @@ class HashPath(object):
 		if _name_size <= 0:
 			return _path
 
-		idx = _path.rfind(u'\\')
-		idx2 = _path.rfind(u'/')
+		idx = _path.rfind('\\')
+		idx2 = _path.rfind('/')
 		if idx < idx2: idx = idx2
 
 		if idx == -1:
@@ -54,11 +54,11 @@ class HashPath(object):
 			parent = _path[0:(idx+1)]
 			filename = _path[(idx+1):]
 
-		bucket = u''
+		bucket = ''
 		for i in range(0, _level):
 			sub = filename[(i*_name_size):((i+1)*_name_size)]
-			if sub == u'':
-				sub = u'0' * _name_size
+			if sub == '':
+				sub = '0' * _name_size
 			bucket += sub + os.path.sep
 			
 		return parent + bucket + filename
@@ -102,13 +102,13 @@ class HashPath(object):
 		filename = m.hexdigest()
 
 		#seperate url and make a path (\\domain\\path\\)
-		req = urllib2.Request(_url)
-		host = req.get_host()  # domain:port
-		host = host.replace(u':', u'#')  # change port delimiter
+		req = urllib.request.Request(_url)
+		host = req.host  # domain:port
+		host = host.replace(':', '#')  # change port delimiter
 
 		if _only_host is False:
 			path = req.get_selector()	   # choose selector after domain.
-			path = path.split(u'?')[0]	  # remove parameter
+			path = path.split('?')[0]	  # remove parameter
 
 			path = path.replace(os.path.altsep, os.path.sep)   # altsep --> sep
 			if path.startswith(os.path.sep) is True:
@@ -129,8 +129,8 @@ class HashPath(object):
 			return None
 
 		#seperate parent and filename
-		idx = _path.rfind(u'\\')
-		idx2 = _path.rfind(u'/')
+		idx = _path.rfind('\\')
+		idx2 = _path.rfind('/')
 		if idx<idx2 : idx = idx2
 		if idx < 0: return None
 		#parent = os.path.abs(os.path.join(_path, os.pardir))
@@ -142,11 +142,11 @@ class HashPath(object):
 		m.update(filename)
 		hexfilename = m.hexdigest()
 
-		bucket = u''
+		bucket = ''
 		for i in range(0, _level):
 			sub = hexfilename[(i*_name_size):((i+1)*_name_size)]
-			if sub == u'':
-				sub = u'0'*_name_size
+			if sub == '':
+				sub = '0'*_name_size
 			bucket += sub + os.path.sep
 
 		return os.path.join(parent, bucket, filename)
@@ -162,16 +162,16 @@ class HashPath(object):
 			return None
 
 		#seperate parent and filename
-		idx = _path.rfind(u'\\')
-		idx2 = _path.rfind(u'/')
+		idx = _path.rfind('\\')
+		idx2 = _path.rfind('/')
 		if idx<idx2 : idx = idx2
 		filename = _path[(idx+1):]
 		parent = _path[:idx]
 
 		#reduce
 		while _level>0:
-			idx = parent.rfind(u'\\')
-			idx2 = parent.rfind(u'/')
+			idx = parent.rfind('\\')
+			idx2 = parent.rfind('/')
 			if idx<idx2 : idx = idx2
 			parent = parent [:idx]
 			_level -= 1
@@ -181,6 +181,5 @@ class HashPath(object):
 ###############################################################################################################
 ###############################################################################################################
 if __name__ == '__main__':
-	path = HashPath.expend_hashpath(u'/home/user/bug/temp/file.txt', 2, 2)
-	print(HashPath.reduce_hashpath(path, 2,2,))
-
+	path = HashPath.expend_hashpath('/home/user/bug/temp/file.txt', 2, 2)
+	print((HashPath.reduce_hashpath(path, 2,2,)))

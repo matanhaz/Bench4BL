@@ -3,12 +3,12 @@
 Created on 2017. 03. 15
 Updated on 2017. 03. 15
 '''
-from __future__ import print_function
+
 import re
 
 
 class DataLoader(object):
-	__name__ = u'DataLoader'
+	__name__ = 'DataLoader'
 
 	def load_item_wordfrequency(self, _filename):
 		'''

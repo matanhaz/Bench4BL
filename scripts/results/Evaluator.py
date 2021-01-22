@@ -3,7 +3,6 @@
 Created on 2016. 11. 19
 Updated on 2016. 01. 09
 '''
-from __future__ import print_function
 
 import os
 
@@ -16,9 +15,9 @@ class Evaluator():
 	input : program, project, versions
 	output : program-project sheet data, summary_bugs, summary_project
 	'''
-	__name__ = u'Evaluator'
-	program = u''
-	project = u''
+	__name__ = 'Evaluator'
+	program = ''
+	project = ''
 	projectSummary = None
 
 	rawData = None
@@ -113,7 +112,7 @@ class Evaluator():
 		self.rawData = {}
 		for filename in _files:
 			if os.path.exists(filename) is False:
-				print('There are no file : %s' % filename)
+				print(('There are no file : %s' % filename))
 				continue
 
 			version = self.getVersion(filename)
@@ -128,15 +127,15 @@ class Evaluator():
 		return self.rawData
 
 	def getVersion(self, _filepath):
-		idx1 = _filepath.rfind(u'/')
-		idx2 = _filepath.rfind(u'\\')
+		idx1 = _filepath.rfind('/')
+		idx2 = _filepath.rfind('\\')
 		if idx1 < idx2:
 			idx1 = idx2
 		filename = _filepath[idx1+1:]
-		idx1 = filename.find(u'_')
-		idx2 = filename.find(u'_', idx1 + 1)
+		idx1 = filename.find('_')
+		idx2 = filename.find('_', idx1 + 1)
 		version = filename[idx2+1:]
-		return version[:version.rfind(u'_')]
+		return version[:version.rfind('_')]
 
 	def output(self, _filepath):
 		f = open(_filepath, 'w')

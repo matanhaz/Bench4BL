@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-from __future__ import print_function
 
 import os
 from xml.etree import ElementTree
@@ -69,12 +68,12 @@ class Counting(object):
 
 	def bug_counting(self, _group, _project):
 		statistics = {}
-		repo = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
+		repo = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository.xml')
 		statistics['all'] = self.getBugs(repo)
 
 		for version in self.S.versions[_project].keys():
 			vname = VersionUtil.get_versionName(version, _project)
-			repo = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository', u'%s.xml'%vname)
+			repo = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository', '%s.xml'%vname)
 			result = self.getBugs(repo)
 			if result is None: continue
 			statistics[vname] = result
@@ -89,18 +88,18 @@ class Counting(object):
 		pretty = PrettyStringBuilder(_indent_depth=2)
 		text = pretty.get_dicttext({_project: statistics})
 
-		f = open(os.path.join(self.S.getPath_base(_group, _project),  u'bugs.txt'), 'w')
+		f = open(os.path.join(self.S.getPath_base(_group, _project),  'bugs.txt'), 'w')
 		f.write(text)
 		f.close()
 
 	def answers_counting(self, _group, _project):
 		statistics = {}
-		repo = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
+		repo = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository.xml')
 		statistics['all'] = self.getAnswers(repo)
 
 		for version in self.S.versions[_project].keys():
 			vname = VersionUtil.get_versionName(version, _project)
-			repo = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository', u'%s.xml'%vname)
+			repo = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository', '%s.xml'%vname)
 			result = self.getAnswers(repo)
 			if result is None: continue
 			statistics[vname] = result
@@ -108,7 +107,7 @@ class Counting(object):
 		pretty = PrettyStringBuilder(_indent_depth=2)
 		text = pretty.get_dicttext({_project: statistics})
 
-		f = open(os.path.join(self.S.getPath_base(_group, _project), u'answers.txt'), 'w')
+		f = open(os.path.join(self.S.getPath_base(_group, _project), 'answers.txt'), 'w')
 		f.write(text)
 		f.close()
 
@@ -116,7 +115,7 @@ class Counting(object):
 		statistics = {}
 
 		progress = Progress('source counting', 2, 10, True)
-		progress.set_upperbound(len(self.S.versions[_project].keys()))
+		progress.set_upperbound(len(list(self.S.versions[_project].keys())))
 		progress.start()
 		for version in self.S.versions[_project].keys():
 			vname = VersionUtil.get_versionName(version, _project)
@@ -136,14 +135,14 @@ class Counting(object):
 		pretty = PrettyStringBuilder(_indent_depth=2)
 		text = pretty.get_dicttext({_project: statistics})
 
-		f = open(os.path.join(self.S.getPath_base(_group, _project), u'sources.txt'), 'w')
+		f = open(os.path.join(self.S.getPath_base(_group, _project), 'sources.txt'), 'w')
 		f.write(text)
 		f.close()
 
 	def run(self):
 		for group in self.S.groups:
 			for project in self.S.projects[group]:
-				print(u'Counting for %s / %s' % (group, project))
+				print(('Counting for %s / %s' % (group, project)))
 				self.bug_counting(group, project)
 				self.answers_counting(group, project)
 				#self.source_counting(group, project)
@@ -151,5 +150,5 @@ class Counting(object):
 if __name__ == '__main__':
 	obj = Counting()
 	obj.run()
-	# r = obj.getCodeCount(u'/var/experiments/BugLocalization/dist/data/')
-	# print(u'count::%d' % r)
+	# r = obj.getCodeCount('/var/experiments/BugLocalization/dist/data/')
+	# print('count::%d' % r)

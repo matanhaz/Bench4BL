@@ -11,7 +11,6 @@ To run this program, you need to do following things.
    - make summary information files :: use ExecuteTools/executor/Counting.py
 '''
 
-from __future__ import print_function
 from datetime import datetime
 import os
 import subprocess
@@ -26,13 +25,13 @@ class Launcher(object):
 	IRBL Techniques Launcher class
 	'''
 
-	ProgramNames = [u'BugLocator',  u'BRTracer', u'BLUiR', u'AmaLgam',  u'BLIA', u'Locus']
-	root = os.path.join(here, u'..')
-	ProgramPATH = os.path.join(root, u'techniques/')
-	OutputPATH = os.path.join(root, u'expresults/')
-	JavaOptions = u'-Xms512m -Xmx4000m'
-	JavaOptions_Locus = u'-Xms3G -Xmx3G'
-	TYPE = u'Test'
+	ProgramNames = ['BugLocator',  'BRTracer', 'BLUiR', 'AmaLgam',  'BLIA', 'Locus']
+	root = os.path.join(here, '..')
+	ProgramPATH = os.path.join(root, 'techniques/')
+	OutputPATH = os.path.join(root, 'expresults/')
+	JavaOptions = '-Xms512m -Xmx4000m'
+	JavaOptions_Locus = '-Xms3G -Xmx3G'
+	TYPE = 'Test'
 
 	def __init__(self):
 		self.S = Subjects()
@@ -40,8 +39,8 @@ class Launcher(object):
 			os.makedirs(os.path.join(self.ProgramPATH, 'logs'))
 
 		t = datetime.now()
-		timestr = t.strftime(u'%y%m%d_%H%M')
-		self.logFileName = u'logs_%s'%timestr + u'_%s.txt'
+		timestr = t.strftime('%y%m%d_%H%M')
+		self.logFileName = 'logs_%s'%timestr + '_%s.txt'
 
 	def finalize(self):
 		self.log.close()
@@ -49,18 +48,18 @@ class Launcher(object):
 	def createArguments(self, _params):
 		if isinstance(_params, str):
 			return _params
-		if isinstance(_params, unicode):
-			return _params
+		if isinstance(_params, bytes):
+			return _params.decode()
 
-		paramsText = u''
-		for key, value in _params.iteritems():
+		paramsText = ''
+		for key, value in _params.items():
 			if key == 'v':
 				if value is True:
-					paramsText += u' -v'
+					paramsText += ' -v'
 			else:
 				if value is None or value == '':
 					continue
-				paramsText += u' -%s %s' % (key, value)
+				paramsText += ' -%s %s' % (key, value)
 		return paramsText
 
 	def executeJava(self, _program, _params, _cwd=None, _project=None, _vname=None):
@@ -68,26 +67,26 @@ class Launcher(object):
 			_cwd = self.ProgramPATH
 
 		options = self.JavaOptions if _program != 'Locus' else self.JavaOptions_Locus
-		command = u'java %s -jar %s%s.jar %s' % (options, self.ProgramPATH, _program, self.createArguments(_params))
-		commands = command.split(u' ')
+		command = 'java %s -jar %s%s.jar %s' % (options, self.ProgramPATH, _program, self.createArguments(_params))
+		commands = command.split(' ')
 
 		t = datetime.now()
-		timestr = t.strftime(u'Strat:%Y/%m/%d %H:%M')
-		print(u'\n\n[%s]\nCMD:: %s' % (timestr, command))
+		timestr = t.strftime('Strat:%Y/%m/%d %H:%M')
+		print('\n\n[%s]\nCMD:: %s' % (timestr, command))
 		self.log.write('\n\n[%s]\nCMD:: %s\n' % (timestr, command))
 
 		if _program == 'BLIA':
 			self.log.write('working with %s / %s\n' % ( _project, _vname))
 		try:
 			#subprocess.call(commands, cwd=_cwd, shell=False) #, stdout=self.log, stderr=self.log)
-			p = subprocess.Popen(commands, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, cwd=_cwd)
+			p = subprocess.Popen(commands, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, cwd=_cwd, text=True)
 			while True:
 				line = p.stdout.readline()
 				if line == '':
 					break
 				# the real code does filtering here
 				print(line.rstrip())
-				self.log.write(line.rstrip()+u'\n')
+				self.log.write(line.rstrip()+'\n')
 				self.log.flush()
 
 		except Exception as e:
@@ -98,39 +97,39 @@ class Launcher(object):
 	def get_params(self, _program, _group, _project, _alpha, _version=None, _isUnion=False, _useMerge=False):
 		bugrepo = self.S.getPath_bugrepo(_group, _project)
 		params = {
-			'n': u'%s_%s' % (_project, _version if _isUnion is False else u'all'),
+			'n': '%s_%s' % (_project, _version if _isUnion is False else 'all'),
 			's': self.S.getPath_source(_group, _project, _version) if _isUnion is False else self.S.getPath_gitrepo(_group, _project),  # source path
-			'b': os.path.join(bugrepo,u'repository%s.xml' % (u'/%s' % _version if _isUnion is False else u'')),  # base bug path
-			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project) + u'/',  # result path
+			'b': os.path.join(bugrepo,'repository%s.xml' % ('/%s' % _version if _isUnion is False else '')),  # base bug path
+			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project) + '/',  # result path
 			'a': _alpha,  # alpha parameter
 		}
 
 		if _useMerge:
-			params['b'] = os.path.join(bugrepo,u'repository_merge%s.xml' % (u'/%s' % _version if _isUnion is False else u''))
+			params['b'] = os.path.join(bugrepo,'repository_merge%s.xml' % ('/%s' % _version if _isUnion is False else ''))
 
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
 		if _program == 'BLIA':
-			params = self.save_BLIA_config(_project, params, _version if not _isUnion else u'all')
+			params = self.save_BLIA_config(_project, params, _version if not _isUnion else 'all')
 
 		if _program == 'Locus':
-			params = self.save_Locus_config(_project, params, _version if not _isUnion else u'all')
+			params = self.save_Locus_config(_project, params, _version if not _isUnion else 'all')
 
 		return params
 
 	def get_paramsDist(self, _program, _group, _project, _alpha, _version, _codeVersion):
 		params = {
-			'n': u'%s_%s' % (_project, u'all'),
+			'n': '%s_%s' % (_project, 'all'),
 			's': self.S.getPath_source(_group, _project, _codeVersion),  # source path
-			'b': os.path.join(self.S.getPath_bugrepo(_group, _project),u'repository/%s.xml' % _version),  # base bug path
-			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+u'/',  # result path
+			'b': os.path.join(self.S.getPath_bugrepo(_group, _project),'repository/%s.xml' % _version),  # base bug path
+			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+'/',  # result path
 			'a': _alpha,  # alpha parameter
 		}
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
-		path = os.path.join(params['w'], u'%s_%s'%(_program, params['n']))
+		path = os.path.join(params['w'], '%s_%s'%(_program, params['n']))
 		if os.path.exists(path) is True:
 			for file in os.listdir(path):
 				if file == 'revisions': continue
@@ -155,25 +154,25 @@ class Launcher(object):
 
 	def get_paramsOLD(self, _program, _group, _project, _alpha, _version):
 		params = {
-			'n': u'%s_all' % _project,
+			'n': '%s_all' % _project,
 			's': self.S.getPath_source(_group, _project, _version),  # source path
-			'b': os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml'),  # base bug path
-			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+u'/',  # result path
+			'b': os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository.xml'),  # base bug path
+			'w': os.path.join(self.OutputPATH, self.TYPE, _group, _project)+'/',  # result path
 			'a': _alpha,  # alpha parameter
 		}
 		if _program in ['AmaLgam', 'BLIA', 'Locus']:
 			params['g'] = self.S.getPath_gitrepo(_group, _project)  # git repo.
 
 		if (_program == 'BLIA' and _project not in ['PDE', 'JDT']) or (_program == 'Locus' and _project == 'AspectJ'):
-			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'%s_repository.xml' % _program)
+			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), '%s_repository.xml' % _program)
 		else:
-			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
+			params['b'] = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository.xml')
 
 		if _program == 'BLIA':
-			params = self.save_BLIA_config(_project, params, u'all')
+			params = self.save_BLIA_config(_project, params, 'all')
 
 		if _program == 'Locus':
-			params = self.save_Locus_config(_project, params, u'all')
+			params = self.save_Locus_config(_project, params, 'all')
 
 		return params
 
@@ -182,7 +181,7 @@ class Launcher(object):
 		beta = 0.2
 		pastDays = 15
 
-		filename = os.path.join(self.ProgramPATH, u'blia_properties', u'%s.properties' % _project)
+		filename = os.path.join(self.ProgramPATH, 'blia_properties', '%s.properties' % _project)
 		with open(filename, 'w') as f:
 			print('#Target product to run BLIA', file=f)
 			print('TARGET_PRODUCT=' + _project, file=f)
@@ -207,7 +206,7 @@ class Launcher(object):
 		return filename
 
 	def save_Locus_config(self, _project, _params, _versionName, _isAppend=False):
-		filename = os.path.join(self.ProgramPATH, u'locus_properties', u'%s_config.txt' % _versionName)
+		filename = os.path.join(self.ProgramPATH, 'locus_properties', '%s_config.txt' % _versionName)
 		with open(filename, 'w') as f:
 			print('task=fileall', file=f)
 			print('Project=' + _project, file=f)
@@ -224,7 +223,7 @@ class Launcher(object):
 
 	def run(self, _type, _sGroup=None, _sProject=None,  _sProgram=None, _sVersion=None, _isUnion=False, _isDist=False, _useMerge=False):
 		self.TYPE = _type
-		nameTag = self.TYPE + (u'_%s'%_sGroup if _sGroup is not None else u'') + (u'_%s'%_sProject if _sProject is not None else u'') + (u'_%s'%_sVersion if _sVersion is not None else u'') + (u'_%s'%_sProgram if _sProgram is not None else u'')
+		nameTag = self.TYPE + ('_%s'%_sGroup if _sGroup is not None else '') + ('_%s'%_sProject if _sProject is not None else '') + ('_%s'%_sVersion if _sVersion is not None else '') + ('_%s'%_sProgram if _sProgram is not None else '')
 		self.log = open(os.path.join(self.ProgramPATH, 'logs', self.logFileName%(nameTag)), 'w')
 
 		# select target subjects or select all.
@@ -238,7 +237,7 @@ class Launcher(object):
 						for verName in (versions if _sVersion is None else [_sVersion]):
 							if verName == 'all': continue
 							params = self.get_paramsDist(program, group, project, 0.2, verName, codeVersion)
-							self.executeJava(program+u'_dist', params, _project=project, _vname =verName)
+							self.executeJava(program+'_dist', params, _project=project, _vname =verName)
 
 					elif _isUnion is True:
 						# if the self.S.version[project] uses, the error occurs because there are versions with no bug report
@@ -246,12 +245,12 @@ class Launcher(object):
 						verName = VersionUtil.get_latest_version(self.S.bugs[project].keys())
 
 						# check out target version
-						print(u' checkout %s... ' % tagName, end=u'')
+						print(' checkout %s... ' % tagName, end='')
 						inf = GitInflator(project, self.S.urls[project], self.S.getPath_base(group, project))
 						if inf.checkout(tagName) is False:
-							print(u'Failed')
+							print('Failed')
 							continue
-						print(u'Done')
+						print('Done')
 
 						# execute JAVA
 						params = self.get_params(program, group, project, 0.2, None, _isUnion)
@@ -263,9 +262,9 @@ class Launcher(object):
 							if _useMerge is True:
 								if verName not in self.S.answers_merge[project]: continue
 							# if the self.S.version[project] uses, the error occurs because there are versions with no bug report
-							outputFile = os.path.join(self.OutputPATH, _type, group, project, u'%s_%s_%s_output.txt'%(program, project, verName))
+							outputFile = os.path.join(self.OutputPATH, _type, group, project, '%s_%s_%s_output.txt'%(program, project, verName))
 							# if os.path.exists(outputFile) is True:
-							# 	print(u'Already exists :: %s '% outputFile)
+							# 	print('Already exists :: %s '% outputFile)
 							# 	continue
 							params = self.get_params(program, group, project, 0.2, verName, _isUnion, _useMerge)
 							self.executeJava(program, params, _project=project, _vname =verName)
@@ -274,13 +273,13 @@ class Launcher(object):
 			# for project
 		#for group
 		t = datetime.now()
-		timestr = t.strftime(u'Done:%Y/%m/%d %H:%M')
-		print(u'\n\n[%s]' % timestr)
+		timestr = t.strftime('Done:%Y/%m/%d %H:%M')
+		print('\n\n[%s]' % timestr)
 		self.log.write('\n\n[%s]' % timestr)
 
 	def runOLD(self, _type, _sGroup=None, _sProject=None, _sProgram=None):
 		self.TYPE = _type
-		nameTag = self.TYPE + (u'_%s' % _sGroup if _sGroup is not None else u'') + (u'_%s' % _sProject if _sProject is not None else u'')
+		nameTag = self.TYPE + ('_%s' % _sGroup if _sGroup is not None else '') + ('_%s' % _sProject if _sProject is not None else '')
 		self.log = open(os.path.join(self.ProgramPATH, 'logs', self.logFileName%nameTag), 'w')
 
 		self.S = Previous()
@@ -294,16 +293,16 @@ class Launcher(object):
 					if _sProject is not None and project != _sProject: continue
 
 					maxVersion = self.S.get_max_versions(program, project)
-					versionName = u'%s_%s' % (project, VersionUtil.get_versionName(maxVersion))
+					versionName = '%s_%s' % (project, VersionUtil.get_versionName(maxVersion))
 					alpha = 0.2 if not (program == 'BugLocator' and project == 'AspectJ') else 0.3
 					params = self.get_paramsOLD(program, group, project, alpha, versionName)
 
-					#print(u'java %s -jar %s%s.jar ' % (self.JavaOptions, self.ProgramPATH, program) + self.createArguments(params))
+					#print('java %s -jar %s%s.jar ' % (self.JavaOptions, self.ProgramPATH, program) + self.createArguments(params))
 					self.executeJava(program, params, _project=project, _vname =versionName)
 
 		t = datetime.now()
-		timestr = t.strftime(u'Done:%Y/%m/%d %H:%M')
-		print(u'\n\n[%s]' % timestr)
+		timestr = t.strftime('Done:%Y/%m/%d %H:%M')
+		print('\n\n[%s]' % timestr)
 		self.log.write('\n\n[%s]' % timestr)
 
 def getargs():

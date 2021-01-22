@@ -3,18 +3,18 @@
 Created on 2016. 11. 28
 Updated on 2016. 11. 28
 '''
-from __future__ import print_function
+
 import re
 import os
 from git import Repo
-from Queue import Queue
+from queue import Queue
 from utils import Progress
 
 
 class GitVersion:
 	__name__ = 'GitVersion'
-	GitLogPath = u''
-	workingPath = u''
+	GitLogPath = ''
+	workingPath = ''
 	tags = None
 	tagtimes = None
 	git = None
@@ -39,7 +39,7 @@ class GitVersion:
 		# making tag info
 		self.tagtimes[None] = 0
 		for tagref in self.git.tags:
-			if tagref.name.startswith(u'%') is True: continue
+			if tagref.name.startswith('%') is True: continue
 			short_hash = str(tagref.commit)[:7]
 			self.tags[short_hash] = tagref.name
 			self.tagtimes[tagref.name] =  tagref.commit.committed_date
@@ -51,7 +51,7 @@ class GitVersion:
 		q = Queue()
 		q.put((self.git.head.commit, None))		# (commit, child_hash)
 
-		progress = Progress(u'[%s] making git childmap' % self.__name__, 500, 10000, False)
+		progress = Progress('[%s] making git childmap' % self.__name__, 500, 10000, False)
 		progress.set_point(0)
 		progress.start()
 		while q.empty() is False:
@@ -88,7 +88,7 @@ class GitVersion:
 			q.put((item, None))  # (commit_hash, tagname)
 
 		# For each item in queue
-		progress = Progress(u'[%s] making git tagmaps' % self.__name__, 500, 10000, False)
+		progress = Progress('[%s] making git tagmaps' % self.__name__, 500, 10000, False)
 		progress.set_point(0)
 		progress.start()
 		while q.empty() is False:
@@ -156,14 +156,14 @@ class GitVersion:
 		if os.path.exists(self.storePath) is False:
 			return None
 
-		print(u'[%s] loading git versions cache....' % self.__name__, end=u'')
+		print('[%s] loading git versions cache....' % self.__name__, end='')
 		loader = open(self.storePath, 'r')
 		text = loader.read()
 		loader.close()
 
-		if text.strip() == u'': return None
+		if text.strip() == '': return None
 		self.tagmap = eval(text)
-		print(u'Done.')
+		print('Done.')
 		return self.tagmap
 
 	def find_tagname(self, _hash):

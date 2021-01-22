@@ -3,7 +3,7 @@
 Created on 2016. 11. 19
 Updated on 2016. 01. 09
 '''
-from __future__ import print_function
+
 import os
 import shutil
 import codecs
@@ -34,9 +34,9 @@ class BugFilter:
 		]
 	}
 	'''
-	__name__ = u'BugFilter'
-	ProjectName = u''
-	SourceBugPath = u''
+	__name__ = 'BugFilter'
+	ProjectName = ''
+	SourceBugPath = ''
 	gitlogs = None
 	gitversions = None
 
@@ -58,7 +58,7 @@ class BugFilter:
 		'''
 		if os.path.exists(_dest) is False:
 			os.makedirs(_dest)
-		progress = Progress(u'Bug reports is merging', 20, 1000, False)
+		progress = Progress('Bug reports is merging', 20, 1000, False)
 		progress.start()
 		for root, dirs, files in os.walk(_src):
 			for f in files:
@@ -69,9 +69,9 @@ class BugFilter:
 	# def show_versions(self, _bugitems):
 	# 	for bug in _bugitems:
 	# 		#if bug['id'] not in ['DATAREST-216', 'DATAREST-199']: continue
-	# 		print(bug['id'] + u':' + bug['version'])
+	# 		print(bug['id'] + ':' + bug['version'])
 	#
-	# 	print(u'\n\n\n\n\n\n')
+	# 	print('\n\n\n\n\n\n')
 
 	def run(self, _gitlogs, _gitversions, _removeTest=True, _onlyJava=True):
 		self.gitlogs = _gitlogs
@@ -94,12 +94,12 @@ class BugFilter:
 		bugitems = []
 
 		# show progress
-		progress = Progress(u'[%s] Loading bug reports'%self.__name__, 2, 10, True)
+		progress = Progress('[%s] Loading bug reports'%self.__name__, 2, 10, True)
 		progress.set_upperbound(fileConnt)
 		progress.start()
 		for root, dirs, files in os.walk(self.SourceBugPath):
 			for f in files:
-				if f[:f.find(u'-')].strip().lower()  != self.ProjectName.lower(): continue
+				if f[:f.find('-')].strip().lower()  != self.ProjectName.lower(): continue
 				#shutil.copy(os.path.join(root, f), os.path.join(_dest, f))
 				bugitem = self.get_bugitem(os.path.join(root, f))
 				if bugitem is not None:
@@ -140,14 +140,14 @@ class BugFilter:
 			keymaps = ['description', 'id', 'summary', 'resolution', 'opendate', 'fixdate', 'version', 'fixVersion', 'type']
 			bug = {}
 			for idx in range(0, len(keymaps)):
-				bug[keymaps[idx]] = u''
+				bug[keymaps[idx]] = ''
 
 			for idx in range(0, len(keys)):
 				findkey = 'item > ' + keys[idx].lower()
 				items = doc.select(findkey )
 				if len(items)==0: continue
 				for item in items:
-					bug[keymaps[idx]] += (u', ' if len(bug[keymaps[idx]]) > 0 else u'') + item.get_text()
+					bug[keymaps[idx]] += (', ' if len(bug[keymaps[idx]]) > 0 else '') + item.get_text()
 			bug['fixedFiles'] = []
 
 			#duplicate bug report
@@ -162,14 +162,14 @@ class BugFilter:
 
 			t = dateparser.parse(bug['opendate'])
 			bug['opendate'] = t.astimezone(timezone('UTC'))
-			#bug['opendate'] = dobj.strftime(u'%Y-%m-%d %H:%M:%S')
+			#bug['opendate'] = dobj.strftime('%Y-%m-%d %H:%M:%S')
 
-			if bug['fixdate'] != u'':
+			if bug['fixdate'] != '':
 				t = dateparser.parse(bug['fixdate'])
 				bug['fixdate'] = t.astimezone(timezone('UTC'))
 			else:
 				bug['fixdate'] = None
-			#bug['fixdate'] = dobj.strftime(u'%Y-%m-%d %H:%M:%S')
+			#bug['fixdate'] = dobj.strftime('%Y-%m-%d %H:%M:%S')
 		except Exception as e:
 			print(e)
 			return None
@@ -200,7 +200,7 @@ class BugFilter:
 				keyvalues = subtype.select('issuekey')
 				for keyvalue in keyvalues:
 					key_id = keyvalue.get_text()
-					key_id = key_id[key_id.rfind(u'-')+1:]
+					key_id = key_id[key_id.rfind('-')+1:]
 					links.append({'type':typename, 'description':subtype['description'], 'id':key_id})
 		return links
 
@@ -221,7 +221,7 @@ class BugFilter:
 			bug['commits'] = [] #[commit['hash'] for commit in logs]
 
 			for log in logs:
-				# log = [{'hash':u'', 'author':u'', 'commit_date':u'', 'message':u'', 'fixedFiles':{}}, ...]
+				# log = [{'hash':'', 'author':'', 'commit_date':'', 'message':'', 'fixedFiles':{}}, ...]
 				files = []
 				for filename in log['fixedFiles']:
 					if _onlyJava is True and filename.endswith('.java') is False: continue
@@ -254,10 +254,10 @@ class BugFilter:
 		:param _filename:
 		:return:
 		'''
-		classname = _filename.replace(u'/', u'.')
-		classname = classname.replace(u'\\', u'.')
+		classname = _filename.replace('/', '.')
+		classname = classname.replace('\\', '.')
 
-		idx = classname.find(u'.org.')
+		idx = classname.find('.org.')
 		if idx > 0:
 			classname = classname[idx+1:]
 
@@ -334,23 +334,23 @@ class BugFilter:
 				_dest['commits'] = _src['commits']
 
 		# sync version
-		if _dest['version'] != u''and _src['version'] == u'':
+		if _dest['version'] != ''and _src['version'] == '':
 			_src['version'] = _dest['version']
-		elif _src['version'] != u'' and _dest['version'] == u'':
+		elif _src['version'] != '' and _dest['version'] == '':
 			_dest['version'] = _src['version']
-		elif _src['version'] == u'' and _dest['version'] == u'':
+		elif _src['version'] == '' and _dest['version'] == '':
 			#if both report has no version, get version information from git repository
 			v1 = self.get_gitversion(_src['id'])
 			v2 = self.get_gitversion(_dest['id'])
-			if v1!=u'' and v2 != u'':
-				if v1==u'': _src['version'] = v2
+			if v1!='' and v2 != '':
+				if v1=='': _src['version'] = v2
 				_src['version'] = v1 if VersionUtil.cmpVersion(v1, v2) <0 else v2
 				_dest['version'] = _src['version']
 
 		# sync fixdate
-		if _dest['fixdate'] != u''and _src['fixdate'] == u'':
+		if _dest['fixdate'] != ''and _src['fixdate'] == '':
 			_src['fixdate'] = _dest['fixdate']
-		if _src['fixdate'] != u'' and _dest['fixdate'] == u'':
+		if _src['fixdate'] != '' and _dest['fixdate'] == '':
 			_src['fixdate'] = _src['fixdate']
 
 		pass
@@ -361,15 +361,15 @@ class BugFilter:
 		:param _id:
 		:return:
 		'''
-		if _id not in self.gitlogs: return u''
+		if _id not in self.gitlogs: return ''
 
-		min_version = u''
+		min_version = ''
 		commits = self.gitlogs[_id]
 		for commit in commits:
 			if commit['hash'] not in self.gitversions: continue
 			version = self.gitversions[commit['hash']]
 			if version is None: continue
-			if min_version == u'': min_version = version
+			if min_version == '': min_version = version
 			if VersionUtil.cmpVersion(version, min_version) < 0:
 				min_version = version
 
@@ -393,7 +393,7 @@ class BugFilter:
 			flagFiles=True
 			flagDate=True
 
-			if bug['version'].strip()  ==u'':
+			if bug['version'].strip()  =='':
 				noVersionCount += 1
 				flagVersion = False
 			if len(bug['fixedFiles']) == 0:
@@ -416,19 +416,19 @@ class BugFilter:
 			# ): continue
 
 			newlist.append(bug)
-		print(u'[%s] Filter : %d fixedFiles, %d version, %d fixdate. :: %d/%d only no versions'% (	self.__name__,
+		print(('[%s] Filter : %d fixedFiles, %d version, %d fixdate. :: %d/%d only no versions'% (	self.__name__,
 																								noFileCount,
 																								noVersionCount,
 																								noDateCount,
 																								onlyVersionCount,
-																								removedCount))
-		print(u'[%s] Filter : %d remained list.'% (self.__name__, len(newlist)))
+																								removedCount)))
+		print(('[%s] Filter : %d remained list.'% (self.__name__, len(newlist))))
 		return newlist
 
 	def make_minimumVersion(self, _bugs):
 		for bug in _bugs:
-			min_version = u'10000.0' # assign big version
-			for version in bug['version'].split(u', '):
+			min_version = '10000.0' # assign big version
+			for version in bug['version'].split(', '):
 				if VersionUtil.cmpVersion(version, min_version) < 0:
 
 					min_version = version

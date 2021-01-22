@@ -4,12 +4,11 @@ Created on 2016. 11. 19
 Updated on 2016. 01. 09
 
 '''
-from __future__ import print_function
 import xlsxwriter
 
 
 class XLSbasic(object):
-	__name__ = u'XLSbasic'
+	__name__ = 'XLSbasic'
 	workbook = None
 
 	def __init__(self, _output):
@@ -56,17 +55,17 @@ class XLSbasic(object):
 		:return:
 		'''
 		if self.workbook is not None:
-			print(u'[%s] saving.....' % self.__name__, end=u'')
+			print('[%s] saving.....' % self.__name__, end='')
 			self.workbook.close()
-			print(u'Done')
+			print('Done')
 		pass
 
 	def RGBA(self, red, green, blue, alpha=0):
-		return u'#%X%X%X' % (red, green, blue)
+		return '#%X%X%X' % (red, green, blue)
 
 	def charCol(self, _idx):
 		div = _idx + 1
-		string = u''
+		string = ''
 		while div > 0:
 			module = (div - 1) % 26
 			string = chr(65 + module) + string

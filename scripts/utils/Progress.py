@@ -1,11 +1,11 @@
 #-*- coding: utf-8 -*-
-from __future__ import print_function
-from utils.DiffTimer import DiffTimer
+
+from utils import DiffTimer
 
 
 ###############################################################################################################
 class Progress(object):
-	header = u''
+	header = ''
 	dot_point = 10
 	line_point = 1000
 	point = 0
@@ -51,7 +51,7 @@ class Progress(object):
 		return self
 
 	def start(self):
-		print(u'%s'%self.header, end=u'')
+		print('%s'%self.header, end='')
 		self.prev = 1
 		self.timer.set()
 		self.fulltimer.set()
@@ -64,8 +64,8 @@ class Progress(object):
 
 		for i in range(self.prev,div):
 			if i==0: continue
-			elif i%self.line_point==0: print(u',', end=u'')
-			elif i%self.dot_point==0:print(u'.', end=u'')
+			elif i%self.line_point==0: print(',', end='')
+			elif i%self.dot_point==0:print('.', end='')
 
 		self.prev = div
 
@@ -78,26 +78,26 @@ class Progress(object):
 			return
 
 		if (self.point % self.dot_point) == 0:
-			print(u'.', end=u'')
+			print('.', end='')
 
 		if (self.point % self.line_point) == 0:
-			text = u'%s'%(u'{:,}'.format(self.point))
+			text = '%s'%('{:,}'.format(self.point))
 			if self.upper_bound >0:
-				text += u'/%s'%(u'{:,}'.format(self.upper_bound))
-			text += u' (time:%s'%self.timer.diff_auto()
+				text += '/%s'%('{:,}'.format(self.upper_bound))
+			text += ' (time:%s'%self.timer.diff_auto()
 			if _msg is not None:
-				text += u' %s' %_msg
-			text += u')'
+				text += ' %s' %_msg
+			text += ')'
 			print(text)
-			print(u'%s'%self.header, end=u'')
+			print('%s'%self.header, end='')
 
 	def done(self, _msg=None):
-		text = u'Done. (size:%s'%(u'{:,}'.format(self.point))
-		text += u' time:%s'% self.fulltimer.diff_auto()
+		text = 'Done. (size:%s'%('{:,}'.format(self.point))
+		text += ' time:%s'% self.fulltimer.diff_auto()
 		if _msg is not None:
-			text += u' %s)'%_msg
+			text += ' %s)'%_msg
 		else:
-			text += u')'
+			text += ')'
 		print(text)
 
 

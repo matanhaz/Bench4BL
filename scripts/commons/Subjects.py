@@ -5,7 +5,6 @@ Created on 2017. 02. 16
 Updated on 2017. 02. 16
 '''
 
-from __future__ import print_function
 import os
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -15,71 +14,71 @@ class Subjects(object):
 	Collecting Subjects information
 	Sourcecode, Bug reports, Duplicate bug reports
 	'''
-	__name__ = u'Subjects'
-	root = os.path.join(here, u'../../data/')
-	root_result = os.path.join(here, u'../../expresults/')
+	__name__ = 'Subjects'
+	root = os.path.join(here, '../../data/')
+	root_result = os.path.join(here, '../../expresults/')
 	techniques = ['BugLocator', 'BRTracer', 'BLUiR', 'AmaLgam', 'BLIA', 'Locus']
 	groups = ['Apache', 'Commons', 'JBoss', 'Wildfly', 'Spring']
 	projects = {
-		'Apache':[u'CAMEL', u'HBASE', u'HIVE'],
-		'Commons':[u'CODEC', u'COLLECTIONS', u'COMPRESS', u'CONFIGURATION', u'CRYPTO', u'IO', u'LANG', u'MATH', u'WEAVER',u'CSV'],
-		'JBoss':[u'ENTESB', u'JBMETA'],
-		'Wildfly':[u'ELY', u'WFARQ', u'WFCORE', u'WFLY', u'WFMP',u'SWARM'],
-		'Spring':[U'AMQP', U'ANDROID', U'BATCH', U'BATCHADM', U'DATACMNS', U'DATAGRAPH', U'DATAJPA', U'DATAMONGO', U'DATAREDIS', U'DATAREST', U'LDAP', U'MOBILE', U'ROO', U'SEC', U'SECOAUTH', U'SGF', U'SHDP', U'SHL', U'SOCIAL', U'SOCIALFB', U'SOCIALLI', U'SOCIALTW', U'SPR', U'SWF', U'SWS']
+		'Apache':['CAMEL', 'HBASE', 'HIVE'],
+		'Commons':['CODEC', 'COLLECTIONS', 'COMPRESS', 'CONFIGURATION', 'CRYPTO', 'IO', 'LANG', 'MATH', 'WEAVER','CSV'],
+		'JBoss':['ENTESB', 'JBMETA'],
+		'Wildfly':['ELY', 'WFARQ', 'WFCORE', 'WFLY', 'WFMP','SWARM'],
+		'Spring':['AMQP', 'ANDROID', 'BATCH', 'BATCHADM', 'DATACMNS', 'DATAGRAPH', 'DATAJPA', 'DATAMONGO', 'DATAREDIS', 'DATAREST', 'LDAP', 'MOBILE', 'ROO', 'SEC', 'SECOAUTH', 'SGF', 'SHDP', 'SHL', 'SOCIAL', 'SOCIALFB', 'SOCIALLI', 'SOCIALTW', 'SPR', 'SWF', 'SWS']
 	}
 
 	urls = {
-		'HBASE': u'https://github.com/apache/hbase.git',
-		'HIVE': u'https://github.com/apache/hive.git',
-		'CAMEL': u'https://github.com/apache/camel.git',
+		'HBASE': 'https://github.com/apache/hbase.git',
+		'HIVE': 'https://github.com/apache/hive.git',
+		'CAMEL': 'https://github.com/apache/camel.git',
 
-		'MATH': u'https://github.com/apache/commons-math.git',
-		'LANG': u'https://github.com/apache/commons-lang.git',
-		'IO': u'https://github.com/apache/commons-io.git',
-		'COLLECTIONS': u'https://github.com/apache/commons-collections.git',
-		'CODEC': u'https://github.com/apache/commons-codec.git',
-		'WEAVER': u'https://github.com/apache/commons-weaver.git',
-		'CONFIGURATION': u'https://github.com/apache/commons-configuration.git',
-		'CSV': u'https://github.com/apache/commons-csv.git',
-		'COMPRESS': u'https://github.com/apache/commons-compress.git',
-		'CRYPTO': u'https://github.com/apache/commons-crypto.git',
+		'MATH': 'https://github.com/apache/commons-math.git',
+		'LANG': 'https://github.com/apache/commons-lang.git',
+		'IO': 'https://github.com/apache/commons-io.git',
+		'COLLECTIONS': 'https://github.com/apache/commons-collections.git',
+		'CODEC': 'https://github.com/apache/commons-codec.git',
+		'WEAVER': 'https://github.com/apache/commons-weaver.git',
+		'CONFIGURATION': 'https://github.com/apache/commons-configuration.git',
+		'CSV': 'https://github.com/apache/commons-csv.git',
+		'COMPRESS': 'https://github.com/apache/commons-compress.git',
+		'CRYPTO': 'https://github.com/apache/commons-crypto.git',
 
-		'ENTESB': u'https://github.com/jboss-fuse/fuse.git',
-		'JBMETA': u'https://github.com/jboss/metadata.git',
+		'ENTESB': 'https://github.com/jboss-fuse/fuse.git',
+		'JBMETA': 'https://github.com/jboss/metadata.git',
 
-		'ELY': u'https://github.com/wildfly-security/wildfly-elytron.git',
-		'SWARM': u'https://github.com/wildfly-swarm/wildfly-swarm.git',
-		'WFARQ': u'https://github.com/wildfly/wildfly-arquillian.git',
-		'WFCORE': u'https://github.com/wildfly/wildfly-core.git',
-		'WFLY': u'https://github.com/wildfly/wildfly.git',
-		'WFMP': u'https://github.com/wildfly/wildfly-maven-plugin.git',
+		'ELY': 'https://github.com/wildfly-security/wildfly-elytron.git',
+		'SWARM': 'https://github.com/wildfly-swarm/wildfly-swarm.git',
+		'WFARQ': 'https://github.com/wildfly/wildfly-arquillian.git',
+		'WFCORE': 'https://github.com/wildfly/wildfly-core.git',
+		'WFLY': 'https://github.com/wildfly/wildfly.git',
+		'WFMP': 'https://github.com/wildfly/wildfly-maven-plugin.git',
 
-		'ANDROID': u'https://github.com/spring-projects/spring-android',
-		'AMQP': u'https://github.com/spring-projects/spring-amqp',
-		'BATCH': u'https://github.com/spring-projects/spring-batch',
-		'BATCHADM': u'https://github.com/spring-projects/spring-batch-admin',
-		'DATACMNS': u'https://github.com/spring-projects/spring-data-commons',
-		'DATAJPA': u'https://github.com/spring-projects/spring-data-jpa',
-		'DATAMONGO': u'https://github.com/spring-projects/spring-data-mongodb',
-		'DATAGRAPH': u'https://github.com/spring-projects/spring-data-neo4j',
-		'DATAREDIS': u'https://github.com/spring-projects/spring-data-redis',
-		'DATAREST': u'https://github.com/spring-projects/spring-data-rest',
-		'LDAP': u'https://github.com/spring-projects/spring-ldap',
-		'MOBILE': u'https://github.com/spring-projects/spring-mobile',
-		'ROO': u'https://github.com/spring-projects/spring-roo',
-		'SECOAUTH': u'https://github.com/spring-projects/spring-security-oauth',
-		'SHL': u'https://github.com/spring-projects/spring-shell',
-		'SOCIAL': u'https://github.com/spring-projects/spring-social',
-		'SOCIALFB': u'https://github.com/spring-projects/spring-social-facebook',
-		'SOCIALLI': u'https://github.com/spring-projects/spring-social-linkedin',
-		'SOCIALTW': u'https://github.com/spring-projects/spring-social-twitter',
-		'SPR': u'https://github.com/spring-projects/spring-framework',
-		'SWF': u'https://github.com/spring-projects/spring-webflow',
-		'SWS': u'https://github.com/spring-projects/spring-ws',
-		'SGF': u'https://github.com/spring-projects/spring-data-gemfire',
-		'SHDP': u'https://github.com/spring-projects/spring-hadoop',
-		'SEC': u'https://github.com/spring-projects/spring-security',
-		# 'SOCIALGH':u'https://github.com/spring-projects/spring-social-github',
+		'ANDROID': 'https://github.com/spring-projects/spring-android',
+		'AMQP': 'https://github.com/spring-projects/spring-amqp',
+		'BATCH': 'https://github.com/spring-projects/spring-batch',
+		'BATCHADM': 'https://github.com/spring-projects/spring-batch-admin',
+		'DATACMNS': 'https://github.com/spring-projects/spring-data-commons',
+		'DATAJPA': 'https://github.com/spring-projects/spring-data-jpa',
+		'DATAMONGO': 'https://github.com/spring-projects/spring-data-mongodb',
+		'DATAGRAPH': 'https://github.com/spring-projects/spring-data-neo4j',
+		'DATAREDIS': 'https://github.com/spring-projects/spring-data-redis',
+		'DATAREST': 'https://github.com/spring-projects/spring-data-rest',
+		'LDAP': 'https://github.com/spring-projects/spring-ldap',
+		'MOBILE': 'https://github.com/spring-projects/spring-mobile',
+		'ROO': 'https://github.com/spring-projects/spring-roo',
+		'SECOAUTH': 'https://github.com/spring-projects/spring-security-oauth',
+		'SHL': 'https://github.com/spring-projects/spring-shell',
+		'SOCIAL': 'https://github.com/spring-projects/spring-social',
+		'SOCIALFB': 'https://github.com/spring-projects/spring-social-facebook',
+		'SOCIALLI': 'https://github.com/spring-projects/spring-social-linkedin',
+		'SOCIALTW': 'https://github.com/spring-projects/spring-social-twitter',
+		'SPR': 'https://github.com/spring-projects/spring-framework',
+		'SWF': 'https://github.com/spring-projects/spring-webflow',
+		'SWS': 'https://github.com/spring-projects/spring-ws',
+		'SGF': 'https://github.com/spring-projects/spring-data-gemfire',
+		'SHDP': 'https://github.com/spring-projects/spring-hadoop',
+		'SEC': 'https://github.com/spring-projects/spring-security',
+		# 'SOCIALGH':'https://github.com/spring-projects/spring-social-github',
 	}
 
 	###
@@ -115,7 +114,7 @@ class Subjects(object):
 				# for version in self.bugs[project]:
 				# 	if version == 'all': continue
 				# 	sumBugs += len(self.bugs[project][version])
-				# print(u'%s\t%s\t%d\t%d' % (group, project, len(self.bugs[project]['all']), sumBugs))
+				# print('%s\t%s\t%d\t%d' % (group, project, len(self.bugs[project]['all']), sumBugs))
 		self.complement_duplicates()
 		pass
 
@@ -224,7 +223,7 @@ class Subjects(object):
 		return os.path.join(self.root, _group, _project)
 
 	def getPath_results(self, _type, _tech, _group, _project, _version):
-		return os.path.join(self.root_result, _type, _group, _project, u'%s_%s_%s_output.txt'%(_tech, _project, _version))
+		return os.path.join(self.root_result, _type, _group, _project, '%s_%s_%s_output.txt'%(_tech, _project, _version))
 
 	def getPath_result_folder(self, _type, _group, _project):
 		return os.path.join(self.root_result, _type, _group, _project)

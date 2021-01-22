@@ -3,13 +3,12 @@
 Created on 2016. 11. 19
 Updated on 2016. 01. 09
 '''
-from __future__ import print_function
 
 
 class ResultItem():
 	id = 0
-	version = u''
-	filename = u''
+	version = ''
+	filename = ''
 	rank = 0
 	score = 0.0
 	top1 = 0
@@ -48,14 +47,14 @@ class ResultItem():
 
 class BugSummaryItem():
 	id = 0
-	version = u''
+	version = ''
 	top1 = 0
 	top5 = 0
 	top10 = 0
 	AP = 0.0
 	TP = 0.0
 
-	def __init__(self, _id=None, _version=u'', _top1=0, _top5=0, _top10=0, _AP=0.0, _TP=0.0):
+	def __init__(self, _id=None, _version='', _top1=0, _top5=0, _top10=0, _AP=0.0, _TP=0.0):
 		self.id = _id
 		self.version = _version
 		self.top1   = _top1
@@ -66,7 +65,7 @@ class BugSummaryItem():
 		pass
 
 	def __repr__(self):
-		return u'ID(%d) <%s, Top1 :%d , Top5: %d, Top10: %d, PR: %.4f,  IR: %.4f>' % (
+		return 'ID(%d) <%s, Top1 :%d , Top5: %d, Top10: %d, PR: %.4f,  IR: %.4f>' % (
 				self.id, self.version, self.top1, self.top5, self.top10, self.AP, self.TP)
 
 	def get_raw(self):
@@ -75,7 +74,7 @@ class BugSummaryItem():
 
 
 class ProjectSummaryItem():
-	project = u''
+	project = ''
 	top1 = 0
 	top5 = 0
 	top10 = 0
@@ -85,7 +84,7 @@ class ProjectSummaryItem():
 	MAP = 0.0
 	MRR = 0.0
 
-	def __init__(self, _project=u'', _top1=0, _top5=0, _top10=0,
+	def __init__(self, _project='', _top1=0, _top5=0, _top10=0,
 	             _top1P = 0.0, _top5P = 0.0, _top10P=0.0,_MAP=0.0, _MRR=0.0):
 		self.project = _project
 		self.top1   = _top1
@@ -99,5 +98,5 @@ class ProjectSummaryItem():
 		pass
 
 	def __repr__(self):
-		return u'Top1: %d (%.2f%%), Top5: %d (%.2f%%), Top10: %d (%.2f%%), MAP: %.2f%%,  MRR: %.2f%%' % (
+		return 'Top1: %d (%.2f%%), Top5: %d (%.2f%%), Top10: %d (%.2f%%), MAP: %.2f%%,  MRR: %.2f%%' % (
 				self.top1, self.top1P, self.top5, self.top5P, self.top10, self.top10P, self.MAP, self.MRR)

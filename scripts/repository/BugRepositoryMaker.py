@@ -3,26 +3,26 @@
 Created on 2016. 11. 19
 Updated on 2016. 01. 09
 '''
-from __future__ import print_function
+
 import os
 import sys
 sys.path.append(os.getcwd())    # add the executed path to system PATH
 
 import codecs
 from commons import VersionUtil
-from GitLog import GitLog
-from BugFilter import BugFilter
-from GitVersion import GitVersion
+from repository import GitLog
+from repository import BugFilter
+from repository import GitVersion
 import shutil
 
 
 class BugRepositoryMaker:
 	'''
 	'''
-	__name__ = u'BugRepositoryMaker'
-	ProjectName = u''
-	duplicatePath = u''
-	repositoryPath = u''
+	__name__ = 'BugRepositoryMaker'
+	ProjectName = ''
+	duplicatePath = ''
+	repositoryPath = ''
 	git = None
 	gitVersion = None
 	bugFilter = None
@@ -33,11 +33,11 @@ class BugRepositoryMaker:
 			os.makedirs(_output)
 
 		self.ProjectName = _projectName
-		self.duplicatePath = os.path.join(_output, u'duplicates.json')
-		self.repositoryPath = os.path.join(_output, u'repository')
-		self.git = GitLog( _projectName, _gitPath, os.path.join(_output, u'.git.log'))
-		self.gitVersion = GitVersion(_projectName, _gitPath, os.path.join(_output, u'.git_version.txt'))
-		self.bugFilter = BugFilter(_projectName, os.path.join(_srcbugPath, u'bugs'))
+		self.duplicatePath = os.path.join(_output, 'duplicates.json')
+		self.repositoryPath = os.path.join(_output, 'repository')
+		self.git = GitLog( _projectName, _gitPath, os.path.join(_output, '.git.log'))
+		self.gitVersion = GitVersion(_projectName, _gitPath, os.path.join(_output, '.git_version.txt'))
+		self.bugFilter = BugFilter(_projectName, os.path.join(_srcbugPath, 'bugs'))
 		pass
 
 	#######################################################################
@@ -49,35 +49,35 @@ class BugRepositoryMaker:
 		:param _bug:
 		:return:
 		'''
-		format =  u'\t<bug id="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
-		format += u'\t\t<buginformation>\n'
-		format += u'\t\t\t<summary>%s</summary>\n'
-		format += u'\t\t\t<description>%s</description>\n'
-		format += u'\t\t\t<version>%s</version>\n'
-		format += u'\t\t\t<fixedVersion>%s</fixedVersion>\n'
-		format += u'\t\t\t<type>%s</type>\n'
-		format += u'\t\t</buginformation>\n'
-		format += u'\t\t<fixedFiles>\n%s\n\t\t</fixedFiles>\n'
-		format += u'%s'  #this section for links
-		format += u'\t</bug>\n'
+		format =  '\t<bug id="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
+		format += '\t\t<buginformation>\n'
+		format += '\t\t\t<summary>%s</summary>\n'
+		format += '\t\t\t<description>%s</description>\n'
+		format += '\t\t\t<version>%s</version>\n'
+		format += '\t\t\t<fixedVersion>%s</fixedVersion>\n'
+		format += '\t\t\t<type>%s</type>\n'
+		format += '\t\t</buginformation>\n'
+		format += '\t\t<fixedFiles>\n%s\n\t\t</fixedFiles>\n'
+		format += '%s'  #this section for links
+		format += '\t</bug>\n'
 
-		fixedfiles = u'\n'.join(
-			u'\t\t\t<file type="'+ f['type'] +u'">' + f['name'] + u'</file>'
+		fixedfiles = '\n'.join(
+			'\t\t\t<file type="'+ f['type'] +'">' + f['name'] + '</file>'
 			for f in _bug['fixedFiles']
 		)
 
-		links = u'\n'.join(
-			u'\t\t\t<link type="'+ link['type']
-			+ u'" description="'+ link['description'] +u'">'
-			+ link['id'][link['id'].rfind('-')+1:] + u'</link>'
+		links = '\n'.join(
+			'\t\t\t<link type="'+ link['type']
+			+ '" description="'+ link['description'] +'">'
+			+ link['id'][link['id'].rfind('-')+1:] + '</link>'
 			for link in _bug['links']
 		)
-		if links !=u'':
-			links = u'\t\t<links>\n%s\n\t\t</links>\n'%links
+		if links !='':
+			links = '\t\t<links>\n%s\n\t\t</links>\n'%links
 
 		text = format% (_bug['id'][_bug['id'].rfind('-')+1:],
-						_bug['opendate'].strftime(u'%Y-%m-%d %H:%M:%S'),
-						_bug['fixdate'].strftime(u'%Y-%m-%d %H:%M:%S'),
+						_bug['opendate'].strftime('%Y-%m-%d %H:%M:%S'),
+						_bug['fixdate'].strftime('%Y-%m-%d %H:%M:%S'),
 						_bug['resolution'],
 						_bug['summary'],
 						_bug['description'],
@@ -94,31 +94,31 @@ class BugRepositoryMaker:
 		:param _bug:
 		:return:
 		'''
-		format =  u'\t<bug id="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
-		format += u'\t\t<buginformation>\n'
-		format += u'\t\t\t<summary>%s</summary>\n'
-		format += u'\t\t\t<version>%s</version>\n'
-		format += u'\t\t\t<fixedVersion>%s</fixedVersion>\n'
-		format += u'\t\t\t<type>%s</type>\n'
-		format += u'\t\t</buginformation>\n'
-		format += u'\t\t<fixedFiles>%s</fixedFiles>\n'
-		format += u'%s'  #this section for links
-		format += u'\t</bug>\n'
+		format =  '\t<bug id="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
+		format += '\t\t<buginformation>\n'
+		format += '\t\t\t<summary>%s</summary>\n'
+		format += '\t\t\t<version>%s</version>\n'
+		format += '\t\t\t<fixedVersion>%s</fixedVersion>\n'
+		format += '\t\t\t<type>%s</type>\n'
+		format += '\t\t</buginformation>\n'
+		format += '\t\t<fixedFiles>%s</fixedFiles>\n'
+		format += '%s'  #this section for links
+		format += '\t</bug>\n'
 
-		fixedfiles = unicode(len(_bug['fixedFiles']))
+		fixedfiles = str(len(_bug['fixedFiles']))
 
-		links = u'\n'.join(
-			u'\t\t\t<link type="'+ link['type']
-			+ u'" description="'+ link['description'] +u'">'
-			+ link['id'][link['id'].rfind('-')+1:] + u'</link>'
+		links = '\n'.join(
+			'\t\t\t<link type="'+ link['type']
+			+ '" description="'+ link['description'] +'">'
+			+ link['id'][link['id'].rfind('-')+1:] + '</link>'
 			for link in _bug['links']
 		)
-		if links !=u'':
-			links = u'\t\t<links>\n%s\n\t\t</links>\n'%links
+		if links !='':
+			links = '\t\t<links>\n%s\n\t\t</links>\n'%links
 
 		text = format% (_bug['id'][_bug['id'].rfind('-')+1:],
-						_bug['opendate'].strftime(u'%Y-%m-%d %H:%M:%S'),
-						_bug['fixdate'].strftime(u'%Y-%m-%d %H:%M:%S'),
+						_bug['opendate'].strftime('%Y-%m-%d %H:%M:%S'),
+						_bug['fixdate'].strftime('%Y-%m-%d %H:%M:%S'),
 						_bug['resolution'],
 						_bug['summary'],
 						_bug['version'],
@@ -131,10 +131,10 @@ class BugRepositoryMaker:
 	def outputXML(self, _items, _targetPath):
 		#write XML File
 		output = codecs.open(_targetPath, 'w', 'utf-8')
-		output.write(u'<?xml version = "1.0" encoding = "UTF-8" ?>\n<bugrepository name="%s">\n'%self.ProjectName)
+		output.write('<?xml version = "1.0" encoding = "UTF-8" ?>\n<bugrepository name="%s">\n'%self.ProjectName)
 		for item in _items:
 			output.write(self.convertText(item))
-		output.write(u'</bugrepository>')
+		output.write('</bugrepository>')
 		output.flush()
 		output.close()
 		pass
@@ -146,12 +146,12 @@ class BugRepositoryMaker:
 			if item['type'] not in types:
 				types[item['type']] = 1
 
-		output = codecs.open(self.repositoryPath + u'.type', 'w', 'utf-8')
+		output = codecs.open(self.repositoryPath + '.type', 'w', 'utf-8')
 		for t in types.keys():
 			for item in _items:
 				if item['type'] != t : continue
 				output.write(self.convertText(item))
-			output.write(u'\n\n<!-- -------------------------------------------------------------- -->\n\n')
+			output.write('\n\n<!-- -------------------------------------------------------------- -->\n\n')
 		output.close()
 
 		versions = {}
@@ -159,17 +159,17 @@ class BugRepositoryMaker:
 			if item['version'] not in versions:
 				versions[item['version']] = 1
 
-		output = codecs.open(self.repositoryPath + u'.version', 'w', 'utf-8')
+		output = codecs.open(self.repositoryPath + '.version', 'w', 'utf-8')
 		for ver in versions.keys():
 			for item in _items:
 				if item['version'] != ver: continue
 				output.write(self.convertTextSimple(item))
-			output.write(u'\n\n<!-- -------------------------------------------------------------- -->\n\n')
+			output.write('\n\n<!-- -------------------------------------------------------------- -->\n\n')
 		output.close()
 
 	def getVersionString(self, _version):
-		vname = self.ProjectName + u'_' + _version.replace(u'.', u'_')
-		if vname.endswith(u'_') is True:
+		vname = self.ProjectName + '_' + _version.replace('.', '_')
+		if vname.endswith('_') is True:
 			vname = vname[:-1]
 		return vname
 
@@ -182,7 +182,7 @@ class BugRepositoryMaker:
 		size = len(_versions)
 		for idx in range(0, size):
 			version = _versions[idx]
-			nextVersion = _versions[idx + 1] if idx != size - 1 else u'10000.0'  # assign big. version number
+			nextVersion = _versions[idx + 1] if idx != size - 1 else '10000.0'  # assign big. version number
 
 			for bugitem in _items:
 				if VersionUtil.cmpVersion(version, bugitem['version']) > 0 and idx!=0: continue
@@ -193,20 +193,20 @@ class BugRepositoryMaker:
 
 	def outputDuplicates(self, _dupgroups):
 		output = codecs.open(self.duplicatePath, 'w', 'utf-8')
-		output.write(u'{"%s":[\n' % self.ProjectName.lower())
+		output.write('{"%s":[\n' % self.ProjectName.lower())
 		groupcnt  = 0
 		for group in _dupgroups:
 			groupcnt += 1
 			srcID = int(group['src'][group['src'].find('-')+1:].strip())
 			destID = int(group['dest'][group['dest'].find('-')+1:].strip())
-			output.write(u'\t[%d, %d]'%(srcID, destID))
+			output.write('\t[%d, %d]'%(srcID, destID))
 			if groupcnt != len(_dupgroups):
-				output.write(u',')
+				output.write(',')
 			if group['fixedboth'] is True:
-				output.write(u' # fixed both')
-			output.write(u'\n')
+				output.write(' # fixed both')
+			output.write('\n')
 
-		output.write(u']}\n')
+		output.write(']}\n')
 		output.close()
 		return len(_dupgroups)
 
@@ -243,25 +243,25 @@ class BugRepositoryMaker:
 	#######################################################################
 	def run(self, _versions, _removeTest=True):
 
-		print(u'[%s] start making bug repositories for %s' %(self.__name__, self.ProjectName))
+		print(('[%s] start making bug repositories for %s' %(self.__name__, self.ProjectName)))
 		logs = self.git.load()
 		tagmaps = self.gitVersion.load()
 		items, dupgroups = self.bugFilter.run(logs, tagmaps, _removeTest)
-		print(u'[%s] %d Bug reports has been merged!' % (self.ProjectName, len(items)))
+		print(('[%s] %d Bug reports has been merged!' % (self.ProjectName, len(items))))
 
 		# refine more
 		FilteredItems = self.getItemsOnlyVersion(items)
 		versionItems = self.getItemsByVersion(FilteredItems, _versions)
-		print(u'[%s] Making bug repository for each version...' % self.ProjectName)
+		print(('[%s] Making bug repository for each version...' % self.ProjectName))
 
 		# revise dup bug reports which are not include removed items.
 		# and remove missed bugs from FilteredItems when the version making
 		dupgroups = self.filter_dupgroups(dupgroups, FilteredItems)
-		print(u'[%s] Filtered bug reports.' % self.ProjectName)
+		print(('[%s] Filtered bug reports.' % self.ProjectName))
 
 		#self.printSample(items)
-		self.outputXML(items, self.repositoryPath + u'_full.xml')
-		self.outputXML(FilteredItems, self.repositoryPath + u'.xml')
+		self.outputXML(items, self.repositoryPath + '_full.xml')
+		self.outputXML(FilteredItems, self.repositoryPath + '.xml')
 
 		if os.path.exists(self.repositoryPath) is True:
 			shutil.rmtree(self.repositoryPath)
@@ -272,16 +272,16 @@ class BugRepositoryMaker:
 		for ver in versionItems.keys():
 			if len(versionItems[ver])==0: continue
 			exists.add(ver)
-			outputPath = os.path.join(self.repositoryPath, self.getVersionString(ver) + u'.xml')
+			outputPath = os.path.join(self.repositoryPath, self.getVersionString(ver) + '.xml')
 			self.outputXML(versionItems[ver], outputPath)
-		print(u'Done')
+		print('Done')
 
 		exists = list(exists)
 		exists.sort(cmp=VersionUtil.cmpVersion)
-		print(u'[%s] %d version repositories has been created! %s' % (self.ProjectName, len(exists), exists))
+		print(('[%s] %d version repositories has been created! %s' % (self.ProjectName, len(exists), exists)))
 
 		dupcnt = self.outputDuplicates(dupgroups)
-		print(u'[%s] %d duplicate bug-set has been created!' % (self.ProjectName, dupcnt))
+		print(('[%s] %d duplicate bug-set has been created!' % (self.ProjectName, dupcnt)))
 		pass
 
 ###############################################################################################################
@@ -308,7 +308,7 @@ if __name__ == "__main__":
 	if args is None:
 		# from collections import namedtuple
 		# Args = namedtuple('Args', 'project gitPath bugPath versions')
-		#args = Args(u'PDE', u'/var/experiments/BugLocalization/dist/data/Previous/PDE/gitrepo/', u'/var/experiments/BugLocalization/dist/data/Previous/PDE/bugrepo/PDE/', ['4.5'])
+		#args = Args('PDE', '/var/experiments/BugLocalization/dist/data/Previous/PDE/gitrepo/', '/var/experiments/BugLocalization/dist/data/Previous/PDE/bugrepo/PDE/', ['4.5'])
 
 		exit(0)
 

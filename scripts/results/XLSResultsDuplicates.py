@@ -4,7 +4,6 @@ Created on 2017. 04. 14
 Updated on 2017. 04. 14
 
 '''
-from __future__ import print_function
 
 from scipy.stats import mannwhitneyu
 
@@ -17,23 +16,23 @@ class XLSResultsDuplicates(XLSbasic):
 	'''
 	This class for duplicate reports
 	'''
-	__name__ = u'XLSResultsDuplicates'
+	__name__ = 'XLSResultsDuplicates'
 
 
 	#######################################################################
 	# Data Summary Part Process
 	#######################################################################
 	def create_OverallSheet(self, _startCol):
-		sheet = self.workbook.add_worksheet(u'Overall')
-		self.input_colspan(sheet, 0, 0, 3, [u'Master'], default_style=self.title_format)
-		self.input_colspan(sheet, 0, 4, 3, [u'Duplicate'], default_style=self.title_format)
-		texts = [u'Technique', u'MAP', u'MRR', u'', u'Technique', u'MAP', u'MRR']
+		sheet = self.workbook.add_worksheet('Overall')
+		self.input_colspan(sheet, 0, 0, 3, ['Master'], default_style=self.title_format)
+		self.input_colspan(sheet, 0, 4, 3, ['Duplicate'], default_style=self.title_format)
+		texts = ['Technique', 'MAP', 'MRR', '', 'Technique', 'MAP', 'MRR']
 		styles = [self.title_format]*3  + [self.blank_format] + [self.title_format]*3
 		self.set_cols(sheet, col=_startCol, widths=[17, 15, 15, 10, 17, 15, 15])
 		self.input_row(sheet, row=1, col=_startCol, values=texts, styles=styles)
 
-		self.input_colspan(sheet, 10, 0, 3, [u'Master-Duplicate MWUTest'], default_style=self.title_format)
-		texts = [u'Technique', u'MAP', u'MRR']
+		self.input_colspan(sheet, 10, 0, 3, ['Master-Duplicate MWUTest'], default_style=self.title_format)
+		texts = ['Technique', 'MAP', 'MRR']
 		styles = [self.title_format] * 3 + [self.blank_format] + [self.title_format] * 3
 		self.input_row(sheet, row=11, col=_startCol, values=texts, styles=styles)
 		return sheet
@@ -54,7 +53,7 @@ class XLSResultsDuplicates(XLSbasic):
 			# masterCNT = float(len(self.OverallResult[tech]['master']['AP']))
 			# dupCNT = float(len(self.OverallResult[tech]['duplicate']['AP']))
 
-			values = [tech, sum(self.OverallResult[tech]['master']['AP'])/ float(masterCNT), sum(self.OverallResult[tech]['master']['TP'])/float(masterCNT), u'',
+			values = [tech, sum(self.OverallResult[tech]['master']['AP'])/ float(masterCNT), sum(self.OverallResult[tech]['master']['TP'])/float(masterCNT), '',
 					  tech, sum(self.OverallResult[tech]['duplicate']['AP'])/float(dupCNT), sum(self.OverallResult[tech]['duplicate']['TP'])/float(dupCNT)]
 
 			self.input_row(_sheet, row, 0, values, styles)
@@ -81,7 +80,7 @@ class XLSResultsDuplicates(XLSbasic):
 	#######################################################################
 	def create_SummarySheet(self, _shtName, _startCol):
 		sheet = self.workbook.add_worksheet(_shtName)
-		texts = [u'DupType', u'Technique',  u'Group', u'Project', u'Source Files', u'BugCount', u'Recommended BugCount', u'Top1 Count', u'Top5 Count', u'Top10 Count', u'Top1', u'Top5', u'Top10', u'MAP', u'MRR']
+		texts = ['DupType', 'Technique',  'Group', 'Project', 'Source Files', 'BugCount', 'Recommended BugCount', 'Top1 Count', 'Top5 Count', 'Top10 Count', 'Top1', 'Top5', 'Top10', 'MAP', 'MRR']
 		self.set_cols(sheet, col=_startCol, widths=[10, 17, 17, 17, 14, 7, 7, 7, 7, 7, 7, 7, 7])
 		self.input_row(sheet, row=0, col=_startCol, values=texts, default_style=self.title_format)
 
@@ -108,7 +107,7 @@ class XLSResultsDuplicates(XLSbasic):
 
 		self.set_cols(sheet, 0, widths=[5, 12, 12, 12, 12, 8, 12, 12, 25, 6, 12, 12, 12, 7, 7, 7, 10, 8, 8, 8])
 
-		texts = [u'key',u'DupType', u'Technique', u'Group', u'Project',  u'BugID', u'Version', u'AnsFileCount', u'File', u'Rank', u'Score',u'normalRank', u'normalScore', u'Top1', u'Top5', u'Top10', u'AnsOrder', u'P(rank)', u'AP', u'TP']
+		texts = ['key','DupType', 'Technique', 'Group', 'Project',  'BugID', 'Version', 'AnsFileCount', 'File', 'Rank', 'Score','normalRank', 'normalScore', 'Top1', 'Top5', 'Top10', 'AnsOrder', 'P(rank)', 'AP', 'TP']
 		self.input_row(sheet, row=0, col=_startCol, values=texts, default_style=self.title_format)
 
 		sheet.freeze_panes(1, 0)  # Freeze the second row.
@@ -136,7 +135,7 @@ class XLSResultsDuplicates(XLSbasic):
 					vname = 'max'
 				normRank = (this.rank+1) / float(_srcCounts[vname])
 				normScore = (this.score / maxScore) if _program in ['AmaLgam', 'BLUiR', 'BLIA'] else this.score
-				key = u'%s%d'%(_project.lower(),this.id)
+				key = '%s%d'%(_project.lower(),this.id)
 				values = [key,
 						  _type, _program, _group, _project, this.id, this.version, count, this.filename, this.rank, this.score, normRank, normScore,
 				          this.top1, this.top5, this.top10, this.AnsOrder, this.AP, AP, this.TP]
@@ -153,8 +152,8 @@ class XLSResultsDuplicates(XLSbasic):
 
 		self.set_cols(sheet, 0, widths=[5, 12, 12, 12, 12, 8, 12, 12, 6, 6, 6, 7, 7, 8, 8, 8])
 
-		texts = [u'key', u'DupType', u'Technique', u'Group', u'Project',  u'BugID', u'Version', u'AnsFileCount', u'Top1', u'Top5', u'Top10', u'AP', u'TP',
-		         u'Pin(1)', u'Pin(5)', u'Pin(10)']
+		texts = ['key', 'DupType', 'Technique', 'Group', 'Project',  'BugID', 'Version', 'AnsFileCount', 'Top1', 'Top5', 'Top10', 'AP', 'TP',
+		         'Pin(1)', 'Pin(5)', 'Pin(10)']
 		self.input_row(sheet, row=0, col=_startCol, values=texts, default_style=self.title_format)
 
 		sheet.freeze_panes(1, 0)  # Freeze the second row.
@@ -170,7 +169,7 @@ class XLSResultsDuplicates(XLSbasic):
 		for bugID in data_keys:
 			this = _bugData[bugID]			# for each bug id's results
 			count = _ansCounts[this.id]
-			key = u'%s%s%d'%(_program.lower(), _project.lower(),this.id)
+			key = '%s%s%d'%(_program.lower(), _project.lower(),this.id)
 			values = [key, _type, _program, _group, _project, this.id, this.version, count, this.top1, this.top5, this.top10, this.AP, this.TP]
 
 			values.append(this.top1 / float(count if count <= 1 else 1))
@@ -190,7 +189,7 @@ class XLSResultsDuplicates(XLSbasic):
 		if _isUnion is False:
 			for version in self.S.bugs[_project].keys():
 				if version == 'all': continue
-				versionName = u'%s' % version
+				versionName = '%s' % version
 				resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName))
 		else:
 			resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all'))
@@ -249,20 +248,20 @@ class XLSResultsDuplicates(XLSbasic):
 
 		# XLS preparing
 		shtOverall = self.create_OverallSheet(0)
-		shtMasterSummary, rowMasterSummary = self.create_SummarySheet(u'Summary (Master)', 0)
-		shtMasterBugData, rowMasterBugData = self.create_bugDataSheet(u'bugData (Master)', 0)
-		shtMasterData, rowMasterData = self.create_DataSheet(u'rawData (Master)', 0)
+		shtMasterSummary, rowMasterSummary = self.create_SummarySheet('Summary (Master)', 0)
+		shtMasterBugData, rowMasterBugData = self.create_bugDataSheet('bugData (Master)', 0)
+		shtMasterData, rowMasterData = self.create_DataSheet('rawData (Master)', 0)
 
-		shtDupSummary, rowDupSummary = self.create_SummarySheet(u'Summary (Dup)', 0)
-		shtDupBugData, rowDupBugData = self.create_bugDataSheet(u'bugData (Dup)', 0)
-		shtDupData, rowDupData = self.create_DataSheet(u'rawData (Dup)', 0)
+		shtDupSummary, rowDupSummary = self.create_SummarySheet('Summary (Dup)', 0)
+		shtDupBugData, rowDupBugData = self.create_bugDataSheet('bugData (Dup)', 0)
+		shtDupData, rowDupData = self.create_DataSheet('rawData (Dup)', 0)
 
 		for group in self.S.groups:
 			for project in self.S.projects[group]:
-				print(u'working %s / %s ...' % (group, project), end=u'')
+				print('working %s / %s ...' % (group, project), end='')
 
 				for tech in self.S.techniques:
-					print(tech + u' ', end=u'')
+					print(tech + ' ', end='')
 					evMaster, evDuplicate = self.load_results(group, project, tech, _isUnion)
 
 					masterBugs, dupBugs = self.make_IDsets(self.S.duplicates[project])
@@ -282,7 +281,7 @@ class XLSResultsDuplicates(XLSbasic):
 						self.OverallResult[tech]['duplicate']['AP'].append(evDuplicate.bugSummaries[bugID].AP)
 						self.OverallResult[tech]['duplicate']['TP'].append(evDuplicate.bugSummaries[bugID].TP)
 
-				print(u' Done')
+				print(' Done')
 
 		self.fill_OverallSheet(shtOverall)
 		self.finalize()
@@ -293,12 +292,12 @@ class XLSResultsDuplicates(XLSbasic):
 ###############################################################################################################
 ###############################################################################################################
 if __name__ == "__main__":
-	name = u'NewData_AWS'
-	obj = XLSResultsDuplicates(u'/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)
+	name = 'NewData_AWS'
+	obj = XLSResultsDuplicates('/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)
 	obj.run(name, _isUnion=False)
 
-	# name = u'NewDataSingle'
-	# obj = XLSResultsDuplicates(u'/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)
+	# name = 'NewDataSingle'
+	# obj = XLSResultsDuplicates('/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)
 	# obj.run(name, _isUnion=True)
 	pass
 

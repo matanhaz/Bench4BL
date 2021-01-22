@@ -3,7 +3,7 @@
 Created on 2017. 02. 13
 Updated on 2017. 02. 13
 '''
-from __future__ import print_function
+
 import os
 import matplotlib.pyplot as plt
 
@@ -14,9 +14,9 @@ class ExpBaseBug(object):
 
 	def get_order(self, _dataX):
 		order = []
-		for group, projects in _dataX.iteritems():
-			for project, items in projects.iteritems():
-				for itemID, data in items.iteritems():
+		for group, projects in _dataX.items():
+			for project, items in projects.items():
+				for itemID, data in items.items():
 					order.append((group, project, itemID))
 		return order
 
@@ -25,7 +25,7 @@ class ExpBaseBug(object):
 		labels = list()
 		for group, project, itemID in _orders:
 			arrayX.append(_dataX[group][project][itemID][_colX])
-			labels.append(u'%s_%s' % (project,itemID))
+			labels.append('%s_%s' % (project,itemID))
 		return arrayX, labels #list(labels)
 
 	def get_splitted_array(self, _dataX, _colX, _orders):
@@ -39,7 +39,7 @@ class ExpBaseBug(object):
 
 			if group not in labels: labels[group] = {}
 			if project not in labels[group]: labels[group][project] = []
-			labels[group][project].append(u'%s' % (itemID))
+			labels[group][project].append('%s' % (itemID))
 		return arrayX, labels #list(labels)
 
 	def load_results(self, _filename, _types):
@@ -47,10 +47,10 @@ class ExpBaseBug(object):
 		lines = f.readlines()
 		f.close()
 
-		titles = lines[0][:-1].split(u'\t')[3:]
+		titles = lines[0][:-1].split('\t')[3:]
 		data = {}
 		for line in lines[1:]:
-			cols = line[:-1].split(u'\t')
+			cols = line[:-1].split('\t')
 			group = cols[0]
 			project = cols[1]
 			itemID = cols[2]

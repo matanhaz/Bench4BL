@@ -3,7 +3,7 @@
 Created on 2016. 11. 19
 Updated on 2016. 01. 09
 '''
-from __future__ import print_function
+
 import cgi
 import os
 import re
@@ -18,7 +18,7 @@ from commons import Subjects
 class DupMergeRepositoryMaker:
 	'''
 	'''
-	__name__ = u'DupMergeRepositoryMaker'
+	__name__ = 'DupMergeRepositoryMaker'
 
 	def __init__(self):
 		pass
@@ -32,32 +32,32 @@ class DupMergeRepositoryMaker:
 		'''
 		self.S = Subjects()
 
-		print(u'working with %s / %s' % (_group, _project))
-		filename = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository.xml')
+		print('working with %s / %s' % (_group, _project))
+		filename = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository.xml')
 		bugs = self.load_bugs(filename)
 		dups = self.S.duplicates[_project]
 
 		merges = self.merge(_group, _project, bugs, dups)
-		print(u'created %d merged reports.' % len(merges))
+		print('created %d merged reports.' % len(merges))
 
 		versionItems = self.getItemsByVersion(merges, self.S.versions[_project].keys())
-		print(u'created %d version repositories from merged reports.' % len(versionItems))
+		print('created %d version repositories from merged reports.' % len(versionItems))
 
-		print(u'storing....', end=u'')
-		repositoryPath = os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository_merge')
+		print('storing....', end='')
+		repositoryPath = os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository_merge')
 		if os.path.exists(repositoryPath) is True:
 			shutil.rmtree(repositoryPath)
 		if os.path.exists(repositoryPath) is False:
 			os.makedirs(repositoryPath)
 
-		self.outputXML(_project, merges, os.path.join(self.S.getPath_bugrepo(_group, _project), u'repository_merge.xml'))
+		self.outputXML(_project, merges, os.path.join(self.S.getPath_bugrepo(_group, _project), 'repository_merge.xml'))
 		for ver in versionItems.keys():
-			filename = os.path.join(repositoryPath, VersionUtil.get_versionName(ver, _project) + u'.xml')
+			filename = os.path.join(repositoryPath, VersionUtil.get_versionName(ver, _project) + '.xml')
 			self.outputXML(_project, versionItems[ver], filename)
-		print(u'Done')
+		print('Done')
 
 		answers = self.make_answers(_project, merges, versionItems)
-		self.save_answers({_project:answers}, os.path.join(self.S.getPath_base(_group, _project), u'answers_merge.txt'))
+		self.save_answers({_project:answers}, os.path.join(self.S.getPath_base(_group, _project), 'answers_merge.txt'))
 		pass
 
 	def make_answers(self, _project, _items, _versionItems):
@@ -95,8 +95,8 @@ class DupMergeRepositoryMaker:
 			bug['id'] 			= str(bugID)
 			bug['master'] 		= _bugs[src]['id']
 			bug['duplicate'] 	= _bugs[dup]['id']
-			bug['summary'] 		= _bugs[src]['summary'] + u' ' + _bugs[dup]['summary']
-			bug['description'] 	= _bugs[src]['description'] + u' ' + _bugs[dup]['description']
+			bug['summary'] 		= _bugs[src]['summary'] + ' ' + _bugs[dup]['summary']
+			bug['description'] 	= _bugs[src]['description'] + ' ' + _bugs[dup]['description']
 
 			verSrc = _bugs[src]['version']
 			verDup = _bugs[dup]['version']
@@ -160,7 +160,7 @@ class DupMergeRepositoryMaker:
 		size = len(_versions)
 		for idx in range(0, size):
 			version = _versions[idx]
-			nextVersion = _versions[idx + 1] if idx != size - 1 else u'10000.0'  # assign big. version number
+			nextVersion = _versions[idx + 1] if idx != size - 1 else '10000.0'  # assign big. version number
 
 			for bugitem in _items:
 				if VersionUtil.cmpVersion(version, bugitem['version']) > 0 and idx!=0: continue
@@ -183,37 +183,37 @@ class DupMergeRepositoryMaker:
 		:param _bug:
 		:return:
 		'''
-		format =  u'\t<bug id="%s" master="%s" duplicate="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
-		format += u'\t\t<buginformation>\n'
-		format += u'\t\t\t<summary>%s</summary>\n'
-		format += u'\t\t\t<description>%s</description>\n'
-		format += u'\t\t\t<version>%s</version>\n'
-		format += u'\t\t\t<fixedVersion>%s</fixedVersion>\n'
-		format += u'\t\t\t<type>%s</type>\n'
-		format += u'\t\t</buginformation>\n'
-		format += u'\t\t<fixedFiles>\n%s\n\t\t</fixedFiles>\n'
-		format += u'%s'  #this section for links
-		format += u'\t</bug>\n'
+		format =  '\t<bug id="%s" master="%s" duplicate="%s" opendate="%s" fixdate="%s" resolution="%s">\n'
+		format += '\t\t<buginformation>\n'
+		format += '\t\t\t<summary>%s</summary>\n'
+		format += '\t\t\t<description>%s</description>\n'
+		format += '\t\t\t<version>%s</version>\n'
+		format += '\t\t\t<fixedVersion>%s</fixedVersion>\n'
+		format += '\t\t\t<type>%s</type>\n'
+		format += '\t\t</buginformation>\n'
+		format += '\t\t<fixedFiles>\n%s\n\t\t</fixedFiles>\n'
+		format += '%s'  #this section for links
+		format += '\t</bug>\n'
 
-		fixedfiles = u'\n'.join(
-			u'\t\t\t<file type="'+ f['type'] +u'">' + f['name'] + u'</file>'
+		fixedfiles = '\n'.join(
+			'\t\t\t<file type="'+ f['type'] +'">' + f['name'] + '</file>'
 			for f in _bug['fixedFiles']
 		)
 
-		links = u'\n'.join(
-			u'\t\t\t<link type="'+ link['type']
-			+ u'" description="'+ link['description'] +u'">'
-			+ link['id'] + u'</link>'
+		links = '\n'.join(
+			'\t\t\t<link type="'+ link['type']
+			+ '" description="'+ link['description'] +'">'
+			+ link['id'] + '</link>'
 			for link in _bug['links']
 		)
-		if links !=u'':
-			links = u'\t\t<links>\n%s\n\t\t</links>\n'%links
+		if links !='':
+			links = '\t\t<links>\n%s\n\t\t</links>\n'%links
 
 		text = format% (_bug['id'],
 						_bug['master'],
 						_bug['duplicate'],
-						_bug['opendate'].strftime(u'%Y-%m-%d %H:%M:%S'),
-						_bug['fixdate'].strftime(u'%Y-%m-%d %H:%M:%S'),
+						_bug['opendate'].strftime('%Y-%m-%d %H:%M:%S'),
+						_bug['fixdate'].strftime('%Y-%m-%d %H:%M:%S'),
 						_bug['resolution'],
 						_bug['summary'],
 						_bug['description'],
@@ -227,10 +227,10 @@ class DupMergeRepositoryMaker:
 	def outputXML(self, _project, _items, _targetPath):
 		#write XML File
 		output = codecs.open(_targetPath, 'w', 'utf-8')
-		output.write(u'<?xml version = "1.0" encoding = "UTF-8" ?>\n<bugrepository name="%s">\n'%_project)
+		output.write('<?xml version = "1.0" encoding = "UTF-8" ?>\n<bugrepository name="%s">\n'%_project)
 		for item in _items:
 			output.write(self.convertText(item))
-		output.write(u'</bugrepository>')
+		output.write('</bugrepository>')
 		output.flush()
 		output.close()
 		pass

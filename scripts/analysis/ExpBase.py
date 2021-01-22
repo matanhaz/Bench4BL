@@ -4,7 +4,7 @@ Created on 2017. 02. 13
 Updated on 2017. 02. 13
 
 '''
-from __future__ import print_function
+
 import os
 import matplotlib
 # Force matplotlib to not use any Xwindows backend.
@@ -15,22 +15,22 @@ import matplotlib.pyplot as plt
 
 
 class ExpBase(object):
-	OUTPUT = u''
+	OUTPUT = ''
 
 	def __init__(self):
 		pass
 
 	def get_order(self, _dataX):
 		order = []
-		for group, projects in _dataX.iteritems():
-			for project, data in projects.iteritems():
+		for group, projects in _dataX.items():
+			for project, data in projects.items():
 				order.append((group, project))
 		return order
 
 	def get_order_items(self, _dataX):
 		order = []
-		for group, projects in _dataX.iteritems():
-			for project, items in projects.iteritems():
+		for group, projects in _dataX.items():
+			for project, items in projects.items():
 				for itemID in items:
 					order.append((group, project, itemID))
 		return order
@@ -41,8 +41,8 @@ class ExpBase(object):
 		labels = list()
 
 		if _orders is None:
-			for group, projects in _dataX.iteritems():
-				for project, item in projects.iteritems():
+			for group, projects in _dataX.items():
+				for project, item in projects.items():
 					arrayX.append(item[_colX])
 					labels.append(project)
 		else:
@@ -56,9 +56,9 @@ class ExpBase(object):
 		labels = list()
 
 		if _orders is None:
-			for group, projects in _dataX.iteritems():
-				for project, items in projects.iteritems():
-					for itemID, item in items.iteritems():
+			for group, projects in _dataX.items():
+				for project, items in projects.items():
+					for itemID, item in items.items():
 						arrayX.append(item[_colX])
 						labels.append(itemID)
 		else:
@@ -73,7 +73,7 @@ class ExpBase(object):
 		lines = f.readlines()
 		f.close()
 
-		titles = lines[0].strip().split(u'\t')[2:]
+		titles = lines[0].strip().split('\t')[2:]
 		if len(titles)> len(_types)-2:
 			titles = titles[:len(_types)-2]
 
@@ -81,7 +81,7 @@ class ExpBase(object):
 
 		data = {}
 		for line in lines[1:]:
-			cols = line.strip().split(u'\t')
+			cols = line.strip().split('\t')
 			group = cols[0]
 			project = cols[1]
 			if group not in data: data[group] = {}  # group
@@ -109,7 +109,7 @@ class ExpBase(object):
 		lines = f.readlines()
 		f.close()
 
-		titles = lines[0].strip().split(u'\t')[3:]
+		titles = lines[0].strip().split('\t')[3:]
 		if len(titles) > len(_types) - 3:
 			titles = titles[:len(_types) - 3]
 
@@ -117,7 +117,7 @@ class ExpBase(object):
 
 		data = {}
 		for line in lines[1:]:
-			cols = line.strip().split(u'\t')
+			cols = line.strip().split('\t')
 			group = cols[0]
 			project = cols[1]
 			itemID = cols[2]

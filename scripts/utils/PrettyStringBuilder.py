@@ -1,6 +1,4 @@
 #-*- coding: utf-8 -*-
-from __future__ import print_function
-
 
 class PrettyStringBuilder(object):
 	accuracy = 2
@@ -24,17 +22,15 @@ class PrettyStringBuilder(object):
 		elif isinstance(_item, set):
 			return self.get_listtext(_item, _indent)
 		elif isinstance(_item, str):
-			return u'"%s"' % self.escape(_item)
-		elif isinstance(_item, unicode):
-			return u'"%s"' % self.escape(_item)
+			return '"%s"' % self.escape(_item)
+		elif isinstance(_item, bytes):
+			return '"%s"' % self.escape(_item.decode())
 		elif isinstance(_item, float):
-			return str(_item) if self.accuracy <= 0 else ((u'%%.%df' % (self.accuracy)) % _item)
+			return str(_item) if self.accuracy <= 0 else (('%%.%df' % (self.accuracy)) % _item)
 		elif isinstance(_item, int):
 			return str(_item) if self.point_level <= 0 else self.get_integer(_item)
-		elif isinstance(_item, long):
-			return str(_item) if self.point_level <= 0 else self.get_integer(_item)
 		else:
-			return u'%s' % str(_item)
+			return '%s' % str(_item)
 
 	def get_integer(self, _value):
 		text = str(_value)
@@ -42,7 +38,7 @@ class PrettyStringBuilder(object):
 		position = self.point_level + count
 		while True:
 			if len(text) > position:
-				text = text[:-position] + u',' + text[-position:]
+				text = text[:-position] + ',' + text[-position:]
 				count+=1
 				position += self.point_level + count
 			else:
@@ -56,22 +52,22 @@ class PrettyStringBuilder(object):
 		:param _indent:
 		:return:
 		'''
-		if len(_items) == 0: return u'[]'
+		if len(_items) == 0: return '[]'
 
 		# make list opener
-		text = u'['
+		text = '['
 
 		# make dict items text
 		for value in _items:
-			text += u'%s%s, ' % (
-				u'' if _indent >= self.indent_depth else (u'\n' + u'\t' * (_indent + 1)),
+			text += '%s%s, ' % (
+				'' if _indent >= self.indent_depth else ('\n' + '\t' * (_indent + 1)),
 				self.get_itemtext(value, _indent + 1)
 			)
 
 		# make dict closer
 		text = text.strip()
 		if text.endswith(','): text = text[:-1]
-		text += u'%s]' % (u'' if _indent >= self.indent_depth else (u'\n' + u'\t' * _indent))
+		text += '%s]' % ('' if _indent >= self.indent_depth else ('\n' + '\t' * _indent))
 
 		return text
 
@@ -82,15 +78,15 @@ class PrettyStringBuilder(object):
 		:param _indent:
 		:return:
 		'''
-		if len(_item) == 0:	return u'{}'
+		if len(_item) == 0:	return '{}'
 
 		# make dict opener
-		text = u'{'
+		text = '{'
 
 		# make dict items text
-		for key, value in _item.iteritems():
-			text += u'%s%s:%s, '% (
-				u'' if _indent >= self.indent_depth else (u'\n' + u'\t' * (_indent+1)),
+		for key, value in _item.items():
+			text += '%s%s:%s, '% (
+				'' if _indent >= self.indent_depth else ('\n' + '\t' * (_indent+1)),
 				self.get_keytext(key),
 				self.get_itemtext(value, _indent+1)
 			)
@@ -98,7 +94,7 @@ class PrettyStringBuilder(object):
 		# make dict closer
 		text = text.strip()
 		if text.endswith(','): text = text[:-1]
-		text += u'%s}' % (u'' if _indent >= self.indent_depth else (u'\n' + u'\t'*_indent))
+		text += '%s}' % ('' if _indent >= self.indent_depth else ('\n' + '\t'*_indent))
 
 		return text
 
@@ -108,18 +104,16 @@ class PrettyStringBuilder(object):
 		:param _key:
 		:return:
 		'''
-		if isinstance(_key, unicode):
-			return u'\"%s\"' % _key
+		if isinstance(_key, bytes):
+			return '\"%s\"' % _key.decode()
 		elif isinstance(_key, str):
-			return u'\"%s\"' % _key
+			return '\"%s\"' % _key
 		elif isinstance(_key, int):
-			return u'%d' % _key
-		elif isinstance(_key, long):
-			return u'%d' % _key
+			return '%d' % _key
 		elif isinstance(_key, float):
-			return u'%.f' % (_key if self.accuracy is None else (u'%%.%df' % self.accuracy) % _key)
+			return '%.f' % (_key if self.accuracy is None else ('%%.%df' % self.accuracy) % _key)
 		else:
-			return u'\'%s\'' % _key.__hash__()
+			return '\'%s\'' % _key.__hash__()
 
 	def escape(self, text):
 		return text.replace('\\', '\\\\').replace('\n', '\\n').replace('\r', '\\r').replace('\"', '\\"')

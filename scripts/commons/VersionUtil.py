@@ -23,7 +23,7 @@ class VersionUtil(object):
 		value = _str.strip()
 		if len(value)==0: return []
 
-		splits = re.split(r'\.| |_|-', value if value.find(u'(') < 0 else value[:value.find(u'(')].strip())
+		splits = re.split(r'\.| |_|-', value if value.find('(') < 0 else value[:value.find('(')].strip())
 
 		items = []
 		for split in splits:
@@ -67,5 +67,5 @@ class VersionUtil(object):
 	@staticmethod
 	def get_versionName(_version, _projectName=None):
 		if _projectName is not None:
-			return _projectName + u'_' + _version.replace(u'.', u'_')
-		return _version.replace(u'.', u'_')
+			return _projectName + '_' + _version.replace('.', '_')
+		return _version.replace('.', '_')
