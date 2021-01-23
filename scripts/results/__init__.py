@@ -4,7 +4,9 @@ __version__ = '0.1'
 
 from .Evaluator import Evaluator
 from .XLSbasic import XLSbasic
+from .XLSResultsAll import XLSResultAll
 
 __all__ = ['Evaluator',
-           'XLSBasic'
+           'XLSBasic',
+           'XLSResultAll'
            ]
