@@ -5,6 +5,8 @@ Updated on 2017. 04. 14
 
 '''
 
+import os
+
 from scipy.stats import mannwhitneyu
 
 from commons import Subjects
@@ -232,14 +234,14 @@ class XLSResultsDuplicates(XLSbasic):
 			dupBugs.add(dest)
 		return masterBugs, dupBugs
 
-	def run(self, _type, _isUnion=False):
+	def run(self, _Subjects, _type, _isUnion=False):
 		'''
 		create result file
 		'''
 		self.TYPE = _type
 		print(_type)
 
-		self.S = Subjects()
+		self.S = _Subjects
 		self.OverallResult = {}
 		for tech in self.S.techniques:
 			self.OverallResult[tech] = {'master': {'AP': [], 'TP': []}, 'duplicate': {'AP': [], 'TP': []}}
@@ -256,6 +258,9 @@ class XLSResultsDuplicates(XLSbasic):
 
 		for group in self.S.groups:
 			for project in self.S.projects[group]:
+				if not os.path.exists(self.S.getPath_base(group, project)):
+					continue
+
 				print('working %s / %s ...' % (group, project), end='')
 
 				for tech in self.S.techniques:
@@ -292,7 +297,8 @@ class XLSResultsDuplicates(XLSbasic):
 if __name__ == "__main__":
 	name = 'NewData_AWS'
 	obj = XLSResultsDuplicates('/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)
-	obj.run(name, _isUnion=False)
+	S = Subjects()
+	obj.run(S, name, _isUnion=False)
 
 	# name = 'NewDataSingle'
 	# obj = XLSResultsDuplicates('/mnt/exp/Bench4BL/expresults/Result_Duplicates_%s.xlsx' % name)

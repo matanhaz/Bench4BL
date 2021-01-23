@@ -4,6 +4,7 @@ Created on 2017. 04. 14
 Updated on 2017. 04. 14
 '''
 
+import os
 
 from commons import Subjects
 from results import Evaluator
@@ -194,7 +195,7 @@ class XLSResultAll(XLSbasic):
 		self.fill_DataSheet(self.dataSheet, _tech, _group, _project, ev.bugSummaries, ev.rawData, self.S.sources[_project], self.S.answers_merge[_project]['all'])
 		pass
 
-	def run(self, _type, _isUnion=False, _featureFile=None):
+	def run(self, _Subjects, _type, _isUnion=False, _featureFile=None):
 		'''
 		create result file
 		'''
@@ -206,9 +207,12 @@ class XLSResultAll(XLSbasic):
 		self.dataSheet = self.create_DataSheet(0)
 		self.bugSheet = self.create_bugDataSheet(0)
 
-		self.S = Subjects()
+		self.S = _Subjects
 		for group in self.S.groups:  #['Commons', 'JBoss', 'Wildfly', 'Spring']
 			for project in self.S.projects[group]:
+				if not os.path.exists(self.S.getPath_base(group, project)):
+					continue
+
 				#if project not in ['HBASE','HIVE','ROO','SEC', 'SPR']:continue   #
 				print('working %s / %s ...' % (group, project), end='')
 
@@ -233,5 +237,6 @@ if __name__ == "__main__":
 
 	name = 'DupData'
 	obj = XLSResultAll('/mnt/exp/Bench4BL/expresults/Result_Merged_%s.xlsx' % name)
-	obj.run(name, _isUnion=False)
+	S = Subjects()
+	obj.run(S, name, _isUnion=False)
 	pass
