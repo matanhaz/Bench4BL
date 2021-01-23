@@ -286,7 +286,11 @@ class XLSResultAllOLD(XLSbasic):
 
 		sources, bugs, answers = self.get_countings(_group, _project, _tech)
 		resultFiles = []
-		resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all'))
+		filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all')
+		if os.path.exists(filepath):
+			resultFiles.append(filepath)
+		else:
+			return
 
 		ev = Evaluator(_tech, _project)
 		ev.load(resultFiles)

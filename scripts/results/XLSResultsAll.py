@@ -369,10 +369,18 @@ class XLSResultAll(XLSbasic):
 			for version in self.S.bugs[_project].keys():
 				if version == 'all': continue
 				versionName = '%s' % version
-				resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName))
+				filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName)
+				if not os.path.exists(filepath):
+					continue
+				resultFiles.append(filepath)
 		else:
-			resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all'))
+			filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all')
+			if os.path.exists(filepath):
+				resultFiles.append(filepath)
 
+		if not resultFiles:
+			return
+		
 		ev = Evaluator(_tech, _project)
 		ev.load(resultFiles)
 		ev.evaluate(self.S.answers[_project]['all'], len(self.S.bugs[_project]['all']))
@@ -417,7 +425,7 @@ class XLSResultAll(XLSbasic):
 				                       self.S.bugs[project],
 				                       len(self.S.duplicates[project]))
 
-				for tech in ['Locus']:#self.S.techniques: #['BLIA']:#  ['BugLocator', "BRTracer", 'BLUiR', 'BLIA']:#, 'Locus']:#
+				for tech in self.S.techniques:
 					print(tech + ' ', end='')
 					self.append_project(group, project, tech, _isUnion)
 				print(' Done')

@@ -182,9 +182,17 @@ class XLSResultAll(XLSbasic):
 			for version in self.S.answers_merge[_project].keys():
 				if version == 'all': continue
 				versionName = '%s' % version
-				resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName))
+				filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName)
+				if not os.path.exists(filepath):
+					continue
+				resultFiles.append(filepath)
 		else:
-			resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all'))
+			filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all')
+			if os.path.exists(filepath):
+				resultFiles.append(filepath)
+
+		if not resultFiles:
+			return
 
 		ev = Evaluator(_tech, _project)
 		ev.load(resultFiles)

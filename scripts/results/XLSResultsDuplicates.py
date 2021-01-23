@@ -190,9 +190,17 @@ class XLSResultsDuplicates(XLSbasic):
 			for version in self.S.bugs[_project].keys():
 				if version == 'all': continue
 				versionName = '%s' % version
+				filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName)
+				if not os.path.exists(filepath):
+					continue
 				resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, versionName))
 		else:
-			resultFiles.append(self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all'))
+			filepath = self.S.getPath_results(self.TYPE, _tech, _group, _project, 'all')
+			if os.path.exists(filepath):
+				resultFiles.append(filepath)
+		
+		if not resultFiles:
+			return None, None
 
 		evLoader = Evaluator(_tech, _project)
 		rawData = evLoader.load(resultFiles)
@@ -266,6 +274,8 @@ class XLSResultsDuplicates(XLSbasic):
 				for tech in self.S.techniques:
 					print(tech + ' ', end='')
 					evMaster, evDuplicate = self.load_results(group, project, tech, _isUnion)
+					if not evMaster:
+						continue
 
 					masterBugs, dupBugs = self.make_IDsets(self.S.duplicates[project])
 					rowMasterSummary = self.fill_SummarySheet(shtMasterSummary, rowMasterSummary, tech, group, project, 'master', evMaster.projectSummary, self.S.sources[project]['max'], len(masterBugs), len(evMaster.bugSummaries))
