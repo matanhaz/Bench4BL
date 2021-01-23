@@ -9,6 +9,8 @@ import shutil
 import codecs
 import cgi
 import re
+from functools import cmp_to_key
+
 from dateutil import parser as dateparser
 from commons import VersionUtil
 from pytz import timezone
@@ -80,7 +82,7 @@ class BugFilter:
 		bugitems = self.link_fixedFiles(bugitems, _removeTest)
 		bugitems, dupgroups = self.make_dupgroups(bugitems)
 		bugitems = self.filter(bugitems)
-		bugitems.sort(self.cmp)  #fixed time order ASC
+		bugitems.sort(key=cmp_to_key(self.cmp))  #fixed time order ASC
 		self.make_minimumVersion(bugitems)
 		return bugitems, dupgroups
 

@@ -62,8 +62,7 @@ class XLSResultAllOLD(XLSbasic):
 		styles = [self.id_format]*6 + [self.number_format, self.base_format, self.number_format, self.float_format]+ \
 		         [self.number_format]*4 + [self.float_format]*3
 
-		data_keys = _rawData.keys()
-		data_keys.sort()
+		data_keys = sorted(_rawData.keys())
 		maxScore = 0.0
 		for bugID in data_keys:
 			for this in _rawData[bugID]:
@@ -101,8 +100,7 @@ class XLSResultAllOLD(XLSbasic):
 
 	def fill_bugDataSheet(self, _sheet, _program, _group, _project,_bugData, _ansCounts):
 		#Write data and make basic statistics
-		data_keys = _bugData.keys()
-		data_keys.sort()
+		data_keys = sorted(_bugData.keys())
 		styles = [self.id_format]*6 + [self.number_format]*4 + [self.float_format]*5
 
 		for bugID in data_keys:
@@ -150,8 +148,7 @@ class XLSResultAllOLD(XLSbasic):
 		return sheet
 
 	def fill_SubjectSheet(self, _sheet, _group, _srcCounts, _bugCounts, _dupCounts):
-		projects = _bugCounts.keys()
-		projects.sort()
+		projects = sorted(_bugCounts.keys())
 
 		size = sum([len(_bugCounts[project]) for project in projects])
 		progress = Progress('[%s] fill subject' % self.__name__, 2, 10, True)

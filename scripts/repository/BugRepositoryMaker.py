@@ -6,7 +6,7 @@ Updated on 2016. 01. 09
 
 import os
 import sys
-sys.path.append(os.getcwd())    # add the executed path to system PATH
+from functools import cmp_to_key
 
 import codecs
 from commons import VersionUtil
@@ -176,7 +176,7 @@ class BugRepositoryMaker:
 	def getItemsByVersion(self, _items, _versions):
 		# write XML File
 
-		_versions.sort(cmp=VersionUtil.cmpVersion)
+		_versions.sort(key=cmp_to_key(VersionUtil.cmpVersion))
 		version_bugs = dict((ver, list()) for ver in _versions)
 
 		size = len(_versions)
@@ -277,7 +277,7 @@ class BugRepositoryMaker:
 		print('Done')
 
 		exists = list(exists)
-		exists.sort(cmp=VersionUtil.cmpVersion)
+		exists.sort(key=cmp_to_key(VersionUtil.cmpVersion))
 		print(('[%s] %d version repositories has been created! %s' % (self.ProjectName, len(exists), exists)))
 
 		dupcnt = self.outputDuplicates(dupgroups)

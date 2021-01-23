@@ -118,8 +118,7 @@ class XLSResultsDuplicates(XLSbasic):
 		#Write data and make basic statistics
 		styles = [self.id_format]*7 + [self.number_format, self.base_format] + [self.number_format] + [self.float_format]*3 + [self.number_format]*4 + [self.float_format]*3
 
-		data_keys = _rawData.keys()
-		data_keys.sort()
+		data_keys = sorted(_rawData.keys())
 		maxScore = 0.0
 		for bugID in data_keys:
 			for this in _rawData[bugID]:
@@ -162,8 +161,7 @@ class XLSResultsDuplicates(XLSbasic):
 
 	def fill_bugDataSheet(self, _sheet, _row, _program, _group, _project, _type, _bugData, _ansCounts):
 		#Write data and make basic statistics
-		data_keys = _bugData.keys()
-		data_keys.sort()
+		data_keys = sorted(_bugData.keys())
 		styles = [self.id_format]*7 + [self.number_format]*4+ [self.float_format]*5
 
 		for bugID in data_keys:

@@ -5,6 +5,7 @@ Updated on 2016. 01. 09
 '''
 
 import os
+from functools import cmp_to_key
 
 from results.Items import ResultItem, BugSummaryItem, ProjectSummaryItem
 
@@ -43,10 +44,9 @@ class Evaluator():
 		:param _bugs:
 		:return:
 		'''
-		data_keys = self.rawData.keys()
-		data_keys.sort()
+		data_keys = sorted(self.rawData.keys())
 		for bugID in data_keys:
-			self.rawData[bugID].sort(self.cmp)
+			self.rawData[bugID].sort(key=cmp_to_key(self.cmp))
 			for order in range(len(self.rawData[bugID])):			# for each bug id's results
 				this = self.rawData[bugID][order]
 				# calculation

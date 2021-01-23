@@ -4,6 +4,7 @@ Created on 2017. 04. 14
 Updated on 2017. 04. 14
 '''
 
+
 from commons import Subjects
 from results import Evaluator
 from results import XLSbasic
@@ -60,8 +61,7 @@ class XLSResultAll(XLSbasic):
 		          self.number_format, self.float_format, self.float_format, self.float_format,
 		          self.base_format,self.id_format] + [self.number_format]*6 + [self.float_format] + [self.number_format]*3 + [self.float_format]*2
 
-		data_keys = _rawData.keys()
-		data_keys.sort()
+		data_keys = sorted(_rawData.keys())
 		maxScore = 0.0
 		for bugID in data_keys:
 			for this in _rawData[bugID]:
@@ -117,8 +117,7 @@ class XLSResultAll(XLSbasic):
 
 	def fill_bugDataSheet(self, _sheet, _program, _group, _project, _bugData, _ansCounts):
 		#Write data and make basic statistics
-		data_keys = _bugData.keys()
-		data_keys.sort()
+		data_keys = sorted(_bugData.keys())
 		styles = [self.id_format]*6 + [self.number_format]*4+[self.float_format]*5 + [
 		          self.base_format, self.id_format] + [self.number_format] * 6 + [self.float_format] + [self.number_format] * 3 + [self.float_format] * 2
 

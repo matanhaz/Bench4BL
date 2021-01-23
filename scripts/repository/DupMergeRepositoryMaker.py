@@ -9,6 +9,8 @@ import os
 import re
 import codecs
 import shutil
+from functools import cmp_to_key
+
 from commons import VersionUtil
 from datetime import datetime
 from bs4 import BeautifulSoup
@@ -154,7 +156,7 @@ class DupMergeRepositoryMaker:
 		return bugs
 
 	def getItemsByVersion(self, _items, _versions):
-		_versions.sort(cmp=VersionUtil.cmpVersion)
+		_versions.sort(key=cmp_to_key(VersionUtil.cmpVersion))
 		version_bugs = dict((ver, list()) for ver in _versions)
 
 		size = len(_versions)
