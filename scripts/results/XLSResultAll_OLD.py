@@ -297,7 +297,7 @@ class XLSResultAllOLD(XLSbasic):
 		self.fill_DataSheet(self.dataSheet, _tech, _group, _project, ev.bugSummaries, ev.rawData, answers)
 		pass
 
-	def run(self, _type):
+	def run(self, _Subjects, _type):
 		'''
 		create result file
 		'''
@@ -311,6 +311,9 @@ class XLSResultAllOLD(XLSbasic):
 		self.S = Previous()
 		for group in self.S.groups:
 			for project in self.S.projects[group]:
+				if not os.path.exists(self.S.getPath_base(group, project)):
+					continue
+
 				print('working %s / %s ...' % (group, project))
 				for tech in self.S.techniques:
 					self.append_project(group, project, tech)
@@ -323,5 +326,6 @@ class XLSResultAllOLD(XLSbasic):
 if __name__ == "__main__":
 	name = 'PreviousData'
 	obj = XLSResultAllOLD('/mnt/exp/Bench4BL/expresults/Result_%s.xlsx' % name)
-	obj.run(name)
+	S = Previous()
+	obj.run(S, name)
 	pass
