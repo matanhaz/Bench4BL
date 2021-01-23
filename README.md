@@ -209,6 +209,14 @@ $ python launcher_Tool.py -w ExpFirst_Locus -t Locus
 $ python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL
 ```
 
+### Collect performance results
+
+```sh
+$ python launcher_XLSResultsAll.py -w ExpFirst
+```
+The script produces an excel file in the same directory as the execution results directory.
+
+
 ## Subjects (Bug reports and Source Code Repositories)
 
 The following table shows five old subjects that used in previous studies and 46 new subjects that we newly collected.
