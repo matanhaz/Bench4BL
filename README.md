@@ -174,6 +174,7 @@ The script basically works for the multiple versions of bug repository and each 
 
 ```sh
 $ mkdir -p ../techniques/locus_properties
+$ mkdir -p ../techniques/blia_properties
 $ python launcher_Tool.py -w Exp1
 ```
 
