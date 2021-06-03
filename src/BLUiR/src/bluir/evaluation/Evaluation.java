@@ -45,33 +45,23 @@ public class Evaluation {
 		nameTable = new Hashtable<Integer, String>();
 	}
 
-	/**
-	 * query 결과파일을 로드하여 정답과 대조
-	 * @return
-	 * @throws IOException
-	 */
 	public boolean evaluate() throws IOException
 	{
-		//결과파일 로드
 		Hashtable<Integer, Hashtable<Integer, Rank>> results = getResultTable();
 	
-		//출력파일 준비
 		FileWriter outputWriter = new FileWriter(this.outputFilePath);
 		File resultDir = new File(recommendedPath);
 		if (!resultDir.exists()) 
 			resultDir.mkdirs();
 		
-		//각 버그리포트에 대해서,....
 		Set<Integer> bugIDS = results.keySet();
 		for (Integer bugID : bugIDS)
 		{ 
-			//추천결과 정보 로드
 			Hashtable<Integer, Rank> recommends = results.get(bugID);
 			
 			ArrayList<Rank> recommendsList = new ArrayList<Rank>(recommends.values());
 			recommendsList.sort((Rank o1, Rank o2)->o1.rank-o2.rank);	// order of rank in ASC
 			
-			//추천결과 출력
 			FileWriter writer = new FileWriter(recommendedPath + bugID + ".txt");
 			for (Rank rank : recommendsList) {
 				if(nameTable.containsKey(rank.fileID)) {
@@ -80,7 +70,6 @@ public class Evaluation {
 			}
 			writer.close();
 			
-			//정답파일이 존재하는지 확인.
 			TreeSet<String> fileSet = fixedTable.get(bugID);
 			for(String fileName : fileSet)
 			{
@@ -100,13 +89,6 @@ public class Evaluation {
 		return true;
 	}
 
-	
-	/**
-	 * Indri에서 추천된 결과를 로드.
-	 * @return
-	 * @throws NumberFormatException
-	 * @throws IOException
-	 */
 	private Hashtable<Integer, Hashtable<Integer, Rank>> getResultTable() throws NumberFormatException, IOException {
 		String line = null;
 		int fileIndex = 0;
@@ -122,11 +104,9 @@ public class Evaluation {
 				continue;
 			}
 			
-			//75739 Q0 org.eclipse.swt.ole.win32.Variant.java 1 0.930746 indri
 			String[] values = line.split(" ");
 			String filename = values[2].trim();
 			
-			//find File ID
 			int fid = 0;
 			if (!idTable.containsKey(filename)){
 				fid = fileIndex++;
@@ -153,11 +133,6 @@ public class Evaluation {
 		
 	}
 	
-	/**
-	 * 지정된 버그파일(XML)에서 fixed File list정보를 얻음
-	 * XML파일은 여러개의 버그리포트가 하나로 정리된 파일을 말함. 
-	 * @return
-	 */
 	private Hashtable<Integer, TreeSet<String>> getFixedFileTable() {
 		
 		Hashtable<Integer, TreeSet<String>> fixTable = new Hashtable<Integer, TreeSet<String>>();
@@ -177,7 +152,6 @@ public class Evaluation {
 				if (bugNode.getNodeType() != Node.ELEMENT_NODE)
 					continue;
 
-				//get bugID
 				String strBugID = bugNode.getAttributes().getNamedItem("id").getNodeValue();
 				Integer bugID = Integer.parseInt(strBugID);
 
