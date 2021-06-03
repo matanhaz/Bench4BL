@@ -1,0 +1,98 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: arch, ubuntu-18.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: first
+        run: pacman -S base-devel jre-openjdk-headless python2 python-virtualenv
+
+      # Runs a set of commands using the runners shell
+      - name: Download subjects’ archives
+        run: |
+              cd `git rev-parse --show-toplevel`
+              bootstrap/downloads.sh
+      # Runs a set of commands using the runners shell
+      - name: Download subjects’ archives
+        run: |
+              mkdir data
+              bootstrap/unpacking.sh ./archives ./data Apache HIVE
+
+      - name: Install Indri
+        run: |
+            mkdir depots
+            cd depots
+            wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
+            tar -xzf indri-5.15.tar.gz
+            cd indri-5.15
+            ./configure --prefix=`pwd`/../install
+            make
+            make install
+
+      - name: Generate Settings.txt file
+        run: |
+            echo indripath=`git rev-parse --show-toplevel`/depots/install/bin/ > `git rev-parse --show-toplevel`/techniques/Settings.txt
+
+      - name: Create virtual environment
+        run: |
+            cd `git rev-parse --show-toplevel`
+            virtualenv venv -p `which python2`
+            pip install -r requirements.txt
+
+      - name: Build JAR
+        run: |
+            bootstrap/buildjar.sh
+
+      - name: Source virtual environment
+        run: |
+            cd `git rev-parse --show-toplevel`
+            .venv/bin/activate
+
+      - name: Modify PATH
+        run: |
+            export PATH=$PATH:`pwd`/depots/install/bin
+
+      - name: Inflate the source codes
+        run: |
+            cd `git rev-parse --show-toplevel`/scripts
+            ./launcher_GitInflator.py
+
+      - name: Build bug repositories
+        run: |
+              ./launcher_repoMaker.py
+              ./launcher_DupRepo.py
+              ./Counting.py
+
+      - name: Execute previous techniques
+        run: |
+              mkdir -p ../techniques/locus_properties
+              mkdir -p ../techniques/blia_properties
+              python launcher_Tool.py -w Exp1
+
+
+
+      - name: Collect performance results
+        run: |
+              python launcher_Tool.py -w ExpFirst
+              python launcher_Tool.py -w ExpFirst -s
+              python launcher_Tool.py -w ExpFirst_Locus -t Locus
+              python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL
+              python launcher_XLSResultsAll.py -w ExpFirst
+
+
+
