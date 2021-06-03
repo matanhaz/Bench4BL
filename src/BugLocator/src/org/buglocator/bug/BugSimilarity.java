@@ -14,7 +14,6 @@ public class BugSimilarity {
 
 
 	public void computeSimilarity() throws IOException {
-		//Sorted ID 목록 로드
 		BufferedReader reader = new BufferedReader(new FileReader(workDir + "SortedId.txt"));
 		String line = null;
 		int[] idArr = new int[bugReportCount];
@@ -25,7 +24,6 @@ public class BugSimilarity {
 		}
 		reader.close();
 
-		//Bug Vector로드 
 		Hashtable<Integer, float[]> vectors = this.getVector();
 		FileWriter writer = new FileWriter(workDir + "BugSimilarity.txt");
 
