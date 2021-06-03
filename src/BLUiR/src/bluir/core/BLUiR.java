@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class BLUiR {
 	public static void main(String[] args) {
-		//System.out.println("(c)Copyright Tsinghua University, 2012");
 		try {
 			if (args.length == 0)
 				throw null;
@@ -37,11 +36,6 @@ public class BLUiR {
 		System.out.println(usage);
 	}
 
-	/**
-	 * 입력 파라메터를 파싱하여 Property 객체 생성
-	 * @param args
-	 * @return
-	 */
 	private static boolean parseArgs(String[] args) {
 		String bugFilePath = "";
 		String sourceCodeDir = "";
@@ -137,10 +131,6 @@ public class BLUiR {
 		return isLegal;
 	}
 	
-	/**
-	 * Settings 파일을 읽어서 저장.
-	 * @return
-	 */
 	static private String loadSettings(){
 		String indriPath = null;
 		try {
