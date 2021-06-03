@@ -82,13 +82,13 @@ jobs:
       - name: Inflate the source codes
         run: |
             cd `git rev-parse --show-toplevel`/scripts
-            ./launcher_GitInflator.py
+            python launcher_GitInflator.py
 
       - name: Build bug repositories
         run: |
-              ./launcher_repoMaker.py
-              ./launcher_DupRepo.py
-              ./Counting.py
+              python launcher_repoMaker.py
+              python launcher_DupRepo.py
+              python Counting.py
 
       - name: Execute previous techniques
         run: |
