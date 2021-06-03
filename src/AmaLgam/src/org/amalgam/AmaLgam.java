@@ -54,11 +54,6 @@ public class AmaLgam {
 		System.out.println(usage);
 	}
 
-	/**
-	 * 입력 파라메터를 파싱하여 Property 객체 생성
-	 * @param args
-	 * @return
-	 */
 	private static boolean parseArgs(String[] args) {
 		int i = 0;
 		String bugFilePath = "";
