@@ -37,7 +37,6 @@ class GitLog:
 		Save git commit information to GitLogPath (with --pretty option)
 		:return:
 		'''
-		print('[%s] making Git log file....'%self.ProjectName, end='')
 
 		# check this branch
 		command = ['git', 'branch']
