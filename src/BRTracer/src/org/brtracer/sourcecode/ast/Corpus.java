@@ -1,7 +1,7 @@
 package org.brtracer.sourcecode.ast;
 
 /**
- * Name Content (class, method Name) 항목 추가
+ * Name Content (class, method Name)
  * @author Zeck
  *
  */
