@@ -63,16 +63,17 @@ jobs:
         run: |
             cd `git rev-parse --show-toplevel`
             virtualenv venv -p `which python2`
+            # source venv/bin/activate
             pip install -r requirements.txt
 
       - name: Build JAR
         run: |
             bootstrap/buildjar.sh
 
-      - name: Source virtual environment
-        run: |
-            cd `git rev-parse --show-toplevel`
-            .venv/bin/activate
+#       - name: Source virtual environment
+#         run: |
+#             cd `git rev-parse --show-toplevel`
+#             .venv/bin/activate
 
       - name: Modify PATH
         run: |
