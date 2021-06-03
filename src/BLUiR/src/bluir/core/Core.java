@@ -76,7 +76,6 @@ public class Core {
 		try {
 			System.out.print("Create indexes....");
 
-			// index Dir 폴더 생성.
 			File indexDir = new File(indexLocation);
 			if (!indexDir.exists())
 				if (!indexDir.mkdirs())
