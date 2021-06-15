@@ -79,10 +79,14 @@ jobs:
         run: |
             export PATH=$PATH:`pwd`/depots/install/bin
 
+
+      - name: ls
+        run: ls -R
+
       - name: Inflate the source codes
         run: |
             cd `git rev-parse --show-toplevel`/scripts
-            python launcher_GitInflator.py
+            python launcher_GitInflator.py  -g Apache -p CAMEL
 
       - name: Build bug repositories
         run: |
