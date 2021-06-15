@@ -42,7 +42,7 @@ jobs:
       - name: Download subjects’ archives
         run: |
               mkdir data
-              bootstrap/unpacking.sh ./archives ./data Apache HIVE
+              bootstrap/unpacking.sh ./archives ./data Apache CAMEL
 
       - name: Install Indri
         run: |
