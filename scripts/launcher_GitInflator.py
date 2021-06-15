@@ -6,7 +6,7 @@ import shutil
 
 from commons import Subjects
 from repository import GitInflator
-
+import git
 # Make works
 
 def del_rw(action, name, exc):
@@ -19,8 +19,8 @@ def make(_sGroup=None, _sProject=None):
 		if _sGroup is None or group == _sGroup:
 			for project in S.projects[group]:
 				if _sProject is None or project == _sProject:
-					git = GitInflator(project, S.getPath_base(group, project))
-					git.inflate(S.versions[project])  # The items in versions is git tag name map with each version.
+					git = GitInflator(project, S.getPath_base(group, project), S.urls[project])
+					git.inflate()  # The items in versions is git tag name map with each version.
 
 def clear(_sGroup=None, _sProject=None):
 	S = Subjects()

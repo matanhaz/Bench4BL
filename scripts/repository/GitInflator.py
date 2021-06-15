@@ -5,7 +5,7 @@ import shutil
 import os, stat
 import subprocess
 import time
-
+import git
 from commons import VersionUtil
 
 class GitInflator():
@@ -16,17 +16,15 @@ class GitInflator():
 	sourcesRepo = 'sources'
 	projectPath = ''
 
-	def __init__(self, _project, _basePATH):
+	def __init__(self, _project, _basePATH, url):
 		self.projectName = _project
 		self.workDir = _basePATH
 		self.sourcesPath = os.path.join(_basePATH, self.sourcesRepo)
 		self.projectPath = os.path.join(self.workDir, self.gitRepo)
+		self.gitURL = url
 		pass
 
-	def inflate(self, _versions):
-		if _versions is None:
-			return None
-
+	def inflate(self):
 		self.projectPath = self.clone(True)
 		print('Git Repo: %s'%self.projectPath)
 		time.sleep(2)
@@ -40,10 +38,11 @@ class GitInflator():
 		# if tags is None: return False
 
 		#print(self.projectName + ':: the number of tags are ' + str(len(tags)))
+		_versions = git.Repo(self.projectPath).tags
 		size = len(_versions)
 		count = 0
-		for version, tag in _versions.items():
-			vname = VersionUtil.get_versionName(version, self.projectName)
+		for tag in _versions:
+			vname = tag.name
 			count += 1
 			print ('%s(%d/%d) :: [%s]'%(self.projectName, count, size, vname), end='')
 
@@ -52,12 +51,7 @@ class GitInflator():
 				print('  already exists!')
 				continue
 
-			tag = tag.strip()
-			if tag == '':
-				print ('invalidate tag name: "%s"'%tag)
-				continue
 
-			print(' checkout %s... ' %tag, end='')
 			if self.checkout(tag) is False:
 				print('Failed')
 				continue
@@ -72,7 +66,6 @@ class GitInflator():
 			print('Done')
 			time.sleep(2)
 		print('All checkout works done!!')
-		pass
 
 	#Delect alternative function when an error occured
 	def del_rw(self, action, name, exc):
