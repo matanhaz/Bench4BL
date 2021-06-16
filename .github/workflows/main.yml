@@ -90,6 +90,7 @@ jobs:
 
       - name: Build bug repositories
         run: |
+              cd `git rev-parse --show-toplevel`/scripts
               python launcher_repoMaker.py
               python launcher_DupRepo.py
               python Counting.py
