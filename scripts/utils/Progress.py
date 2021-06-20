@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-from utils import DiffTimer
+from utils.DiffTimer import DiffTimer
 
 
 ###############################################################################################################
