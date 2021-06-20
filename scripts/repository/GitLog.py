@@ -57,7 +57,7 @@ class GitLog:
 				return False
 
 		command = ['git', 'log', '--reflog', '--name-status', '--pretty=format:---------------------%nhash:%H%nauthor:%an%ncommit_date:%ci%nmessage:%s%n']
-		output = file(self.GitLogPath, 'w')
+		output = open(self.GitLogPath, 'w')
 		result = subprocess.call(command, stdout=output, stderr=sys.stderr, cwd=self.GitRepoPath)
 		output.close()
 		if result is None:
