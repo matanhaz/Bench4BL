@@ -10,9 +10,9 @@ from functools import cmp_to_key
 
 import codecs
 from commons import VersionUtil
-from repository import GitLog
-from repository import BugFilter
-from repository import GitVersion
+from repository.GitLog import GitLog
+from repository.BugFilter import BugFilter
+from repository.GitVersion import GitVersion
 import shutil
 
 
