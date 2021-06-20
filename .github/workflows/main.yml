@@ -91,25 +91,25 @@ jobs:
       - name: Build bug repositories
         run: |
               cd `git rev-parse --show-toplevel`/scripts
-              python launcher_repoMaker.py
-              python launcher_DupRepo.py
-              python Counting.py
+              python launcher_repoMaker.py  -g Apache -p CAMEL
+              python launcher_DupRepo.py  -g Apache -p CAMEL
+              python Counting.py  -g Apache -p CAMEL
 
       - name: Execute previous techniques
         run: |
               mkdir -p ../techniques/locus_properties
               mkdir -p ../techniques/blia_properties
-              python launcher_Tool.py -w Exp1
+              python launcher_Tool.py -w Exp1   -g Apache -p CAMEL
 
 
 
       - name: Collect performance results
         run: |
-              python launcher_Tool.py -w ExpFirst
-              python launcher_Tool.py -w ExpFirst -s
-              python launcher_Tool.py -w ExpFirst_Locus -t Locus
+              python launcher_Tool.py -w ExpFirst   -g Apache -p CAMEL
+              python launcher_Tool.py -w ExpFirst -s   -g Apache -p CAMEL
+              python launcher_Tool.py -w ExpFirst_Locus -t Locus   -g Apache -p CAMEL
               python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL
-              python launcher_XLSResultsAll.py -w ExpFirst
+              python launcher_XLSResultsAll.py -w ExpFirst   -g Apache -p CAMEL
 
 
 
