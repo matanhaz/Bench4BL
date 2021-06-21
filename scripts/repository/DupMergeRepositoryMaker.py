@@ -172,8 +172,11 @@ class DupMergeRepositoryMaker:
 				version_bugs[version].append(bugitem)
 
 		vKeys = version_bugs.keys()
+		to_del = []
 		for version in vKeys:
 			if len(version_bugs[version]) != 0: continue
+			to_del.append(version)
+		for version in to_del:
 			del version_bugs[version]
 
 		return version_bugs
