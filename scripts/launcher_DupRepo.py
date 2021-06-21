@@ -27,9 +27,9 @@ def clean(_sGroup=None, _sProject=None):
 def work(_sGroup=None, _sProject=None):
 	obj = DupMergeRepositoryMaker()
 	S = Subjects()
-	for group in self.S.groups:
+	for group in S.groups:
 		if _sGroup is None or group == _sGroup:
-			for project in self.S.projects[group]:
+			for project in S.projects[group]:
 				if _sProject is None or project == _sProject:
 					obj.make(group, project)
 
