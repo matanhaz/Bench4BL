@@ -141,13 +141,13 @@ class Counting(object):
 
 	def run(self, _sGroup=None, _sProject=None):
 		for group in self.S.groups:
-            if _sGroup is None or group == _sGroup:
-                for project in self.S.projects[group]:
-                    if _sProject is None or project == _sProject:
-                        print(('Counting for %s / %s' % (group, project)))
-                        self.bug_counting(group, project)
-                        self.answers_counting(group, project)
-                        #self.source_counting(group, project)
+			if _sGroup is None or group == _sGroup:
+				for project in self.S.projects[group]:
+					if _sProject is None or project == _sProject:
+						print(('Counting for %s / %s' % (group, project)))
+						self.bug_counting(group, project)
+						self.answers_counting(group, project)
+						#self.source_counting(group, project)
 
 def getargs():
 	import argparse
