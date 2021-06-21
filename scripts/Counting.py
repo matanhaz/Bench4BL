@@ -139,16 +139,35 @@ class Counting(object):
 		f.write(text)
 		f.close()
 
-	def run(self):
+	def run(self, _sGroup=None, _sProject=None):
 		for group in self.S.groups:
-			for project in self.S.projects[group]:
-				print(('Counting for %s / %s' % (group, project)))
-				self.bug_counting(group, project)
-				self.answers_counting(group, project)
-				#self.source_counting(group, project)
+            if _sGroup is None or group == _sGroup:
+                for project in self.S.projects[group]:
+                    if _sProject is None or project == _sProject:
+                        print(('Counting for %s / %s' % (group, project)))
+                        self.bug_counting(group, project)
+                        self.answers_counting(group, project)
+                        #self.source_counting(group, project)
+
+def getargs():
+	import argparse
+	parser = argparse.ArgumentParser(description='')
+	parser.add_argument('-p', dest='project', default=None, help='A specific project name what you want to work.')
+	parser.add_argument('-g', dest='group', default=None, help='A specific group name what you want to work.')
+	parser.add_argument('-c', dest='isClean', default=False, type=bool, help='work option: clean or process')
+
+	args = parser.parse_args()
+
+	if args.isClean is None:
+		parser.print_help()
+		return None
+	return args
 
 if __name__ == '__main__':
+	args = getargs()
+	if args is None:
+		exit(1)
 	obj = Counting()
-	obj.run()
+	obj.run(args.group, args.project)
 	# r = obj.getCodeCount('/var/experiments/BugLocalization/dist/data/')
 	# print('count::%d' % r)
