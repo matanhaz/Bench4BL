@@ -7,6 +7,7 @@ Updated on 2016. 01. 09
 import cgi
 import os
 import re
+import html
 import codecs
 import shutil
 from functools import cmp_to_key
@@ -137,10 +138,10 @@ class DupMergeRepositoryMaker:
 			bug['opendate'] = datetime.strptime(tag.attrs['opendate'], '%Y-%m-%d %H:%M:%S')
 			bug['fixdate'] = datetime.strptime(tag.attrs['fixdate'], '%Y-%m-%d %H:%M:%S')
 
-			bug['summary'] = cgi.escape(re.sub(r'[^\x00-\x80]+', '', bug['summary']))  #re.sub(r'[^\w\s&\^\|/()\[\]\{\}<>+\-=*/`~!@#$%^,.:;\\\'"?]', '', bug['summary']))
+			bug['summary'] = cgi.html(re.sub(r'[^\x00-\x80]+', '', bug['summary']))  #re.sub(r'[^\w\s&\^\|/()\[\]\{\}<>+\-=*/`~!@#$%^,.:;\\\'"?]', '', bug['summary']))
 			bug['description'] = BeautifulSoup(bug['description'], "html.parser").get_text()
-			bug['description'] = cgi.escape(re.sub(r'[^\x00-\x80]+', '', bug['description']))
-			bug['description'] = cgi.escape(re.sub(chr(27), '', bug['description']))
+			bug['description'] = cgi.html(re.sub(r'[^\x00-\x80]+', '', bug['description']))
+			bug['description'] = cgi.html(re.sub(chr(27), '', bug['description']))
 
 			bug['fixedFiles'] = []
 			fixedFiles = tag.select('fixedfiles > file')

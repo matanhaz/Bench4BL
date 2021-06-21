@@ -8,6 +8,7 @@ import os
 import shutil
 import codecs
 import cgi
+import html
 import re
 from functools import cmp_to_key
 
@@ -157,10 +158,10 @@ class BugFilter:
 
 			# Convert some formats (date and text...)
 			#re.sub = remove compound character except english caracter and numbers and some special characters
-			bug['summary'] = cgi.escape(re.sub(r'[^\x00-\x80]+', '', bug['summary']))  #re.sub(r'[^\w\s&\^\|/()\[\]\{\}<>+\-=*/`~!@#$%^,.:;\\\'"?]', '', bug['summary']))
+			bug['summary'] = html.escape(re.sub(r'[^\x00-\x80]+', '', bug['summary']))  #re.sub(r'[^\w\s&\^\|/()\[\]\{\}<>+\-=*/`~!@#$%^,.:;\\\'"?]', '', bug['summary']))
 			bug['description'] = BeautifulSoup(bug['description'], "html.parser").get_text()
-			bug['description'] = cgi.escape(re.sub(r'[^\x00-\x80]+', '', bug['description']))
-			bug['description'] = cgi.escape(re.sub(chr(27), '', bug['description']))
+			bug['description'] = html.escape(re.sub(r'[^\x00-\x80]+', '', bug['description']))
+			bug['description'] = html.escape(re.sub(chr(27), '', bug['description']))
 
 			t = dateparser.parse(bug['opendate'])
 			bug['opendate'] = t.astimezone(timezone('UTC'))
