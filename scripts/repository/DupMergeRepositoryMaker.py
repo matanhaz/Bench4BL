@@ -157,6 +157,7 @@ class DupMergeRepositoryMaker:
 		return bugs
 
 	def getItemsByVersion(self, _items, _versions):
+		_versions = list(_versions)
 		_versions.sort(key=cmp_to_key(VersionUtil.cmpVersion))
 		version_bugs = dict((ver, list()) for ver in _versions)
 

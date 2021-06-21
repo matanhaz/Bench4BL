@@ -176,6 +176,7 @@ class BugRepositoryMaker:
 	def getItemsByVersion(self, _items, _versions):
 		# write XML File
 
+		_versions = list(_versions)
 		_versions.sort(key=cmp_to_key(VersionUtil.cmpVersion))
 		version_bugs = dict((ver, list()) for ver in _versions)
 
