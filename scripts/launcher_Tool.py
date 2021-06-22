@@ -25,7 +25,8 @@ class Launcher(object):
 	IRBL Techniques Launcher class
 	'''
 
-	ProgramNames = ['BugLocator',  'BRTracer', 'BLUiR', 'AmaLgam',  'BLIA', 'Locus']
+	# ProgramNames = ['BugLocator',  'BRTracer', 'BLUiR', 'AmaLgam',  'BLIA', 'Locus']
+	ProgramNames = ['BugLocator',  'BLUiR', 'AmaLgam',  'BLIA', 'Locus']
 	root = os.path.join(here, '..')
 	ProgramPATH = os.path.join(root, 'techniques/')
 	OutputPATH = os.path.join(root, 'expresults/')
