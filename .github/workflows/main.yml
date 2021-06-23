@@ -95,12 +95,12 @@ jobs:
               python launcher_DupRepo.py  -g Apache -p CAMEL
               python Counting.py  -g Apache -p CAMEL
 
-      - name: Execute previous techniques
-        run: |
-              mkdir -p ../techniques/locus_properties
-              mkdir -p ../techniques/blia_properties
-              cd `git rev-parse --show-toplevel`/scripts
-              python launcher_Tool.py -w Exp1   -g Apache -p CAMEL
+#       - name: Execute previous techniques
+#         run: |
+#               mkdir -p ../techniques/locus_properties
+#               mkdir -p ../techniques/blia_properties
+#               cd `git rev-parse --show-toplevel`/scripts
+#               python launcher_Tool.py -w Exp1   -g Apache -p CAMEL
 
 
 
