@@ -116,12 +116,12 @@ jobs:
 #             python launcher_XLSResultsAll.py -w ExpFirst   -g Apache -p CAMEL
 
       - name: Upload data
-                if: ${{ always() }}
-                uses: actions/upload-artifact@v2
-                with:
-                  # Artifact name
-                  name: all_data
-                  # A file, directory or wildcard pattern that describes what to upload
-                  path: ./expresults
+            if: ${{ always() }}
+            uses: actions/upload-artifact@v2
+            with:
+              # Artifact name
+              name: all_data
+              # A file, directory or wildcard pattern that describes what to upload
+              path: ./expresults
 
 
