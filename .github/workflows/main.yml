@@ -13,7 +13,12 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     
-    timeout-minutes: 1000
+ #   strategy:
+  #    fail-fast: false
+ #     matrix:
+ #       techniques: [BugLocator,  BRTracer, BLUiR, AmaLgam,  BLIA, Locus]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -110,10 +115,7 @@ jobs:
         run: |
               cd `git rev-parse --show-toplevel`/scripts
               python launcher_Tool.py -w ExpFirst   -g Apache -p CAMEL -t BugLocator
-#              python launcher_Tool.py -w ExpFirst -s   -g Apache -p CAMEL
-#             python launcher_Tool.py -w ExpFirst_Locus -t Locus   -g Apache -p CAMEL
-#             python launcher_Tool.py -w ExpFirst_CAMLE -g Apache -p CAMEL
-#             python launcher_XLSResultsAll.py -w ExpFirst   -g Apache -p CAMEL
+#              python launcher_Tool.py -w ExpFirst   -g Apache -p CAMEL -t ${{ matrix.techniques }}
 
 
       - name: Upload data
