@@ -75,5 +75,11 @@
       <artifactId>org.eclipse.jdt.core</artifactId>
       <version>3.19.0</version>
     </dependency>
+    <dependency>
+    <groupId>fr.inria.gforge.spoon</groupId>
+    <artifactId>spoon-core</artifactId>
+    <!-- See rendered release value at http://spoon.gforge.inria.fr/ -->
+    <version>9.1.0-beta-19</version>
+</dependency>
   </dependencies>
 </project>
