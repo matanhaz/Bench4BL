@@ -111,7 +111,7 @@ public class FileParser {
 
 	}
 	
-	private MethodDeclaration[] getAllMethods() {
+	public MethodDeclaration[] getAllMethods() {
 		List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
 		for (int i = 0; i < cu.types().size(); i++) {
 			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
@@ -130,7 +130,7 @@ public class FileParser {
 	 * 
 	 * @return 占쏙옙占쏙옙占쏙옙占쏙옙囹占�
 	 */
-	private String getAllClassName() {
+	public String getAllClassName() {
 		ArrayList<String> classNameList = new ArrayList<String>();
 		for (int i = 0; i < cu.types().size(); i++) {
 			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
