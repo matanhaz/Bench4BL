@@ -12,6 +12,9 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import org.buglocator.utils.Splitter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FileParser {
 
 	private CompilationUnit cu = null;
@@ -105,6 +108,20 @@ public class FileParser {
 			allMethodName += methodName + " ";
 		}
 		return allMethodName.trim();
+
+	}
+	
+	private MethodDeclaration[] getAllMethods() {
+		list<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+		for (int i = 0; i < cu.types().size(); i++) {
+			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
+			MethodDeclaration[] methodDecls = type.getMethods();
+			for (MethodDeclaration methodDecl : methodDecls) {
+				methods.add(methodDecl);
+			}
+		}
+		
+		return methods.toArray();
 
 	}
 
