@@ -41,7 +41,7 @@ public class CodeCorpusCreator {
 
 		// make corpus each file
 		for (File file : files) {
-			Corpus[] corpuses = this.create(file); // Corpus creation.
+			Corpus[] corpuses = this.createMany(file); // Corpus creation.
 			
 			for (Corpus corpus: corpuses){
 				if (corpus == null)
@@ -173,10 +173,18 @@ public class CodeCorpusCreator {
 				nameBuf.append(" ");
 			}
 			String names = nameBuf.toString();
+			
+			String path = "";
+			if(file.getAbsolutePath().contains(".java)){
+				path =  file.getAbsolutePath().substring(0, getAbsolutePath().lastIndexOf("."))	+ "." + methodName + ".java";			   
+			}
+			else{
+				path = file.getAbsolutePath()+ "." + methodName;
+			}
 
 			// Create corpus objects.
 			Corpus corpus = new Corpus();
-			corpus.setJavaFilePath(file.getAbsolutePath() + "." + methodName);
+			corpus.setJavaFilePath(path);
 			corpus.setJavaFileFullClassName(fileName);
 			corpus.setContent(sourceCodeContent + " " + names); // Two corpus combined in content.
 			
