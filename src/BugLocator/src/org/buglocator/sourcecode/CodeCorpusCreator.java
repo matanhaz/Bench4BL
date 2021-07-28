@@ -158,7 +158,7 @@ public class CodeCorpusCreator {
 			
 			if(m.getBody() == null){
 				String[] content = new String[1];
-        			a[0] = "";
+        			content[0] = "";
 			}
 			else{
 				String[] content = m.getBody().toString().split(" ");
