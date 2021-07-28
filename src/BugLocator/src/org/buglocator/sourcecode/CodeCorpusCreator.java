@@ -175,7 +175,7 @@ public class CodeCorpusCreator {
 			String names = nameBuf.toString();
 			
 			String path = "";
-			if(file.getAbsolutePath().contains(".java)){
+			if(file.getAbsolutePath().contains(".java")){
 				path =  file.getAbsolutePath().substring(0, getAbsolutePath().lastIndexOf("."))	+ "." + methodName + ".java";			   
 			}
 			else{
