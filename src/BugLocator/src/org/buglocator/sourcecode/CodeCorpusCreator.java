@@ -145,7 +145,7 @@ public class CodeCorpusCreator {
 		
 		for(MethodDeclaration m: methods){
 			String fileName = parser.getPackageName();
-			String methodName = m.getName().toString();
+			String methodName = m.getName().getFullyQualifiedName();
 			
 			if (fileName.trim().equals("")) {
 				fileName = file.getName();
@@ -156,7 +156,13 @@ public class CodeCorpusCreator {
 			fileName = fileName + "." + methodName;
 			
 			
-			String[] content = m.getBody().toString().split(" ");
+			if(m.getBody() == null){
+				String[] content = new String[1];
+        			a[0] = "";
+			}
+			else{
+				String[] content = m.getBody().toString().split(" ");
+			}
 			StringBuffer contentBuf = new StringBuffer();
 			for (String word : content) { // Contents tokenized for camel case separation.
 				String stemWord = Stem.stem(word.toLowerCase());
