@@ -60,6 +60,15 @@ public class FileParser {
 		String content = sourceCodeContentBuffer.toString().toLowerCase();
 		return content.split(" ");
 	}
+	public String getContentAsString(){
+		String[] tokensInSourceCode = Splitter.splitSourceCode(this.deleteNoNeededNode());
+		StringBuffer sourceCodeContentBuffer = new StringBuffer();
+		for (String token : tokensInSourceCode) {
+			sourceCodeContentBuffer.append(token + " ");
+		}
+		String content = sourceCodeContentBuffer.toString().toLowerCase();
+		return content;
+	}
 
 	public String[] getClassNameAndMethodName() {
 		String content = (this.getAllClassName() + " " + this.getAllMethodName()).toLowerCase();
