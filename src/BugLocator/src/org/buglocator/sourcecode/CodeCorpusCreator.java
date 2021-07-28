@@ -203,7 +203,6 @@ public class CodeCorpusCreator {
 			
 		}
 		
-		Corpus[] corpuses = new Corpus[allCorpuses.size()];
-		return allCorpuses.toArray(corpuses);
+		return allCorpuses.toArray(new Corpus[0]);
 	}
 }
