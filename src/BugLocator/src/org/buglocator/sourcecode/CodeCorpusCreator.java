@@ -12,6 +12,11 @@ import org.buglocator.sourcecode.ast.FileParser;
 import org.buglocator.utils.Stem;
 import org.buglocator.utils.Stopword;
 
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CodeCorpusCreator {
 	private final String workDir = Property.getInstance().WorkDir;
 	private final String codePath = Property.getInstance().SourceCodeDir;
@@ -176,7 +181,7 @@ public class CodeCorpusCreator {
 			
 			String path = "";
 			if(file.getAbsolutePath().contains(".java")){
-				path =  file.getAbsolutePath().substring(0, getAbsolutePath().lastIndexOf("."))	+ "." + methodName + ".java";			   
+				path =  file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf("."))	+ "." + methodName + ".java";			   
 			}
 			else{
 				path = file.getAbsolutePath()+ "." + methodName;
@@ -192,7 +197,7 @@ public class CodeCorpusCreator {
 			
 		}
 		
-		
-		return allCorpuses.toArray();
+		Corpus[] corpuses = new Corpus[allCorpuses.size()];
+		return allCorpuses.toArray(corpuses);
 	}
 }
