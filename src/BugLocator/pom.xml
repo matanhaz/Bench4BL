@@ -57,18 +57,6 @@
       </plugin>
     </plugins>
   </build>
-  <!---added--->
-  <properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-			<!-- versions -->
-			<version.junit>4.12</version.junit>
-			<version.memcompiler>1.3.0</version.memcompiler>
-			<version.spoon>7.3.0-SNAPSHOT</version.spoon>
-			<!-- plugin versions -->
-			<pVersion.compiler>3.8.0</pVersion.compiler>
-			<pVersion.surefire>2.22.1</pVersion.surefire>
-	</properties>
-  <!---added--->
   <dependencies>
     <dependency>
       <groupId>org.dom4j</groupId>
@@ -87,22 +75,5 @@
       <artifactId>org.eclipse.jdt.core</artifactId>
       <version>3.19.0</version>
     </dependency>
-    <!---added--->
-    <dependency>
-			<groupId>fr.inria.gforge.spoon</groupId>
-			<artifactId>spoon-core</artifactId>
-			<version>${version.spoon}</version>
-		</dependency>
-    <!---added--->
   </dependencies>
-      <!---added--->
-  <repositories>
-            <repository>
-                <id>gforge.inria.fr-snapshot</id>
-                <name>Maven Repository for Spoon Snapshot</name>
-                <url>http://maven.inria.fr/artifactory/spoon-public-snapshot/</url>
-                <snapshots />
-            </repository>
-        </repositories>
-      <!---added--->
 </project>
