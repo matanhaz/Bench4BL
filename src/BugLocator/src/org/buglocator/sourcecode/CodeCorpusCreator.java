@@ -155,13 +155,13 @@ public class CodeCorpusCreator {
 			fileName = fileName.substring(0, fileName.lastIndexOf("."));
 			fileName = fileName + "." + methodName;
 			
-			
+			String[] content;
 			if(m.getBody() == null){
-				String[] content = new String[1];
+				content = new String[1];
         			content[0] = "";
 			}
 			else{
-				String[] content = m.getBody().toString().split(" ");
+				content = m.getBody().toString().split(" ");
 			}
 			StringBuffer contentBuf = new StringBuffer();
 			for (String word : content) { // Contents tokenized for camel case separation.
