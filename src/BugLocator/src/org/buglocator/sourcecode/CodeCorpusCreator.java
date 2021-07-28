@@ -41,32 +41,35 @@ public class CodeCorpusCreator {
 
 		// make corpus each file
 		for (File file : files) {
-			Corpus corpus = this.create(file); // Corpus creation.
-			if (corpus == null)
-				continue;
+			Corpus[] corpuses = this.create(file); // Corpus creation.
+			
+			for (Corpus corpus: corpuses){
+				if (corpus == null)
+					continue;
 
-			// file filtering (Prevention of duplication)
-			String FullClassName = corpus.getJavaFileFullClassName();
-			if (projectName.startsWith("ASPECTJ")) {
-				FullClassName = file.getPath().substring(codePath.length()); // Recognition through path names.
-				FullClassName = FullClassName.replace("\\", "/");
-				if (FullClassName.startsWith("/"))
-					FullClassName = FullClassName.substring(1); // Recognition through path names.
+				// file filtering (Prevention of duplication)
+				String FullClassName = corpus.getJavaFileFullClassName();
+				if (projectName.startsWith("ASPECTJ")) {
+					FullClassName = file.getPath().substring(codePath.length()); // Recognition through path names.
+					FullClassName = FullClassName.replace("\\", "/");
+					if (FullClassName.startsWith("/"))
+						FullClassName = FullClassName.substring(1); // Recognition through path names.
+				}
+				if (nameSet.contains(FullClassName))
+					continue;
+
+				// Write File.
+				if (!FullClassName.endsWith(".java"))
+					FullClassName += ".java";
+				writer.write(count + "\t" + FullClassName + this.lineSeparator);
+				writeCorpus.write(FullClassName + "\t" + corpus.getContent() + this.lineSeparator);
+				writer.flush();
+				writeCorpus.flush();
+
+				// Update Filter
+				nameSet.add(FullClassName); // corpus.getJavaFileFullClassName());
+				count++;
 			}
-			if (nameSet.contains(FullClassName))
-				continue;
-
-			// Write File.
-			if (!FullClassName.endsWith(".java"))
-				FullClassName += ".java";
-			writer.write(count + "\t" + FullClassName + this.lineSeparator);
-			writeCorpus.write(FullClassName + "\t" + corpus.getContent() + this.lineSeparator);
-			writer.flush();
-			writeCorpus.flush();
-
-			// Update Filter
-			nameSet.add(FullClassName); // corpus.getJavaFileFullClassName());
-			count++;
 		}
 		Property.getInstance().FileCount = count;
 		writeCorpus.close();
@@ -121,5 +124,67 @@ public class CodeCorpusCreator {
 		corpus.setJavaFileFullClassName(fileName);
 		corpus.setContent(sourceCodeContent + " " + names); // Two corpus combined in content.
 		return corpus;
+	}
+	
+	public Corpus[] createMany(File file) {
+		List<Corpus> allCorpuses = new ArrayList<Corpus>();
+		
+		FileParser parser = new FileParser(file);
+
+		// Get package information of a file
+		
+		// Separate content and perform stemming and removing stopwords
+		
+		MethodDeclaration[] methods = parser.getAllMethods();
+		
+		
+		for(MethodDeclaration m: methods){
+			String fileName = parser.getPackageName();
+			String methodName = m.getName().toString();
+			
+			if (fileName.trim().equals("")) {
+				fileName = file.getName();
+			} else {
+				fileName = fileName + "." + file.getName();
+			}
+			fileName = fileName.substring(0, fileName.lastIndexOf("."));
+			fileName = fileName + "." + methodName;
+			
+			
+			String[] content = m.getBody().toString().split(" ");
+			StringBuffer contentBuf = new StringBuffer();
+			for (String word : content) { // Contents tokenized for camel case separation.
+				String stemWord = Stem.stem(word.toLowerCase());
+				if ((!Stopword.isKeyword(word)) && (!Stopword.isEnglishStopword(word))) {
+					contentBuf.append(stemWord);
+					contentBuf.append(" ");
+				}
+			}
+			String sourceCodeContent = contentBuf.toString();
+
+			// Create corpus once again for class name and method name.
+			
+			String[] classNameAndMethodName = (parser.getAllClassName() + " " + methodName).split(" ");
+			StringBuffer nameBuf = new StringBuffer();
+
+			for (String word : classNameAndMethodName) {
+				String stemWord = Stem.stem(word.toLowerCase());
+				nameBuf.append(stemWord);
+				nameBuf.append(" ");
+			}
+			String names = nameBuf.toString();
+
+			// Create corpus objects.
+			Corpus corpus = new Corpus();
+			corpus.setJavaFilePath(file.getAbsolutePath() + "." + methodName);
+			corpus.setJavaFileFullClassName(fileName);
+			corpus.setContent(sourceCodeContent + " " + names); // Two corpus combined in content.
+			
+			allCorpuses.add(corpus);
+			
+		}
+		
+		
+		return allCorpuses.toArray();
 	}
 }
