@@ -112,7 +112,7 @@ public class FileParser {
 	}
 	
 	private MethodDeclaration[] getAllMethods() {
-		list<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+		List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
 		for (int i = 0; i < cu.types().size(); i++) {
 			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
 			MethodDeclaration[] methodDecls = type.getMethods();
