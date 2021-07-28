@@ -121,7 +121,7 @@ public class FileParser {
 			}
 		}
 		
-		return methods.toArray();
+		return methods.toArray(new MethodDeclaration[0]);
 
 	}
 
