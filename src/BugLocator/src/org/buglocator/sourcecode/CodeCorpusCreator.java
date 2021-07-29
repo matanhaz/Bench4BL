@@ -164,10 +164,17 @@ public class CodeCorpusCreator {
 				String tmp = m.getBody().toString();
 				String content2 = "";
 				for(int i=0; i< tmp.length(); i++){
-					content2+=tmp.charAt(i);
-					if(i+1 != tmp.length() && !Character.isLetter(tmp.charAt(i+1)) && tmp.charAt(i+1) != '.'){
+					if(tmp.charAt(i) != '\n'){
+						content2+=tmp.charAt(i);	
+					}
+					
+					if(i+1 != tmp.length() && !Character.isLetter(tmp.charAt(i+1)) && tmp.charAt(i+1) != '_' && tmp.charAt(i+1) != '-' && tmp.charAt(i+1) != '.'){
 						content2+= " ";
 					}
+					if(!Character.isLetter(tmp.charAt(i))){
+						content2+= " ";	
+					}
+					
 				}
 				content = content2.split(" ");
 			}
