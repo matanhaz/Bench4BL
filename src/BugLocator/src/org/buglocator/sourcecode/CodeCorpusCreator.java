@@ -167,6 +167,9 @@ public class CodeCorpusCreator {
 					if(tmp.charAt(i) != '\n'){
 						content2+=tmp.charAt(i);	
 					}
+					else{
+						content2+= " ";
+					}
 					
 					if(i+1 != tmp.length() && !Character.isLetter(tmp.charAt(i+1)) && tmp.charAt(i+1) != '_' && tmp.charAt(i+1) != '-' && tmp.charAt(i+1) != '.'){
 						content2+= " ";
