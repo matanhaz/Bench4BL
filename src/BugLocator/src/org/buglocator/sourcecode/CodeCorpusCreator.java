@@ -161,7 +161,15 @@ public class CodeCorpusCreator {
         			content[0] = "";
 			}
 			else{
-				content = m.getBody().toString().split(" ");
+				String tmp = m.getBody().toString();
+				String content2 = "";
+				for(int i=0; i< tmp.length(); i++){
+					content2+=tmp.charAt(i);
+					if(i+1 != tmp.length() && !Character.isLetter(tmp.charAt(i+1)) && tmp.charAt(i+1) != '.'){
+						content2+= " ";
+					}
+				}
+				content = content2.split(" ");
 			}
 			StringBuffer contentBuf = new StringBuffer();
 			for (String word : content) { // Contents tokenized for camel case separation.
