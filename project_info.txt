@@ -1,0 +1,20 @@
+{
+    "Lang": {
+        "git url": "https://github.com/apache/commons-lang.git",
+        "jira url": "http://issues.apache.org/jira",
+        "project": "LANG",
+	"group":"Commons"
+    },
+    "Math": {
+        "git url": "https://github.com/apache/commons-math.git",
+       	"jira url": "http://issues.apache.org/jira",
+       	"project": "MATH",
+	"group":"Commons"
+    },
+    "Weaver": {
+        "git url": "https://github.com/apache/commons-weaver.git",
+       	"jira url": "http://issues.apache.org/jira",
+       	"project": "WEAVER",
+	"group":"Commons"
+    }
+}
