@@ -12,27 +12,21 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FileParser {
 
 	private CompilationUnit cu = null;
 
-	/**
-	 * ?��?��?��?��?��몌옙?��?��?��?��?��ava?��?��?��?��?��?��?���??��?��?��CompilationUnit
-	 * 
-	 * @param file:java ?��?��?��?��
-	 *            
-	 */
+
 	public FileParser(File file) {
 		ASTCreator creator = new ASTCreator();
 		creator.getFileContent(file);
 		cu = creator.getCompilationUnit();
 	}
 
-	/**
-	 * ?��?��?��?��java?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��
-	 * 
-	 * @return ?��?��?��?��?��?��?��?��?��?��?��?��
-	 */
+	
 	public int getLinesOfCode() {
 		this.deleteNoNeededNode();
 		String[] lines = cu.toString().split("\n");
@@ -46,11 +40,7 @@ public class FileParser {
 		return len;
 	}
 
-	/**
-	 * ?��?��?��?��?��?��?��?��?��?��캇占?��?��캔占?��?��?���?
-	 * 
-	 * @return ?��?��?��?��?��?��캇占?��?��캔占?��?��?��?��?��?��?��?��?���?
-	 */
+	
 	public String[] getContent() {
 		String[] tokensInSourceCode = Splitter.splitSourceCode(this
 				.deleteNoNeededNode());
@@ -61,29 +51,44 @@ public class FileParser {
 		String content = sourceCodeContentBuffer.toString().toLowerCase();
 		return content.split(" ");
 	}
+	public String getContentAsString(){
+		String[] tokensInSourceCode = Splitter.splitSourceCode(this.deleteNoNeededNode());
+		StringBuffer sourceCodeContentBuffer = new StringBuffer();
+		for (String token : tokensInSourceCode) {
+			sourceCodeContentBuffer.append(token + " ");
+		}
+		String content = sourceCodeContentBuffer.toString().toLowerCase();
+		return content;
+	}
 
 	public String[] getClassNameAndMethodName() {
 		String content = (this.getAllClassName() + " " + this
 				.getAllMethodName()).toLowerCase();
 		return content.split(" ");
 	}
+	
+	public  MethodDeclaration[] getAllMethods() {
+		List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+		for (int i = 0; i < cu.types().size(); i++) {
+			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
+			MethodDeclaration[] methodDecls = type.getMethods();
+			for (MethodDeclaration methodDecl : methodDecls) {
+				methods.add(methodDecl);
+			}
+		}
 
-	/**
-	 * ?��?��?��?��?��?��?��?��?��?��?��?��?��곤옙?��?��?��
-	 * 
-	 * @return ?��?��?��?��?��?��
-	 */
+ 		return methods.toArray(new MethodDeclaration[0]);
+	}
+	
+	
+
+	
 	public String getPackageName() {
 
 		return cu.getPackage() == null ? "" : cu.getPackage().getName()
 				.getFullyQualifiedName();
 	}
 
-	/**
-	 * ?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��뤄옙?��?��?��?��?��?��
-	 * 
-	 * @return ?��?��?��?��?��?��?��?��?��?��?��?��?�占?��?��?��?���?
-	 */
 	private String getAllMethodName() {
 		ArrayList<String> methodNameList = new ArrayList<String>();
 		for (int i = 0; i < cu.types().size(); i++) {
@@ -103,12 +108,8 @@ public class FileParser {
 
 	}
 
-	/**
-	 * ?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��?��
-	 * 
-	 * @return ?��?��?��?��?��?��?��?��?��?�占?��?��?��?���?
-	 */
-	private String getAllClassName() {
+	
+	public String getAllClassName() {
 		ArrayList<String> classNameList = new ArrayList<String>();
 		for (int i = 0; i < cu.types().size(); i++) {
 			TypeDeclaration type = (TypeDeclaration) cu.types().get(i);
@@ -122,11 +123,7 @@ public class FileParser {
 		return allClassName.trim();
 	}
 
-	/**
-	 * ?�占?��?��?��?��?��?��?��?��?�옙?��?��?��狼占?��?��?��?��?��?��
-	 * 
-	 * @return ?��?��?��?��?��?��?��?��?��뤄옙?��?���?
-	 */
+	
 	private String deleteNoNeededNode() {
 		cu.accept(new ASTVisitor() {
 			public boolean visit(AnnotationTypeDeclaration node) {
