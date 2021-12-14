@@ -9,7 +9,7 @@ wget -nc -O archives/Apache/HBASE.tar https://sourceforge.net/projects/irblsensi
 mkdir -p archives/Commons
 wget -nc -O archives/Commons/CODEC.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CODEC.tar
 wget -nc -O archives/Commons/COLLECTIONS.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/COLLECTIONS.tar
-# wget -nc -O archives/Commons/COMPRESS.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/COMPRESS.tar
+wget -nc -O archives/Commons/COMPRESS.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/COMPRESS.tar
 # wget -nc -O archives/Commons/CONFIGURATION.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CONFIGURATION.tar
 # wget -nc -O archives/Commons/CRYPTO.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CRYPTO.tar
 # wget -nc -O archives/Commons/CSV.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CSV.tar
