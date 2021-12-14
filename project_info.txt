@@ -16,5 +16,18 @@
        	"jira url": "http://issues.apache.org/jira",
        	"project": "WEAVER",
 	"group":"Commons"
+    },
+     "Hive": {
+        "git url": "https://github.com/apache/hive.git",
+       	"jira url": "http://issues.apache.org/jira",
+       	"project": "HIVE",
+	"group":"Apache"
+    },
+    "Compress": {
+        "git url": "https://github.com/apache/commons-compress.git",
+       	"jira url": "http://issues.apache.org/jira",
+       	"project": "COMPRESS",
+	"group":"Commons"
     }
+    
 }
