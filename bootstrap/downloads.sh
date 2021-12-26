@@ -12,7 +12,7 @@ wget -nc -O archives/Commons/COLLECTIONS.tar https://sourceforge.net/projects/ir
 wget -nc -O archives/Commons/COMPRESS.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/COMPRESS.tar
 # wget -nc -O archives/Commons/CONFIGURATION.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CONFIGURATION.tar
 # wget -nc -O archives/Commons/CRYPTO.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CRYPTO.tar
-# wget -nc -O archives/Commons/CSV.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CSV.tar
+wget -nc -O archives/Commons/CSV.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CSV.tar
 # wget -nc -O archives/Commons/IO.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/IO.tar
 wget -nc -O archives/Commons/LANG.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/LANG.tar
 wget -nc -O archives/Commons/MATH.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/MATH.tar
