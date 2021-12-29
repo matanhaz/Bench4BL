@@ -4,7 +4,7 @@ mkdir -p archives
 mkdir -p archives/Apache
 wget -nc -O archives/Apache/CAMEL.tar https://sourceforge.net/projects/irblsensitivity/files/Apache/CAMEL.tar
 wget -nc -O archives/Apache/HBASE.tar https://sourceforge.net/projects/irblsensitivity/files/Apache/HBASE.tar
-# wget -nc -O archives/Apache/HIVE.tar https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar
+wget -nc -O archives/Apache/HIVE.tar https://sourceforge.net/projects/irblsensitivity/files/Apache/HIVE.tar
 
 mkdir -p archives/Commons
 wget -nc -O archives/Commons/CODEC.tar https://sourceforge.net/projects/irblsensitivity/files/Commons/CODEC.tar
