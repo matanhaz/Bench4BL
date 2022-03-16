@@ -130,14 +130,14 @@ jobs:
               python launcher_XLSResultsAll.py -w ${{matrix.folder_name}}
 
 
-      - name: Upload data
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          # Artifact name
-          name: all_data
-          # A file, directory or wildcard pattern that describes what to upload
-          path: ./expresults
+#       - name: Upload data
+#         if: ${{ always() }}
+#         uses: actions/upload-artifact@v2
+#         with:
+#           # Artifact name
+#           name: all_data
+#           # A file, directory or wildcard pattern that describes what to upload
+#           path: ./expresults
           
       - name: Upload data2
         if: ${{ always() }}
