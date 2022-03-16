@@ -199,13 +199,29 @@ class Subjects(object):
 			nd[key.upper()] = data[key]
 		return nd[_project.upper()]
 
+#	def load_versions(self, _group, _project):
+#		f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
+#		text = f.read()
+#		f.close()
+#		data = eval(text)
+#
+#		return data[_project]
+	
 	def load_versions(self, _group, _project):
 		f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
 		text = f.read()
 		f.close()
 		data = eval(text)
-
-		return data[_project]
+		
+		ret = data[_project]
+		
+		ret["1.11"] ="1.11"
+		ret["1.12"] ="1.12"
+		ret["1.13"] ="1.13"
+		ret["1.14"] ="1.14"
+		ret["1.15"] ="1.15"
+		ret["1.16"] ="1.16"
+		return ret
 
 	####################################################
 	# path functions
