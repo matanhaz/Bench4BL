@@ -56,18 +56,18 @@ jobs:
       - name: Download subjects’ archives
         run: |
               mkdir data
-      #        bootstrap/unpacking.sh ./archives ./data ${{matrix.group}} ${{matrix.project}}
-
-#      - name: Install Indri
- #       run: |
-  #          mkdir depots
-   #         cd depots
-    #        wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
-     #       tar -xzf indri-5.15.tar.gz
-      #      cd indri-5.15
-       #     ./configure --prefix=`pwd`/../install
-        #    make
-         #   make install
+              bootstrap/unpacking.sh ./archives ./data ${{matrix.group}} ${{matrix.project}}
+              
+      - name: Install Indri
+        run: |
+            mkdir depots
+            cd depots
+            wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
+            tar -xzf indri-5.15.tar.gz
+            cd indri-5.15
+            ./configure --prefix=`pwd`/../install
+            make
+            make install
 
       - name: Generate Settings.txt file
         run: |
