@@ -21,6 +21,9 @@ class GitInflator():
 		self.workDir = _basePATH
 		self.sourcesPath = os.path.join(_basePATH, self.sourcesRepo)
 		self.projectPath = os.path.join(self.workDir, self.gitRepo)
+		
+		self.gitURL = 'https://github.com/apache/commons-codec.git'
+		
 		pass
 
 	def inflate(self, _versions):
