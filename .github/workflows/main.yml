@@ -19,8 +19,8 @@ jobs:
         #techniques: [BugLocator,  BRTracer, BLUiR, AmaLgam,  BLIA, Locus]
         techniques: [BugLocator]
         group: [Commons]
-        project: [LANG]
-        folder_name: [BugLocator_Lang]
+        project: [CODEC]
+        folder_name: [BugLocator_Codec]
         
  
 
