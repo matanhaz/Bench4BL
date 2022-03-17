@@ -58,6 +58,18 @@ jobs:
               mkdir data
               bootstrap/unpacking.sh ./archives ./data ${{matrix.group}} ${{matrix.project}}
               
+              
+              
+      - name: Upload data2
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          # Artifact name
+          name: all_data_start
+          # A file, directory or wildcard pattern that describes what to upload
+          path: ./data
+          
+              
       - name: Install Indri
         run: |
             mkdir depots
@@ -101,6 +113,15 @@ jobs:
         run: |
             cd `git rev-parse --show-toplevel`/scripts
             python launcher_GitInflator.py  -g ${{matrix.group}} -p ${{matrix.project}}
+            
+      - name: Upload data2
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          # Artifact name
+          name: all_data_center
+          # A file, directory or wildcard pattern that describes what to upload
+          path: ./data
 
       - name: Build bug repositories
         run: |
