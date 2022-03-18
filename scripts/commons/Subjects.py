@@ -217,6 +217,7 @@ class Subjects(object):
 		ret = {}
 	
 		ret["1.1"] ="CODEC_1_1"
+		ret["1.2"] ="CODEC_1_2"
 
 		return ret
 
