@@ -68,9 +68,9 @@ jobs:
               rm -r data/${{matrix.group}}/${{matrix.project}}/gitrepo/*
               cd data/${{matrix.group}}/${{matrix.project}}/gitrepo
               git clone https://github.com/apache/commons-codec.git
-              mv commons-codec/* .
-              mv commons-codec/.* .
-              rm -r commons-codec
+              cp -a commons-codec/* .
+              cp -a commons-codec/.* .
+              rm -rf commons-codec
             
               
               
