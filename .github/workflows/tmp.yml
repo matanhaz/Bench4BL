@@ -74,8 +74,8 @@ jobs:
               mkdir data/${{matrix.group}}/${{matrix.project}}/gitrepo
               
               mv tmp_folder/commons-codec/* data/${{matrix.group}}/${{matrix.project}}/gitrepo/
-              shopt -s dotglob
-              mv tmp_folder/commons-codec/.* data/${{matrix.group}}/${{matrix.project}}/gitrepo/
+      
+              mv tmp_folder/commons-codec/.g* data/${{matrix.group}}/${{matrix.project}}/gitrepo/
             
             
               
