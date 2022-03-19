@@ -76,8 +76,8 @@ public class FileParser {
 				methods.add(methodDecl);
 			}
 		}
-		return methods.toArray();
- 		//return methods.toArray(new MethodDeclaration[0]);
+		//return methods.toArray();
+ 		return methods.toArray(new MethodDeclaration[0]);
 	}
 	
 	
