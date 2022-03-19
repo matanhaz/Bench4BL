@@ -214,10 +214,16 @@ class Subjects(object):
 		data = eval(text)
 		
 		ret = data[_project]
-		ret = {}
+		
+		ret["1.11"] ="1.11"
+		ret["1.12"] ="1.12"
+		ret["1.13"] ="1.13"
+		ret["1.14"] ="1.14"
+		ret["1.15"] ="1.15"
+		ret["1.16"] ="1.16"
 	
-		ret["1.1"] ="CODEC_1_1"
-		ret["1.2"] ="CODEC_1_2"
+# 		ret["1.1"] ="CODEC_1_1"
+# 		ret["1.2"] ="CODEC_1_2"
 
 		return ret
 
