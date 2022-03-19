@@ -23,16 +23,16 @@ wget -nc -O archives/JBoss/ENTESB.tar https://sourceforge.net/projects/irblsensi
 wget -nc -O archives/JBoss/JBMETA.tar https://sourceforge.net/projects/irblsensitivity/files/JBoss/JBMETA.tar
 
 mkdir -p archives/Wildfly
-wget -nc -O archives/Wildfly/ELY.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/ELY.tar
-wget -nc -O archives/Wildfly/SWARM.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/SWARM.tar
+#wget -nc -O archives/Wildfly/ELY.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/ELY.tar
+#wget -nc -O archives/Wildfly/SWARM.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/SWARM.tar
 # wget -nc -O archives/Wildfly/WFARQ.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFARQ.tar
 # wget -nc -O archives/Wildfly/WFCORE.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFCORE.tar
 # wget -nc -O archives/Wildfly/WFLY.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFLY.tar
 # wget -nc -O archives/Wildfly/WFMP.tar https://sourceforge.net/projects/irblsensitivity/files/Wildfly/WFMP.tar
 
 mkdir -p archives/Spring
-wget -nc -O archives/Spring/AMQP.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/AMQP.tar
-wget -nc -O archives/Spring/ANDROID.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/ANDROID.tar
+#wget -nc -O archives/Spring/AMQP.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/AMQP.tar
+#wget -nc -O archives/Spring/ANDROID.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/ANDROID.tar
 # wget -nc -O archives/Spring/BATCH.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/BATCH.tar
 # wget -nc -O archives/Spring/BATCHADM.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/BATCHADM.tar
 # wget -nc -O archives/Spring/DATACMNS.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/DATACMNS.tar
@@ -58,8 +58,8 @@ wget -nc -O archives/Spring/ANDROID.tar https://sourceforge.net/projects/irblsen
 # wget -nc -O archives/Spring/SWS.tar https://sourceforge.net/projects/irblsensitivity/files/Spring/SWS.tar
 
 mkdir -p archives/Previous
-wget -nc -O archives/Previous/AspectJ.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/AspectJ.tar
-wget -nc -O archives/Previous/JDT.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/JDT.tar
+#wget -nc -O archives/Previous/AspectJ.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/AspectJ.tar
+#wget -nc -O archives/Previous/JDT.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/JDT.tar
 # wget -nc -O archives/Previous/PDE.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/PDE.tar
 # wget -nc -O archives/Previous/SWT.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/SWT.tar
 # wget -nc -O archives/Previous/ZXing.tar https://sourceforge.net/projects/irblsensitivity/files/Previous/ZXing.tar
