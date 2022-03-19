@@ -65,12 +65,18 @@ jobs:
       - name: update data
         run: |
               cd `git rev-parse --show-toplevel`
-              rm -r data/${{matrix.group}}/${{matrix.project}}/gitrepo/*
-              cd data/${{matrix.group}}/${{matrix.project}}/gitrepo
+              mkdir tmp_folder
+              cd tmp_folder
               git clone https://github.com/apache/commons-codec.git
-              mv commons-codec/* .
-              mv commons-codec/.* .
-              rm -rf commons-codec
+              
+              cd `git rev-parse --show-toplevel`
+              rm -r data/${{matrix.group}}/${{matrix.project}}/gitrepo
+              mkdir data/${{matrix.group}}/${{matrix.project}}/gitrepo
+              
+              mv tmp_folder/commons-codec/* data/${{matrix.group}}/${{matrix.project}}/gitrepo/
+              shopt -s dotglob
+              mv tmp_folder/commons-codec/.* data/${{matrix.group}}/${{matrix.project}}/gitrepo/
+            
             
               
               
