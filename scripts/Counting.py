@@ -147,7 +147,9 @@ class Counting(object):
 						print(('Counting for %s / %s' % (group, project)))
 						self.bug_counting(group, project)
 						self.answers_counting(group, project)
+						#added by matan
 						self.source_counting(group, project)
+						#added by matan
 
 def getargs():
 	import argparse
