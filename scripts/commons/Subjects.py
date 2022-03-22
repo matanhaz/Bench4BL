@@ -6,6 +6,7 @@ Updated on 2017. 02. 16
 '''
 
 import os
+import subprocess
 
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -207,25 +208,28 @@ class Subjects(object):
 #
 #		return data[_project]
 	
-	def load_versions(self, _group, _project):
-		f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
-		text = f.read()
-		f.close()
-		data = eval(text)
-		
-		ret = data[_project]
-		
-# 		ret["1.11"] ="1.11"
-# 		ret["1.12"] ="1.12"
-# 		ret["1.13"] ="1.13"
-# 		ret["1.14"] ="1.14"
-# 		ret["1.15"] ="1.15"
-# 		ret["1.16"] ="1.16"
 	
-# 		ret["1.1"] ="CODEC_1_1"
-# 		ret["1.2"] ="CODEC_1_2"
+	#changed by matan
+	def load_versions(self, _group, _project):
+		tags = self.get_tags(self.getPath_base(_group, _project))
+		# f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
+		# text = f.read()
+		# f.close()
+		# data = eval(text)
 
-		return ret
+		# return data[_project]
+		all_tags = {}
+		for tag in tags:
+			all_tags[tag] = tag
+		return all_tags
+
+	def get_tags(self, base_path):
+			result = subprocess.check_output(['git', 'tag'], cwd=os.path.join(base_path, 'gitrepo'))
+			if result is None:
+				return None
+			tags = result.decode().split('\n')
+			return tags
+	#changed by matan
 
 	####################################################
 	# path functions
