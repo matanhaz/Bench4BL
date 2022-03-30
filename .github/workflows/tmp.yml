@@ -93,16 +93,16 @@ jobs:
           path: ./data
           
               
-      - name: Install Indri
-        run: |
-            mkdir depots
-            cd depots
-            wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
-            tar -xzf indri-5.15.tar.gz
-            cd indri-5.15
-            ./configure --prefix=`pwd`/../install
-            make
-            make install
+#       - name: Install Indri
+#         run: |
+#             mkdir depots
+#             cd depots
+#             wget https://excellmedia.dl.sourceforge.net/project/lemur/lemur/indri-5.15/indri-5.15.tar.gz
+#             tar -xzf indri-5.15.tar.gz
+#             cd indri-5.15
+#             ./configure --prefix=`pwd`/../install
+#             make
+#             make install
       - name: Generate Settings.txt file
         run: |
             echo indripath=`git rev-parse --show-toplevel`/depots/install/bin/ > `git rev-parse --show-toplevel`/techniques/Settings.txt
@@ -152,7 +152,14 @@ jobs:
 #               mkdir -p ../techniques/blia_properties
 #               cd `git rev-parse --show-toplevel`/scripts
 #               python launcher_Tool.py -w Exp1   -g Apache -p CAMEL
-
+      - name: Upload data2
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          # Artifact name
+          name: all_data_mid
+          # A file, directory or wildcard pattern that describes what to upload
+          path: ./data
 
 
       - name: Collect performance results
