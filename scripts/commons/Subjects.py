@@ -210,8 +210,9 @@ class Subjects(object):
 	
 	
 	#changed by matan
-	def load_versions(self, _group, _project):
+		def load_versions(self, _group, _project):
 		tags = self.get_tags(self.getPath_base(_group, _project))
+		tags = [tag for tag in tags if tag != '' and ('RC' or 'Rc' or 'rC' or 'rc') not in tag]
 		# f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
 		# text = f.read()
 		# f.close()
@@ -220,15 +221,30 @@ class Subjects(object):
 		# return data[_project]
 		all_tags = {}
 		for tag in tags:
-			all_tags[tag] = tag
+			all_tags[self.filter_tag(tag)] = tag
 		return all_tags
 
 	def get_tags(self, base_path):
-			result = subprocess.check_output(['git', 'tag'], cwd=os.path.join(base_path, 'gitrepo'))
-			if result is None:
-				return None
-			tags = result.decode().split('\n')
-			return tags
+		result = subprocess.check_output(['git', 'tag'], cwd=os.path.join(base_path, 'gitrepo'))
+		if result is None:
+			return None
+		tags = result.decode().split('\n')
+		return tags
+
+	def filter_tag(self, tag):
+		i = -1
+		for index, chr in enumerate(tag):
+			if chr.isdigit():
+				i = index
+				break
+		new_tag = ''
+		while i < len(tag) and (tag[i].isdigit() or tag[i] in ('.', '_')):
+			if tag[i] == '_':
+				new_tag += '.'
+			else:
+				new_tag += tag[i]
+			i += 1
+		return new_tag
 	#changed by matan
 
 	####################################################
