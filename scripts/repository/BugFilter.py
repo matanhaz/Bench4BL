@@ -399,9 +399,9 @@ class BugFilter:
 			if bug['version'].strip()  =='':
 				noVersionCount += 1
 				flagVersion = False
-			if len(bug['fixedFiles']) == 0:
-				noFileCount += 1
-				flagFiles=False
+			#if len(bug['fixedFiles']) == 0:
+			#	noFileCount += 1
+			#	flagFiles=False
 			if bug['fixdate'] is None:
 				noDateCount += 1
 				flagDate=False
