@@ -210,7 +210,7 @@ class Subjects(object):
 	
 	
 	#changed by matan
-		def load_versions(self, _group, _project):
+	def load_versions(self, _group, _project):
 		tags = self.get_tags(self.getPath_base(_group, _project))
 		tags = [tag for tag in tags if tag != '' and ('RC' or 'Rc' or 'rC' or 'rc') not in tag]
 		# f = open(os.path.join(self.getPath_base(_group, _project), 'versions.txt'), 'r')
