@@ -23,19 +23,12 @@ public class CodeCorpusCreator {
 	
 	public static int spiltclass = 800;
 	
-	/**
-	 * Constructor
-	 * @throws IOException
-	 * @throws ParseException
-	 */
+	
 	public CodeCorpusCreator() throws IOException, ParseException {
 
 	}
 
-	/**
-	 * Entry method
-	 * @throws Exception
-	 */
+	
 	public void create() throws Exception {
 
 		// java file listing
@@ -46,7 +39,6 @@ public class CodeCorpusCreator {
 		FileWriter writer = new FileWriter(workDir + pathSeparator + "ClassName.txt");
 		FileWriter writeCorpus = new FileWriter(workDir + pathSeparator + "CodeCorpus_OriginClass.txt");
 		FileWriter writeImport = new FileWriter(workDir + pathSeparator + "Import.txt");
-		//FileWriter writeNames = new FileWriter(workDir + pathSeparator + "ClassAndMethodCorpus.txt");	//TODO:나중에 문제없으면 삭제 
 		
 		FileWriter writeSegCorpus = new FileWriter(workDir + pathSeparator + "CodeCorpus.txt");	//for segment
 		FileWriter writerSegName = new FileWriter(workDir + pathSeparator + "MethodName.txt");	//for segment
@@ -58,7 +50,6 @@ public class CodeCorpusCreator {
 		TreeSet<String> nameSet = new TreeSet<String>();
 		
 		for (File file : files) {
-			// file의 corpus 분석.
 			Corpus corpus = this.create(file, writeImport);
 			if (corpus == null)
 				continue;
@@ -68,17 +59,15 @@ public class CodeCorpusCreator {
 			if (!fullFileName.endsWith(".java"))
 				fullFileName += ".java";
 			
-			// Classs name 중복 방지
 			if (project.startsWith("ASPECTJ")){
-				fullFileName = file.getPath().substring(srcDir.length()); //경로명을 통한 인식.
+				fullFileName = file.getPath().substring(srcDir.length());
 				fullFileName = fullFileName.replace("\\", "/");
 				if (fullFileName.startsWith("/")) 
-					fullFileName = fullFileName.substring(1); //경로명을 통한 인식.
+					fullFileName = fullFileName.substring(1); 
 			}
 			if (nameSet.contains(fullFileName)) continue;
 			nameSet.add(fullFileName);			
 
-			//store segment code corpus_____________________________________ 
 			String srccontent = corpus.getContent();
 			String[] src = srccontent.split(" ");
 			Integer methodCount = 0;
@@ -125,14 +114,6 @@ public class CodeCorpusCreator {
 		writer.close();
 	}
 
-	/**
-	 * 지정된 파일에 대한 corpus 생성 부가적으로 import 정보를 출력도 함.
-	 * 
-	 * @param file
-	 * @param writeImport
-	 * @return
-	 * @throws IOException
-	 */
 	public Corpus create(File file, FileWriter writeImport) throws IOException {
 
 		FileParser parser = new FileParser(file);
@@ -145,21 +126,14 @@ public class CodeCorpusCreator {
 			fileName += "." + file.getName();
 		}
 
-//		/* modification for AspectJ */
-//		if (Property.getInstance().Project.startsWith("ASPECTJ")) {
-//			fileName = file.getPath();
-//			fileName = fileName.substring(Property.getInstance().Offset);
-//		}
-//		/* ************************** */
+	
 
-		// import에 대한 정보 출력. (왜할까???)
 		writeImport.write(fileName + "\t");
 		parser.getImport(writeImport);
 		writeImport.write(lineSeparator);
 
 		fileName = fileName.substring(0, fileName.lastIndexOf("."));
 
-		// full source code에 대한 corpus 생성.
 		String[] content = parser.getContent();
 		StringBuffer contentBuf = new StringBuffer();
 		for (String word : content) {
@@ -172,7 +146,6 @@ public class CodeCorpusCreator {
 		}
 		String sourceCodeContent = contentBuf.toString();
 
-		// class and method name에 대한 corpus생성.
 		String[] classNameAndMethodName = parser.getClassNameAndMethodName();
 		StringBuffer nameBuf = new StringBuffer();
 		for (String word : classNameAndMethodName) {
@@ -182,7 +155,6 @@ public class CodeCorpusCreator {
 		}
 		String names = nameBuf.toString();
 
-		// corpus 객체 생성
 		Corpus corpus = new Corpus();
 		corpus.setJavaFilePath(file.getAbsolutePath());
 		corpus.setJavaFileFullClassName(fileName);
