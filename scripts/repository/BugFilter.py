@@ -84,7 +84,8 @@ class BugFilter:
 		bugitems, dupgroups = self.make_dupgroups(bugitems)
 		bugitems = self.filter(bugitems)
 		bugitems.sort(key=cmp_to_key(self.cmp))  #fixed time order ASC
-		self.make_minimumVersion(bugitems)
+		# self.make_minimumVersion(bugitems)
+		self.make_maximumVersion(bugitems)
 		return bugitems, dupgroups
 
 	def loads(self):
@@ -436,6 +437,16 @@ class BugFilter:
 
 					min_version = version
 			bug['version'] = min_version
+		pass
+	
+	def make_maximumVersion(self, _bugs):
+		for bug in _bugs:
+			max_version = '0.0' # assign big version
+			for version in bug['version'].split(', '):
+				if VersionUtil.cmpVersion(version, max_version) > 0:
+
+					max_version = version
+			bug['version'] = max_version
 		pass
 
 	def cmp(self, x, y):
