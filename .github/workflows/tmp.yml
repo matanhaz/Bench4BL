@@ -17,11 +17,11 @@ jobs:
       fail-fast: false
       matrix:
       #[,  BLIA, Locus]
-        techniques: [ BLIA]
+        techniques: [ Locus]
         #techniques: [BugLocator,  BRTracer, AmaLgam]
         group: [Commons]
         project: [CODEC]
-        folder_name: [BLIA_Codec]
+        folder_name: [Locus_Codec]
         
  
 
