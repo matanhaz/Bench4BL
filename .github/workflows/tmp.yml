@@ -21,7 +21,7 @@ jobs:
         #techniques: [BugLocator,  BRTracer, AmaLgam]
         group: [Commons]
         project: [CODEC]
-        folder_name: [BugLocator_Codec]
+        folder_name: [BLUiR_Codec]
         
  
 
