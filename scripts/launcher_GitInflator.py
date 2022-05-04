@@ -20,7 +20,7 @@ def make(_sGroup=None, _sProject=None):
 			for project in S.projects[group]:
 				if _sProject is None or project == _sProject:
 					git = GitInflator(project, S.getPath_base(group, project))
-					git.inflate(S.versions[project])  # The items in versions is git tag name map with each version.
+					git.inflate(S.versions[project],S.urls[project])  # The items in versions is git tag name map with each version.
 
 def clear(_sGroup=None, _sProject=None):
 	S = Subjects()
