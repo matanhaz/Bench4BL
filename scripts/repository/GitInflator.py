@@ -90,7 +90,7 @@ class GitInflator():
 			shutil.rmtree(basepath, onerror=self.del_rw)
 
 		try:
-			subprocess.check_output(['git', 'clone', self.gitURL, self.gitRepo], cwd=self.workDir)
+			subprocess.check_output(['git', 'clone', 'https://github.com/apache/commons-csv.git', self.gitRepo], cwd=self.workDir)
 		except Exception as e:
 			print(e)
 			return None
