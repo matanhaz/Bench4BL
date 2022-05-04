@@ -15,6 +15,7 @@ class GitInflator():
 	gitRepo = 'gitrepo'
 	sourcesRepo = 'sources'
 	projectPath = ''
+	gitURL = ''
 
 	def __init__(self, _project, _basePATH):
 		self.projectName = _project
@@ -26,10 +27,12 @@ class GitInflator():
 		
 		pass
 
-	def inflate(self, _versions):
+	def inflate(self, _versions, url):
 		if _versions is None:
 			return None
-
+		
+		self.gitURL = url
+		
 		self.projectPath = self.clone(True)
 		print('Git Repo: %s'%self.projectPath)
 		time.sleep(2)
@@ -90,7 +93,7 @@ class GitInflator():
 			shutil.rmtree(basepath, onerror=self.del_rw)
 
 		try:
-			subprocess.check_output(['git', 'clone', 'https://github.com/apache/commons-csv.git', self.gitRepo], cwd=self.workDir)
+			subprocess.check_output(['git', 'clone', self.gitURL, self.gitRepo], cwd=self.workDir)
 		except Exception as e:
 			print(e)
 			return None
