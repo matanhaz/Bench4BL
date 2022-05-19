@@ -21,7 +21,7 @@ class Subjects(object):
 	techniques = ['BugLocator', 'BRTracer', 'BLUiR', 'AmaLgam', 'BLIA', 'Locus']
 	groups = ['Apache', 'Commons', 'JBoss', 'Wildfly', 'Spring']
 	projects = {
-		'Apache':['CAMEL', 'HBASE', 'HIVE'],
+		'Apache':['CAMEL', 'HBASE', 'HIVE', 'MAVEN', 'WICKET'],
 		'Commons':['CODEC', 'COLLECTIONS', 'COMPRESS', 'CONFIGURATION', 'CRYPTO', 'IO', 'LANG', 'MATH', 'WEAVER','CSV'],
 		'JBoss':['ENTESB', 'JBMETA'],
 		'Wildfly':['ELY', 'WFARQ', 'WFCORE', 'WFLY', 'WFMP','SWARM'],
@@ -32,6 +32,9 @@ class Subjects(object):
 		'HBASE': 'https://github.com/apache/hbase.git',
 		'HIVE': 'https://github.com/apache/hive.git',
 		'CAMEL': 'https://github.com/apache/camel.git',
+		'MAVEN': 'https://github.com/apache/maven.git' ,
+		'WICKET': 'https://github.com/apache/wicket.git' ,
+		
 
 		'MATH': 'https://github.com/apache/commons-math.git',
 		'LANG': 'https://github.com/apache/commons-lang.git',
