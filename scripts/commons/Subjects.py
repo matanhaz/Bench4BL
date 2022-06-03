@@ -22,7 +22,7 @@ class Subjects(object):
 	groups = ['Apache', 'Commons', 'JBoss', 'Wildfly', 'Spring']
 	projects = {
 		'Apache':['CAMEL', 'HBASE', 'HIVE', 'MAVEN', 'WICKET'],
-		'Commons':['CODEC', 'COLLECTIONS', 'COMPRESS', 'CONFIGURATION', 'CRYPTO', 'IO', 'LANG', 'MATH', 'WEAVER','CSV'],
+		'Commons':['CODEC', 'COLLECTIONS', 'COMPRESS', 'CONFIGURATION', 'CRYPTO', 'IO', 'LANG', 'MATH', 'WEAVER','CSV', 'CLI'],
 		'JBoss':['ENTESB', 'JBMETA'],
 		'Wildfly':['ELY', 'WFARQ', 'WFCORE', 'WFLY', 'WFMP','SWARM'],
 		'Spring':['AMQP', 'ANDROID', 'BATCH', 'BATCHADM', 'DATACMNS', 'DATAGRAPH', 'DATAJPA', 'DATAMONGO', 'DATAREDIS', 'DATAREST', 'LDAP', 'MOBILE', 'ROO', 'SEC', 'SECOAUTH', 'SGF', 'SHDP', 'SHL', 'SOCIAL', 'SOCIALFB', 'SOCIALLI', 'SOCIALTW', 'SPR', 'SWF', 'SWS']
@@ -46,6 +46,7 @@ class Subjects(object):
 		'CSV': 'https://github.com/apache/commons-csv.git',
 		'COMPRESS': 'https://github.com/apache/commons-compress.git',
 		'CRYPTO': 'https://github.com/apache/commons-crypto.git',
+		'CLI':'https://github.com/apache/commons-cli.git',
 
 		'ENTESB': 'https://github.com/jboss-fuse/fuse.git',
 		'JBMETA': 'https://github.com/jboss/metadata.git',
