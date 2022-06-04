@@ -446,7 +446,10 @@ class BugFilter:
 				if VersionUtil.cmpVersion(version, max_version) > 0:
 
 					max_version = version
-			bug['version'] = max_version
+			if bug['fixVersion'] != '':
+				bug['version'] = bug['fixVersion']
+			else:
+				bug['version'] = max_version
 		pass
 
 	def cmp(self, x, y):
